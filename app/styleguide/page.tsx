@@ -1,5 +1,7 @@
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
+
 import { Star } from 'lucide-react';
 
 export default function StyleGuide() {
@@ -162,6 +164,37 @@ export default function StyleGuide() {
                         <Button variant="squared" color="danger" disabled>
                             Disabled + Danger
                         </Button>
+                        {/* add class w-fit and justify-self-center so the control 
+                        button take the content width and they get centered */}
+                        <Button
+                            variant="text"
+                            color="primary"
+                            icon={<Star />}
+                            className="w-fit justify-self-center"
+                        />
+                        <Button
+                            variant="squared"
+                            color="secondary"
+                            icon={<Star />}
+                            className="w-fit justify-self-center"
+                        />
+                        <Button
+                            variant="pill"
+                            color="danger"
+                            icon={<Star />}
+                            className="w-fit justify-self-center"
+                        />
+                    </div>
+                </Card>
+                <Card variant="bordered">
+                    <h2 className="mb-4 text-xl font-bold">Form elements</h2>
+                    <div className="grid grid-cols-2 gap-3">
+                        <Input
+                            label="Default input text"
+                            placeholder="Placeholder"
+                            helpText="e.g., 4.0mm or US 6"
+                            success={true}
+                        />
                     </div>
                 </Card>
             </div>

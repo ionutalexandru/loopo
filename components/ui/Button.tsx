@@ -19,8 +19,9 @@ export const Button = ({
     disabled,
     ...props
 }: ButtonProps) => {
-    const baseStyles =
-        'inline-flex items-center justify-center gap-2 font-bold py-4 px-6 select-none cursor-pointer active:scale-[0.98] focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:rounded-2xl focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:rounded-2xl disabled:cursor-not-allowed disabled:text-misty-gray disabled:scale-none';
+    const onlyIcon = icon !== undefined && children === undefined;
+
+    const baseStyles = `inline-flex items-center justify-center gap-2 font-bold ${onlyIcon ? 'p-3.5' : 'py-4 px-6'} select-none cursor-pointer active:scale-[0.98] focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:rounded-2xl focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:rounded-2xl disabled:cursor-not-allowed disabled:text-misty-gray disabled:scale-none`;
 
     const shapeStyles: Record<ButtonVariant, string> = {
         squared: 'rounded-2xl',
@@ -48,13 +49,34 @@ export const Button = ({
         return colors[c];
     };
 
+    const renderIcon = () => {
+        if (!icon) return null;
+
+        if (React.isValidElement(icon)) {
+            const iconProps = icon.props as Record<string, any>;
+            const hasCustomSize =
+                iconProps.width !== undefined ||
+                iconProps.height !== undefined ||
+                iconProps.size !== undefined;
+
+            if (hasCustomSize) {
+                return icon;
+            }
+
+            return React.cloneElement(icon, {
+                width: 20,
+                height: 20,
+            } as React.Attributes);
+        }
+    };
+
     return (
         <button
             className={`${baseStyles} ${shapeStyles[variant]} ${getColors(variant, color)} ${className}`}
             disabled={disabled}
             {...props}
         >
-            {icon && icon}
+            {renderIcon()}
             {children}
         </button>
     );
