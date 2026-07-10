@@ -53,7 +53,7 @@ export const Button = ({
         if (!icon) return null;
 
         if (React.isValidElement(icon)) {
-            const iconProps = icon.props as Record<string, any>;
+            const iconProps = icon.props as Record<string, unknown>;
             const hasCustomSize =
                 iconProps.width !== undefined ||
                 iconProps.height !== undefined ||

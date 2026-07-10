@@ -2,20 +2,19 @@ import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 
-import { Star } from 'lucide-react';
+import { Sparkles, Plus, Search, Trash2 } from 'lucide-react';
 
 export default function StyleGuide() {
     return (
         <main className="mx-auto min-h-screen max-w-6xl p-8">
             <header className="border-chalk-gray mb-12 border-b pb-6">
-                <h1 className="font-comfortaa text-charcoal text-4xl font-bold">
-                    loopo<span className="text-vibrant-coral">.</span>{' '}
-                    StyleGuide
+                <h1>
+                    loopo<span className="loopo-dot"></span> StyleGuide
                 </h1>
             </header>
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-8">
                 <Card variant="bordered">
-                    <h2 className="mb-4 text-xl font-bold">Color Pallete</h2>
+                    <h2>Color Pallete</h2>
                     <div className="grid grid-cols-2 gap-3">
                         {[
                             {
@@ -89,105 +88,342 @@ export default function StyleGuide() {
                     </div>
                 </Card>
                 <Card variant="bordered">
-                    <h2 className="mb-4 text-xl font-bold">Typography</h2>
-                    <div className="grid grid-cols-1 gap-8">
-                        <div>
-                            <span className="text-misty-grey mb-1 block font-mono text-xs">
-                                Comfortaa (Brand / Display)
-                            </span>
-                            <code>font-comfortaa</code>
-                            <p className="font-comfortaa text-2xl font-bold">
-                                Logos and Creative H1s
-                            </p>
+                    <h2>Editorial Hierarchy & Micro-Layouts</h2>
+                    <p>
+                        Automated rich text behaviors compiled from the global
+                        CSS base layer.
+                    </p>
+                    <hr />
+                    {/* HEADINGS */}
+                    <div className="space-y-6">
+                        <div className="sg-subtitle">Headings Hierarchy</div>
+                        <div className="sg-row-first">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    font-comfortaa / H1
+                                </code>
+                                <strong>Usage</strong>: Primary branding nodes,
+                                splash states, and high level summary headlines.
+                            </div>
+                            <div className="sg-preview">
+                                <h1>
+                                    Unwind your yarn
+                                    <span className="loopo-dot"></span>
+                                </h1>
+                            </div>
                         </div>
-                        <div>
-                            <span className="text-misty-grey mb-1 block font-mono text-xs">
-                                Outfit (UI Elements / Headers)
-                            </span>
-                            <code>font-outfit</code>
-                            <p className="font-outfit text-xl font-semibold">
-                                Buttons and headings
-                            </p>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">font-outfit / H2</code>
+                                <strong>Usage</strong>: Bento cards typography
+                                anchor and secondary module labels.
+                            </div>
+                            <div className="sg-preview">
+                                <h2>Active Crochet Projects</h2>
+                            </div>
                         </div>
-                        <div>
-                            <span className="text-misty-grey mb-1 block font-mono text-xs">
-                                Inter (Body / Inputs / Default)
-                            </span>
-                            <code>font-inter</code>
-                            <p className="text-charcoal/80 font-sans text-base">
-                                Paragraph text, form labels, and fluid user data
-                                readouts.
-                            </p>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">font-outfit / H3</code>
+                                <strong>Usage</strong>: Inner card settings
+                                labels and listing group headers.
+                            </div>
+                            <div className="sg-preview">
+                                <h3>Granny Square Blanket Blueprint</h3>
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">font-outfit / H4</code>
+                                <strong>Usage</strong>: Micro-headers, metadata
+                                descriptors, and explicit context toggles.
+                                Always paired with compact heights.
+                            </div>
+                            <div className="sg-preview">
+                                <h4>Stitch Parameters (US Terms)</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    {/* PARAGRAPH */}
+                    <div className="space-y-6">
+                        <div className="sg-subtitle">
+                            Paragraph Blocks & Messaging
+                        </div>
+                        <div className="sg-row-first">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    Paragraph Lead (.lead)
+                                </code>
+                                <strong>Usage</strong>: High prominence copy
+                                introduction chunks. Maximized readability
+                                layout.
+                            </div>
+                            <div className="sg-preview">
+                                <p className="lead">
+                                    Keep track of your complex crochet patterns
+                                    effortlessly. Loopo syncs your counters,
+                                    targets, and yarn stock parameters safely.
+                                </p>
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">Paragraph Base</code>
+                                <strong>Usage</strong>: Default descriptive logs
+                                or standard blocking instructions. Uses 80%
+                                subtle tone density.
+                            </div>
+                            <div className="sg-preview">
+                                <p>
+                                    To initiate this row sequence, hook into the
+                                    second loop slot from the base connector.
+                                    Double loop your thread chain, pulling tight
+                                    with uniform wrist pressure.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    {/* LISTS & BLOCKQUOTES */}
+                    <div className="space-y-6">
+                        <div className="sg-subtitle">Lists & Blockquotes</div>
+                        <div className="sg-row-first">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    Unordered Rich List
+                                </code>
+                                Utilized for equipment audits, material
+                                breakdowns, or supply prerequisites.
+                            </div>
+                            <div className="sg-preview">
+                                <ul>
+                                    <li>
+                                        4.5mm ergonomic bamboo knitting hook
+                                        connector
+                                    </li>
+                                    <li>
+                                        2 units of worsted weight merino wool
+                                        blend
+                                    </li>
+                                    <li>
+                                        Modular locking steel safety ring clip
+                                        markers
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    Ordered Process List
+                                </code>
+                                Linear chronological instructions where
+                                execution sequence impacts tension safety.
+                            </div>
+                            <div className="sg-preview">
+                                <ol>
+                                    <li>
+                                        Create a secure slip loop anchor leaving
+                                        a 4-inch tail.
+                                    </li>
+                                    <li>
+                                        Wrap the thread three separate times
+                                        over the upper shaft.
+                                    </li>
+                                    <li>
+                                        Thread cleanly through the base node and
+                                        verify loop numbers.
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    Blockquote Highlight
+                                </code>
+                                Designated for pattern expert insights, core
+                                technical advice, or caution notes.
+                            </div>
+                            <div className="sg-preview">
+                                <blockquote>
+                                    <strong>Pro Tip</strong>: If you notice the
+                                    outer rows curling up during the fourth
+                                    segment swap, ease your needle gauge tension
+                                    or advance up a half-millimeter hook frame
+                                    size immediately.
+                                </blockquote>
+                            </div>
                         </div>
                     </div>
                 </Card>
                 <Card variant="bordered">
-                    <h2 className="mb-4 text-xl font-bold">Button variants</h2>
-                    <div className="grid grid-cols-2 gap-3">
-                        <Button variant="pill" color="primary">
-                            Pill + Primary
-                        </Button>
-                        <Button variant="squared" color="primary">
-                            Squared + Primary
-                        </Button>
-                        <Button variant="text" color="primary" icon={<Star />}>
-                            Text + Primary
-                        </Button>
-                        <Button variant="squared" color="primary" disabled>
-                            Disabled + Primary
-                        </Button>
-                        <Button variant="pill" color="secondary">
-                            Pill + Secondary
-                        </Button>
-                        <Button variant="squared" color="secondary">
-                            Squared + Secondary
-                        </Button>
-                        <Button
-                            variant="text"
-                            color="secondary"
-                            icon={<Star />}
-                        >
-                            Text + Secondary
-                        </Button>
-                        <Button variant="squared" color="secondary" disabled>
-                            Disabled + Secondary
-                        </Button>
-                        <Button variant="pill" color="danger">
-                            Pill + Danger
-                        </Button>
-                        <Button variant="squared" color="danger">
-                            Squared + Danger
-                        </Button>
-                        <Button variant="text" color="danger" icon={<Star />}>
-                            Text + Danger
-                        </Button>
-                        <Button variant="squared" color="danger" disabled>
-                            Disabled + Danger
-                        </Button>
-                        {/* add class w-fit and justify-self-center so the control 
-                        button take the content width and they get centered */}
-                        <Button
-                            variant="text"
-                            color="primary"
-                            icon={<Star />}
-                            className="w-fit justify-self-center"
-                        />
-                        <Button
-                            variant="squared"
-                            color="secondary"
-                            icon={<Star />}
-                            className="w-fit justify-self-center"
-                        />
-                        <Button
-                            variant="pill"
-                            color="danger"
-                            icon={<Star />}
-                            className="w-fit justify-self-center"
-                        />
+                    <h2>Button System Architecture</h2>
+                    <p>
+                        The matrix combining structural variants, semantic
+                        hierarchies, and contextual micro-states.
+                    </p>
+                    <hr />
+                    <div className="space-y-6">
+                        <div className="sg-subtitle">
+                            Shapes & Structural Variants
+                        </div>
+                        <div className="sg-row-first">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    shape=&#34;pill&#34; (Default)
+                                </code>
+                                <strong>Usage</strong>: Capsule rounded layout.
+                                Ideal for primary tags, floating actions, or
+                                internal widget flows like the counter.
+                            </div>
+                            <div className="sg-preview">
+                                <Button variant="pill" color="primary">
+                                    Pill Button
+                                </Button>
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    shape=&#34;squared&#34;
+                                </code>
+                                <strong>Usage</strong>: Perfect for card
+                                footers, full-width forms, and high-importance
+                                grid elements.
+                            </div>
+                            <div className="sg-preview">
+                                <Button variant="squared" color="primary">
+                                    Squared Button
+                                </Button>
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code>shape=&#34;text&#34; / ghost</code>
+                                <strong>Usage</strong>: Completely borderless
+                                and backgroundless. Used for low-emphasis
+                                utilities, secondary cancels, or navigation
+                                links.
+                            </div>
+                            <div className="sg-preview">
+                                <Button variant="text" color="primary">
+                                    Text Ghost Button
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div className="space-y-6">
+                        <div className="sg-subtitle">Color Hierarchies</div>
+                        <div className="sg-row-first">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    hierarchy=&#34;primary&#34;
+                                </code>
+                                <strong>Color</strong>: Vibrant Coral. Captures
+                                user attention instantly for the main goal of
+                                the screen.
+                            </div>
+                            <div className="sg-preview">
+                                <Button color="primary">Primary Action</Button>
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code>hierarchy=&#34;secondary&#34;</code>
+                                <strong>Color</strong>: Chalk Gray container
+                                with Charcoal text. For supporting choices.
+                            </div>
+                            <div className="sg-preview">
+                                <Button color="secondary">
+                                    Secondary Action
+                                </Button>
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code>hierarchy=&#34;danger&#34;</code>
+                                <strong>Color</strong>: Crimson. Reserved
+                                exclusively for destructive inputs like
+                                discarding yarns or deleting logs.
+                            </div>
+                            <div className="sg-preview">
+                                <Button color="danger">Danger Action</Button>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div className="space-y-6">
+                        <div className="sg-subtitle">
+                            Functional Micro-States
+                        </div>
+                        <div className="sg-row-first">
+                            <div className="sg-meta">
+                                <code>icon={'{<Icon />}'}</code>
+                                <strong>Alignment</strong>: Left-aligned
+                                relative to the text label. Padding dynamically
+                                balances if children strings exist.
+                            </div>
+                            <div className="sg-preview">
+                                <Button color="primary" icon={<Sparkles />}>
+                                    With Custom Icon
+                                </Button>
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code>disabled</code>
+                                <strong>Behavior</strong>: Background color
+                                changed to chalk gray, locks cursor input, and
+                                blocks pointer scales or hover reactions
+                                automatically.
+                            </div>
+                            <div className="sg-preview">
+                                <Button
+                                    color="primary"
+                                    disabled
+                                    icon={<Sparkles />}
+                                >
+                                    Disabled Button
+                                </Button>
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code>Icon-Only (No children)</code>
+                                <strong>Behavior</strong>: Automatically alters
+                                internal paddings to ensure a 1:1 aspect ratio
+                                (perfect squares or circles). Always provide an
+                                aria-label for accessibility.
+                            </div>
+                            <div className="sg-preview flex items-center gap-4">
+                                <Button
+                                    variant="pill"
+                                    color="primary"
+                                    icon={<Plus />}
+                                    aria-label="Increase count"
+                                />
+
+                                <Button
+                                    variant="squared"
+                                    color="secondary"
+                                    icon={<Search />}
+                                    aria-label="Search patterns"
+                                />
+                                <Button
+                                    variant="text"
+                                    color="danger"
+                                    icon={<Trash2 />}
+                                    aria-label="Delete block"
+                                />
+                            </div>
+                        </div>
                     </div>
                 </Card>
                 <Card variant="bordered">
-                    <h2 className="mb-4 text-xl font-bold">Form elements</h2>
+                    <h2>Form elements</h2>
                     <div className="grid grid-cols-2 gap-3">
                         <Input
                             label="Default input text"

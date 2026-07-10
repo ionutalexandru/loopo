@@ -33,3 +33,79 @@ body {
     color: var(--foreground);
     font-family: Arial, Helvetica, sans-serif;
 }
+
+h1 {
+    @apply font-comfortaa text-charcoal mb-6 text-4xl font-bold md:text-5xl;
+}
+
+h2 {
+    @apply text-charcoal mb-4 text-2xl font-bold md:text-3xl;
+}
+
+h3 {
+    @apply text-charcoal mb-3 text-xl font-semibold;
+}
+
+h4 {
+    @apply text-charcoal/80 mb-2 text-base font-bold tracking-wider uppercase;
+}
+
+p {
+    @apply text-charcoal/80 mb-4 text-base leading-relaxed;
+}
+
+hr {
+    @apply border-chalk-gray my-4 border-2;
+}
+
+.lead {
+    @apply text-charcoal/90 mb-5 block text-lg leading-relaxed;
+}
+
+ul {
+    @apply text-charcoal/80 marker:text-vibrant-coral mb-6 list-disc space-y-2 pl-5 text-base;
+}
+
+ol {
+    @apply text-charcoal/80 marker:text-vibrant-coral mb-6 list-decimal space-y-2 pl-5 text-base marker:font-bold;
+}
+
+blockquote {
+    @apply border-vibrant-coral bg-vibrant-coral/20 text-charcoal/90 my-6 block rounded-r-xl border-l-4 p-4 text-base italic;
+}
+
+.loopo-dot {
+    @apply text-vibrant-coral after:content-['.'];
+}
+
+/* STYLEGUIDE */
+@utility sg-row {
+    @apply border-chalk-gray/40 grid grid-cols-1 items-center gap-6 border-t pt-6 lg:grid-cols-3;
+}
+@utility sg-row-first {
+    @apply grid grid-cols-1 items-start gap-6 lg:grid-cols-3;
+}
+
+@utility sg-subtitle {
+    @apply text-misty-gray mb-6 block text-xs font-bold tracking-widest uppercase;
+}
+
+@utility sg-meta {
+    @apply bg-chalk-gray/30 text-charcoal/70 rounded-xl p-4 text-xs lg:col-span-1;
+
+    & code {
+        @apply text-charcoal mb-1 block font-mono text-[11px] font-bold tracking-wide uppercase;
+    }
+
+    & code.coral {
+        @apply text-vibrant-coral;
+    }
+
+    & strong {
+        @apply text-charcoal font-semibold;
+    }
+}
+
+@utility sg-preview {
+    @apply lg:col-span-2;
+}
