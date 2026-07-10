@@ -272,7 +272,7 @@ export default function StyleGuide() {
                         <div className="sg-row-first">
                             <div className="sg-meta">
                                 <code className="coral">
-                                    shape=&#34;pill&#34; (Default)
+                                    variant=&#34;pill&#34; (Default)
                                 </code>
                                 <strong>Usage</strong>: Capsule rounded layout.
                                 Ideal for primary tags, floating actions, or
@@ -287,7 +287,7 @@ export default function StyleGuide() {
                         <div className="sg-row">
                             <div className="sg-meta">
                                 <code className="coral">
-                                    shape=&#34;squared&#34;
+                                    variant=&#34;squared&#34;
                                 </code>
                                 <strong>Usage</strong>: Perfect for card
                                 footers, full-width forms, and high-importance
@@ -301,7 +301,7 @@ export default function StyleGuide() {
                         </div>
                         <div className="sg-row">
                             <div className="sg-meta">
-                                <code>shape=&#34;text&#34; / ghost</code>
+                                <code>variant=&#34;text&#34; / ghost</code>
                                 <strong>Usage</strong>: Completely borderless
                                 and backgroundless. Used for low-emphasis
                                 utilities, secondary cancels, or navigation
@@ -320,7 +320,7 @@ export default function StyleGuide() {
                         <div className="sg-row-first">
                             <div className="sg-meta">
                                 <code className="coral">
-                                    hierarchy=&#34;primary&#34;
+                                    color=&#34;primary&#34;
                                 </code>
                                 <strong>Color</strong>: Vibrant Coral. Captures
                                 user attention instantly for the main goal of
@@ -332,7 +332,7 @@ export default function StyleGuide() {
                         </div>
                         <div className="sg-row">
                             <div className="sg-meta">
-                                <code>hierarchy=&#34;secondary&#34;</code>
+                                <code>color=&#34;secondary&#34;</code>
                                 <strong>Color</strong>: Chalk Gray container
                                 with Charcoal text. For supporting choices.
                             </div>
@@ -344,7 +344,7 @@ export default function StyleGuide() {
                         </div>
                         <div className="sg-row">
                             <div className="sg-meta">
-                                <code>hierarchy=&#34;danger&#34;</code>
+                                <code>color=&#34;danger&#34;</code>
                                 <strong>Color</strong>: Crimson. Reserved
                                 exclusively for destructive inputs like
                                 discarding yarns or deleting logs.
@@ -424,13 +424,87 @@ export default function StyleGuide() {
                 </Card>
                 <Card variant="bordered">
                     <h2>Form elements</h2>
-                    <div className="grid grid-cols-2 gap-3">
-                        <Input
-                            label="Default input text"
-                            placeholder="Placeholder"
-                            helpText="e.g., 4.0mm or US 6"
-                            success={true}
-                        />
+                    <div className="space-y-6">
+                        <div className="sg-subtitle">
+                            Text Input element and its interactive states
+                        </div>
+                        <div className="sg-row-first">
+                            <div className="sg-meta">
+                                <code>State: Default</code>
+                                <strong>Style</strong>: It has a thin light
+                                border. On hover and focus, the border changes
+                                to Charcoal color.
+                            </div>
+                            <div className="sg-preview">
+                                <Input
+                                    label="Project Title"
+                                    placeholder="e.g., Crochet Summer Cardigan"
+                                />
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code>State: Success</code>
+                                <strong>Visual</strong>: Confirms correct data
+                                parameters. It locks a clean checkmark icon on
+                                the right side of the input frame.
+                            </div>
+                            <div className="sg-preview">
+                                <Input
+                                    label="Yarn Batch Code"
+                                    defaultValue="LOT-2026X"
+                                    success={true}
+                                />
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code>State: Error</code>
+                                <strong>Visual</strong>: Triggers a Crimson
+                                Thread frame, colors the typed text in red, and
+                                appends an explicit alert icon to indicate a
+                                block. It also replaces the bottom help text
+                                with the error message.
+                            </div>
+                            <div className="sg-preview">
+                                <Input
+                                    label="Row Target"
+                                    defaultValue="-12"
+                                    error="Row count cannot be a negative value"
+                                />
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code>State: Disabled</code>
+                                <strong>Visual</strong>: Drops the entire
+                                container opacity to 50% and changes the mouse
+                                cursor to &#34;not-allowed&#34; to prevent
+                                typing.
+                            </div>
+                            <div className="sg-preview">
+                                <Input
+                                    label="Archived Pattern ID"
+                                    defaultValue="PRJ-9921"
+                                    disabled={true}
+                                />
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code>helpText=&#34;string&#34;</code>
+                                <strong>Usage</strong>: Adds an accessible
+                                context hint line below the field, accompanied
+                                by the native support symbol (?).
+                            </div>
+                            <div className="sg-preview">
+                                <Input
+                                    label="Hook Size"
+                                    placeholder="e.g., 4.0"
+                                    helpText="Specify in millimeters or US standard sizing number"
+                                />
+                            </div>
+                        </div>
                     </div>
                 </Card>
             </div>

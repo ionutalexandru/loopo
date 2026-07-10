@@ -82,7 +82,7 @@ export const Input = ({
                 )}
             </div>
             {error ? (
-                <span className="text-crimson-thread animate-fade-in text-xs">
+                <span className="text-crimson animate-fade-in text-xs">
                     {error}
                 </span>
             ) : (
