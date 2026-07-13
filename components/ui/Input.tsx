@@ -55,7 +55,7 @@ export const Input = ({
             {label && (
                 <label
                     htmlFor={generatedId}
-                    className={`text-xs font-semibold transition-colors select-none ${error && 'text-crimson'}`}
+                    className={`text-xs font-semibold transition-colors select-none ${error ? 'text-crimson' : disabled ? 'opacity-40' : ''}`}
                 >
                     {label}
                 </label>

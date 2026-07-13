@@ -1,6 +1,7 @@
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import { Select } from '@/components/ui/Select';
 
 import { Sparkles, Plus, Search, Trash2 } from 'lucide-react';
 
@@ -301,7 +302,9 @@ export default function StyleGuide() {
                         </div>
                         <div className="sg-row">
                             <div className="sg-meta">
-                                <code>variant=&#34;text&#34; / ghost</code>
+                                <code className="coral">
+                                    variant=&#34;text&#34; / ghost
+                                </code>
                                 <strong>Usage</strong>: Completely borderless
                                 and backgroundless. Used for low-emphasis
                                 utilities, secondary cancels, or navigation
@@ -332,7 +335,9 @@ export default function StyleGuide() {
                         </div>
                         <div className="sg-row">
                             <div className="sg-meta">
-                                <code>color=&#34;secondary&#34;</code>
+                                <code className="coral">
+                                    color=&#34;secondary&#34;
+                                </code>
                                 <strong>Color</strong>: Chalk Gray container
                                 with Charcoal text. For supporting choices.
                             </div>
@@ -344,7 +349,9 @@ export default function StyleGuide() {
                         </div>
                         <div className="sg-row">
                             <div className="sg-meta">
-                                <code>color=&#34;danger&#34;</code>
+                                <code className="coral">
+                                    color=&#34;danger&#34;
+                                </code>
                                 <strong>Color</strong>: Crimson. Reserved
                                 exclusively for destructive inputs like
                                 discarding yarns or deleting logs.
@@ -361,7 +368,9 @@ export default function StyleGuide() {
                         </div>
                         <div className="sg-row-first">
                             <div className="sg-meta">
-                                <code>icon={'{<Icon />}'}</code>
+                                <code className="coral">
+                                    icon={'{<Icon />}'}
+                                </code>
                                 <strong>Alignment</strong>: Left-aligned
                                 relative to the text label. Padding dynamically
                                 balances if children strings exist.
@@ -374,7 +383,7 @@ export default function StyleGuide() {
                         </div>
                         <div className="sg-row">
                             <div className="sg-meta">
-                                <code>disabled</code>
+                                <code className="coral">disabled</code>
                                 <strong>Behavior</strong>: Background color
                                 changed to chalk gray, locks cursor input, and
                                 blocks pointer scales or hover reactions
@@ -392,7 +401,9 @@ export default function StyleGuide() {
                         </div>
                         <div className="sg-row">
                             <div className="sg-meta">
-                                <code>Icon-Only (No children)</code>
+                                <code className="coral">
+                                    Icon-Only (No children)
+                                </code>
                                 <strong>Behavior</strong>: Automatically alters
                                 internal paddings to ensure a 1:1 aspect ratio
                                 (perfect squares or circles). Always provide an
@@ -430,7 +441,7 @@ export default function StyleGuide() {
                         </div>
                         <div className="sg-row-first">
                             <div className="sg-meta">
-                                <code>State: Default</code>
+                                <code className="coral">State: Default</code>
                                 <strong>Style</strong>: It has a thin light
                                 border. On hover and focus, the border changes
                                 to Charcoal color.
@@ -444,7 +455,7 @@ export default function StyleGuide() {
                         </div>
                         <div className="sg-row">
                             <div className="sg-meta">
-                                <code>State: Success</code>
+                                <code className="coral">State: Success</code>
                                 <strong>Visual</strong>: Confirms correct data
                                 parameters. It locks a clean checkmark icon on
                                 the right side of the input frame.
@@ -459,7 +470,7 @@ export default function StyleGuide() {
                         </div>
                         <div className="sg-row">
                             <div className="sg-meta">
-                                <code>State: Error</code>
+                                <code className="coral">State: Error</code>
                                 <strong>Visual</strong>: Triggers a Crimson
                                 Thread frame, colors the typed text in red, and
                                 appends an explicit alert icon to indicate a
@@ -476,7 +487,7 @@ export default function StyleGuide() {
                         </div>
                         <div className="sg-row">
                             <div className="sg-meta">
-                                <code>State: Disabled</code>
+                                <code className="coral">State: Disabled</code>
                                 <strong>Visual</strong>: Drops the entire
                                 container opacity to 50% and changes the mouse
                                 cursor to &#34;not-allowed&#34; to prevent
@@ -492,7 +503,9 @@ export default function StyleGuide() {
                         </div>
                         <div className="sg-row">
                             <div className="sg-meta">
-                                <code>helpText=&#34;string&#34;</code>
+                                <code className="coral">
+                                    helpText=&#34;string&#34;
+                                </code>
                                 <strong>Usage</strong>: Adds an accessible
                                 context hint line below the field, accompanied
                                 by the native support symbol (?).
@@ -503,6 +516,104 @@ export default function StyleGuide() {
                                     placeholder="e.g., 4.0"
                                     helpText="Specify in millimeters or US standard sizing number"
                                 />
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div className="space-y-6">
+                        <div className="sg-subtitle">
+                            Dropdown element and its interactive states
+                        </div>
+                        <div className="sg-row-first">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    State: Default (Placeholder)
+                                </code>
+                                <strong>Visual</strong>: Mutes the initial text
+                                to a subtle gray when no option is chosen. This
+                                prevents placeholder text from competing with
+                                active values.
+                            </div>
+                            <div className="sg-preview">
+                                <Select label="Craft type" defaultValue="">
+                                    <option value="" disabled>
+                                        Select an option
+                                    </option>
+                                    <option value="knitting">Knitting</option>
+                                    <option value="crochet">Crochet</option>
+                                </Select>
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    State: Option selected
+                                </code>
+                                <strong>Visual</strong>: Triggers a Crimson
+                                Thread frame, colors the typed text in red, and
+                                appends an explicit alert icon to indicate a
+                                block. It also replaces the bottom help text
+                                with the error message.
+                            </div>
+                            <div className="sg-preview">
+                                <Select
+                                    label="Craft type"
+                                    defaultValue="knitting"
+                                >
+                                    <option value="" disabled>
+                                        Select an option
+                                    </option>
+                                    <option value="knitting">Knitting</option>
+                                    <option value="crochet">Crochet</option>
+                                </Select>
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    State: Error validation
+                                </code>
+                                <strong>Visual</strong>: Triggers a Crimson
+                                Thread frame, colors the typed text in red, and
+                                appends an explicit alert icon to indicate a
+                                block. It also replaces the bottom help text
+                                with the error message.
+                            </div>
+                            <div className="sg-preview">
+                                <Select
+                                    label="Craft type"
+                                    defaultValue="knitting"
+                                    error="Please, select a valid option"
+                                >
+                                    <option value="" disabled>
+                                        Select an option
+                                    </option>
+                                    <option value="knitting">Knitting</option>
+                                    <option value="crochet">Crochet</option>
+                                </Select>
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    helpText=&#34;string&#34;
+                                </code>
+                                <strong>Usage</strong>: Adds an accessible
+                                context hint line below the field, accompanied
+                                by the native support symbol (?).
+                            </div>
+                            <div className="sg-preview">
+                                <Select
+                                    label="Craft type"
+                                    helpText="Do you use a single hook or two needles?"
+                                    defaultValue="knitting"
+                                >
+                                    <option value="" disabled>
+                                        Select an option
+                                    </option>
+                                    <option value="knitting">Knitting</option>
+                                    <option value="crochet">Crochet</option>
+                                </Select>
                             </div>
                         </div>
                     </div>
