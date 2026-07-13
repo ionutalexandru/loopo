@@ -38,7 +38,7 @@ export const Input = ({
     const successStyles = 'border-2 border-chalk-gray pr-12';
 
     const errorStyles =
-        'border-2 border-crimson pr-12 placeholder:text-crimson hover:placeholder:text-crimson';
+        'border-2 border-crimson pr-12 placeholder:text-crimson hover:placeholder:text-crimson text-crimson';
 
     const disabledStyles =
         'border-2 opacity-50 cursor-not-allowed bg-chalk-gray/30 border-chalk-gray';

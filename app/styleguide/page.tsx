@@ -2,6 +2,7 @@ import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
+import { Toggle } from '@/components/ui/Toggle';
 
 import { Sparkles, Plus, Search, Trash2 } from 'lucide-react';
 
@@ -489,9 +490,8 @@ export default function StyleGuide() {
                             <div className="sg-meta">
                                 <code className="coral">State: Disabled</code>
                                 <strong>Visual</strong>: Drops the entire
-                                container opacity to 50% and changes the mouse
-                                cursor to &#34;not-allowed&#34; to prevent
-                                typing.
+                                container opacity and changes the mouse cursor
+                                to &#34;not-allowed&#34; to prevent typing.
                             </div>
                             <div className="sg-preview">
                                 <Input
@@ -614,6 +614,61 @@ export default function StyleGuide() {
                                     <option value="knitting">Knitting</option>
                                     <option value="crochet">Crochet</option>
                                 </Select>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div className="space-y-6">
+                        <div className="sg-subtitle">Toggle Switch Control</div>
+
+                        {/* 1. Inactive State Preview */}
+                        <div className="sg-row-first">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    State: Inactive / Off
+                                </code>
+                                <strong>Visual</strong>: chalk gray track. Uses
+                                false defaultChecked to boot up turned off while
+                                remaining clickable.
+                            </div>
+                            <div className="sg-preview flex h-12 items-center">
+                                <Toggle
+                                    label="My toggle"
+                                    defaultChecked={false}
+                                />
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    State: Active / On
+                                </code>
+                                <strong>Visual</strong>: Uses true
+                                defaultChecked to boot up pre-activated.
+                                Clicking it will organically slide it back to
+                                grey.
+                            </div>
+                            <div className="sg-preview flex h-12 items-center">
+                                <Toggle
+                                    label="My Toggle"
+                                    defaultChecked={true}
+                                />
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">State: Disabled</code>
+                                <strong>Visual</strong>: Drops the entire
+                                container opacity to 50% and changes the mouse
+                                cursor to &#34;not-allowed&#34; to prevent
+                                typing.
+                            </div>
+                            <div className="sg-preview">
+                                <Toggle
+                                    label="My Toggle"
+                                    defaultChecked={true}
+                                    disabled={true}
+                                />
                             </div>
                         </div>
                     </div>
