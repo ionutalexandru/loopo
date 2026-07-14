@@ -83,7 +83,7 @@ export const ProgressBar = ({
         : 'bg-vibrant-coral group-hover:bg-deep-coral';
 
     return (
-        <div id={generatedId} className={`flex w-full flex-col ${className}`}>
+        <div id={generatedId} className={`group flex w-full flex-col ${className}`}>
             <span
                 className={`${disabled ? 'text-misty-gray' : 'text-charcoal'} font-inter text-xs font-semibold`}
             >
