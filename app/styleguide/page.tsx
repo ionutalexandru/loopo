@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { Toggle } from '@/components/ui/Toggle';
+import { Tag } from '@/components/ui/Tag';
 
 import { Sparkles, Plus, Search, Trash2 } from 'lucide-react';
 
@@ -99,7 +100,7 @@ export default function StyleGuide() {
                     {/* HEADINGS */}
                     <div className="space-y-6">
                         <div className="sg-subtitle">Headings Hierarchy</div>
-                        <div className="sg-row-first">
+                        <div className="sg-row">
                             <div className="sg-meta">
                                 <code className="coral">
                                     font-comfortaa / H1
@@ -152,7 +153,7 @@ export default function StyleGuide() {
                         <div className="sg-subtitle">
                             Paragraph Blocks & Messaging
                         </div>
-                        <div className="sg-row-first">
+                        <div className="sg-row">
                             <div className="sg-meta">
                                 <code className="coral">
                                     Paragraph Lead (.lead)
@@ -190,7 +191,7 @@ export default function StyleGuide() {
                     {/* LISTS & BLOCKQUOTES */}
                     <div className="space-y-6">
                         <div className="sg-subtitle">Lists & Blockquotes</div>
-                        <div className="sg-row-first">
+                        <div className="sg-row">
                             <div className="sg-meta">
                                 <code className="coral">
                                     Unordered Rich List
@@ -271,7 +272,7 @@ export default function StyleGuide() {
                         <div className="sg-subtitle">
                             Shapes & Structural Variants
                         </div>
-                        <div className="sg-row-first">
+                        <div className="sg-row">
                             <div className="sg-meta">
                                 <code className="coral">
                                     variant=&#34;pill&#34; (Default)
@@ -321,7 +322,7 @@ export default function StyleGuide() {
                     <hr />
                     <div className="space-y-6">
                         <div className="sg-subtitle">Color Hierarchies</div>
-                        <div className="sg-row-first">
+                        <div className="sg-row">
                             <div className="sg-meta">
                                 <code className="coral">
                                     color=&#34;primary&#34;
@@ -367,7 +368,7 @@ export default function StyleGuide() {
                         <div className="sg-subtitle">
                             Functional Micro-States
                         </div>
-                        <div className="sg-row-first">
+                        <div className="sg-row">
                             <div className="sg-meta">
                                 <code className="coral">
                                     icon={'{<Icon />}'}
@@ -440,7 +441,7 @@ export default function StyleGuide() {
                         <div className="sg-subtitle">
                             Text Input element and its interactive states
                         </div>
-                        <div className="sg-row-first">
+                        <div className="sg-row">
                             <div className="sg-meta">
                                 <code className="coral">State: Default</code>
                                 <strong>Style</strong>: It has a thin light
@@ -524,7 +525,7 @@ export default function StyleGuide() {
                         <div className="sg-subtitle">
                             Dropdown element and its interactive states
                         </div>
-                        <div className="sg-row-first">
+                        <div className="sg-row">
                             <div className="sg-meta">
                                 <code className="coral">
                                     State: Default (Placeholder)
@@ -620,9 +621,7 @@ export default function StyleGuide() {
                     <hr />
                     <div className="space-y-6">
                         <div className="sg-subtitle">Toggle Switch Control</div>
-
-                        {/* 1. Inactive State Preview */}
-                        <div className="sg-row-first">
+                        <div className="sg-row">
                             <div className="sg-meta">
                                 <code className="coral">
                                     State: Inactive / Off
@@ -659,15 +658,73 @@ export default function StyleGuide() {
                             <div className="sg-meta">
                                 <code className="coral">State: Disabled</code>
                                 <strong>Visual</strong>: Drops the entire
-                                container opacity to 50% and changes the mouse
-                                cursor to &#34;not-allowed&#34; to prevent
-                                typing.
+                                container opacity and changes the mouse cursor
+                                to &#34;not-allowed&#34; to prevent typing.
                             </div>
                             <div className="sg-preview">
                                 <Toggle
                                     label="My Toggle"
                                     defaultChecked={true}
                                     disabled={true}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </Card>
+                <Card variant="bordered">
+                    <h2>Tag & Badge System</h2>
+                    <p>
+                        Micro-indicators used for classification, contextual
+                        indexing, and project lifecycle status.
+                    </p>
+                    <div className="space-y-6">
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    variant&#34;=neutral&#34;
+                                </code>
+                                <strong>Usage</strong>: Standard structural
+                                data. Ideal for technical attributes that carry
+                                no emotional weight, such as fiber types, hook
+                                sizes, or measurements.
+                            </div>
+                            <div className="sg-preview flex h-12 items-center">
+                                <Tag label="Merino" icon={<Sparkles />} />
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    variant&#34;=highlight&#34;
+                                </code>
+                                <strong>Usage</strong>: High attention hooks.
+                                Reserved for active states, crucial system
+                                alerts, or attributes that signify the current
+                                focal point of the user.
+                            </div>
+                            <div className="sg-preview flex h-12 items-center">
+                                <Tag
+                                    label="Merino"
+                                    variant="highlight"
+                                    icon={<Sparkles />}
+                                />
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    variant&#34;=muted&#34;
+                                </code>
+                                <strong>Usage</strong>: De-prioritized states.
+                                Perfect for completed tasks, historical data, or
+                                archived logs that should blend into the
+                                background.
+                            </div>
+                            <div className="sg-preview flex h-12 items-center">
+                                <Tag
+                                    label="Merino"
+                                    variant="muted"
+                                    icon={<Sparkles />}
                                 />
                             </div>
                         </div>
