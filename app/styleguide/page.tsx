@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { Toggle } from '@/components/ui/Toggle';
 import { Tag } from '@/components/ui/Tag';
+import { ProgressBar } from '@/components/ui/ProgressBar';
 
 import { Sparkles, Plus, Search, Trash2 } from 'lucide-react';
 
@@ -800,6 +801,62 @@ export default function StyleGuide() {
                                     label="Merino"
                                     variant="muted"
                                     icon={<Sparkles />}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </Card>
+                <Card variant="bordered">
+                    <h2>Progress Indicators</h2>
+                    <p>
+                        Visual systems displaying completion metrics in both
+                        horizontal linear and radial circular geometries.
+                    </p>
+                    <div className="space-y-6">
+                        <div className="sg-subtitle">
+                            State Alignments (Linear & Circular)
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">State: Default</code>
+                                <strong>Visual</strong>: Renders your signature
+                                Coral progress bar against a soft, non-intrusive
+                                grey track. Ideal for standard operational
+                                tracking.
+                            </div>
+                            <div className="sg-preview flex flex-col items-start gap-8">
+                                <ProgressBar
+                                    shape="linear"
+                                    value={25}
+                                    max={120}
+                                />
+                                <ProgressBar
+                                    shape="circular"
+                                    value={32}
+                                    max={120}
+                                />
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">State: Disabled</code>
+                                <strong>Visual</strong>: Darkens the container
+                                background track to create an interactive depth
+                                change, highlighting the card container&#39;s
+                                focused zone.
+                            </div>
+                            <div className="sg-preview flex flex-col items-start gap-8">
+                                <ProgressBar
+                                    shape="linear"
+                                    value={79}
+                                    max={120}
+                                    disabled
+                                />
+                                <ProgressBar
+                                    shape="circular"
+                                    value={50}
+                                    max={120}
+                                    disabled
                                 />
                             </div>
                         </div>
