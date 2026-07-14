@@ -262,6 +262,81 @@ export default function StyleGuide() {
                     </div>
                 </Card>
                 <Card variant="bordered">
+                    <h2>Surfaces and containers</h2>
+                    <p>
+                        The structural layout foundations of Loopo. Three
+                        distinct canvas behaviors to group information
+                        hierarchies.
+                    </p>
+                    <div className="space-y-6">
+                        <div className="sg-subtitle">Surface Variants</div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    variant&#34;=bordered&#34;
+                                </code>
+                                <strong>Usage</strong>: The standard workspace
+                                container. Uses a crisp, thin outline with an
+                                absolute minimum shadow to encapsulate
+                                interactive modules, lists, and tools.
+                            </div>
+                            <div className="sg-preview">
+                                <Card variant="bordered">
+                                    <p className="lead">
+                                        Keep track of your complex crochet
+                                        patterns effortlessly. Loopo syncs your
+                                        counters, targets, and yarn stock
+                                        parameters safely.
+                                    </p>
+                                </Card>
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    variant&#34;=flat&#34;
+                                </code>
+                                <strong>Usage</strong>: Secondary or tertiary
+                                tracking elements. Removes the border. Perfect
+                                for putting statistics or static read-only text
+                                in the background.
+                            </div>
+                            <div className="sg-preview">
+                                <Card variant="flat">
+                                    <p className="lead">
+                                        Keep track of your complex crochet
+                                        patterns effortlessly. Loopo syncs your
+                                        counters, targets, and yarn stock
+                                        parameters safely.
+                                    </p>
+                                </Card>
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    variant&#34;=elevated&#34;
+                                </code>
+                                <strong>Usage</strong>: Overlays, floating
+                                action panels, or high-priority focal cards.
+                                Lifts the surface using a soft volumetric
+                                shadow, signaling to the user that it sits on a
+                                superior visual plane.
+                            </div>
+                            <div className="sg-preview">
+                                <Card variant="elevated">
+                                    <p className="lead">
+                                        Keep track of your complex crochet
+                                        patterns effortlessly. Loopo syncs your
+                                        counters, targets, and yarn stock
+                                        parameters safely.
+                                    </p>
+                                </Card>
+                            </div>
+                        </div>
+                    </div>
+                </Card>
+                <Card variant="bordered">
                     <h2>Button System Architecture</h2>
                     <p>
                         The matrix combining structural variants, semantic
@@ -630,7 +705,7 @@ export default function StyleGuide() {
                                 false defaultChecked to boot up turned off while
                                 remaining clickable.
                             </div>
-                            <div className="sg-preview flex h-12 items-center">
+                            <div className="sg-preview">
                                 <Toggle
                                     label="My toggle"
                                     defaultChecked={false}
@@ -647,7 +722,7 @@ export default function StyleGuide() {
                                 Clicking it will organically slide it back to
                                 grey.
                             </div>
-                            <div className="sg-preview flex h-12 items-center">
+                            <div className="sg-preview">
                                 <Toggle
                                     label="My Toggle"
                                     defaultChecked={true}
@@ -688,7 +763,7 @@ export default function StyleGuide() {
                                 no emotional weight, such as fiber types, hook
                                 sizes, or measurements.
                             </div>
-                            <div className="sg-preview flex h-12 items-center">
+                            <div className="sg-preview">
                                 <Tag label="Merino" icon={<Sparkles />} />
                             </div>
                         </div>
@@ -702,7 +777,7 @@ export default function StyleGuide() {
                                 alerts, or attributes that signify the current
                                 focal point of the user.
                             </div>
-                            <div className="sg-preview flex h-12 items-center">
+                            <div className="sg-preview">
                                 <Tag
                                     label="Merino"
                                     variant="highlight"
@@ -720,7 +795,7 @@ export default function StyleGuide() {
                                 archived logs that should blend into the
                                 background.
                             </div>
-                            <div className="sg-preview flex h-12 items-center">
+                            <div className="sg-preview">
                                 <Tag
                                     label="Merino"
                                     variant="muted"
