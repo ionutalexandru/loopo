@@ -5,6 +5,7 @@ import { Select } from '@/components/ui/Select';
 import { Toggle } from '@/components/ui/Toggle';
 import { Tag } from '@/components/ui/Tag';
 import { ProgressBar } from '@/components/ui/ProgressBar';
+import { ProjectCard } from '@/components/ui/ProjectCard';
 
 import { Sparkles, Plus, Search, Trash2 } from 'lucide-react';
 
@@ -852,6 +853,54 @@ export default function StyleGuide() {
                                     max={120}
                                     disabled
                                 />
+                                <ProgressBar
+                                    shape="circular"
+                                    value={50}
+                                    max={120}
+                                    disabled
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </Card>
+                <Card variant="bordered">
+                    <h2>Project cards</h2>
+                    <p>
+                        Primary dashboard cards displaying current active
+                        pattern sections, progress metrics, and last edit
+                        timestamps.
+                    </p>
+                    <div className="space-y-6">
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    Variant: with active part
+                                </code>
+                                <strong>Visual</strong>: Highlights the specific
+                                piece currently being knitted (e.g., &#34;Front
+                                &#34;). On hover, the active section label turns
+                                Vibrant Coral.
+                            </div>
+                            <div className="sg-preview flex flex-col items-start gap-8">
+                                <ProjectCard
+                                    title="Pullover Iceland"
+                                    currentRows={240}
+                                    totalRows={320}
+                                    activePart="Front"
+                                    lastUpdated="2h ago"
+                                />
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    Variant: without active part
+                                </code>
+                                <strong>Usage</strong>: Used for single-piece
+                                projects or high-level overview cards where row
+                                count is tracked globally.
+                            </div>
+                            <div className="sg-preview flex flex-col items-start gap-8">
                                 <ProgressBar
                                     shape="circular"
                                     value={50}

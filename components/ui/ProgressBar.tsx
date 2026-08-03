@@ -9,6 +9,7 @@ interface ProgressBarProps {
     disabled?: boolean;
     className?: string;
     radius?: number;
+    hideStats?: boolean;
 }
 
 export const ProgressBar = ({
@@ -17,6 +18,7 @@ export const ProgressBar = ({
     max,
     disabled = false,
     className = '',
+    hideStats = false,
 }: ProgressBarProps) => {
     const generatedId = useId();
     const percentage = Math.min(Math.max((value / max) * 100, 0), 100);
@@ -59,17 +61,18 @@ export const ProgressBar = ({
                         strokeDashoffset={strokeDashoffset}
                     />
                 </svg>
-
-                <div className="font-inter absolute flex flex-col items-center justify-center select-none">
-                    <span
-                        className={`${disabled ? 'text-misty-gray' : 'text-charcoal'} text-2xl leading-none font-bold`}
-                    >
-                        {value}
-                    </span>
-                    <span className="text-misty-gray text-xs font-medium">
-                        {max}
-                    </span>
-                </div>
+                {!hideStats && (
+                    <div className="font-inter absolute flex flex-col items-center justify-center select-none">
+                        <span
+                            className={`${disabled ? 'text-misty-gray' : 'text-charcoal'} text-2xl leading-none font-bold`}
+                        >
+                            {value}
+                        </span>
+                        <span className="text-misty-gray text-xs font-medium">
+                            {max}
+                        </span>
+                    </div>
+                )}
             </div>
         );
     }
@@ -83,12 +86,17 @@ export const ProgressBar = ({
         : 'bg-vibrant-coral group-hover:bg-deep-coral';
 
     return (
-        <div id={generatedId} className={`group flex w-full flex-col ${className}`}>
-            <span
-                className={`${disabled ? 'text-misty-gray' : 'text-charcoal'} font-inter text-xs font-semibold`}
-            >
-                {value}/{max}
-            </span>
+        <div
+            id={generatedId}
+            className={`group flex w-full flex-col ${className}`}
+        >
+            {!hideStats && (
+                <span
+                    className={`${disabled ? 'text-misty-gray' : 'text-charcoal'} font-inter text-xs font-semibold`}
+                >
+                    {value}/{max}
+                </span>
+            )}
             <div
                 className={`h-2.5 w-full overflow-hidden rounded-full transition-colors duration-150 ${trackStyles}`}
             >

@@ -14,7 +14,7 @@ export const Card = ({
     ...props
 }: CardProps) => {
     const variantStyles: Record<CardVariant, string> = {
-        elevated: 'bg-pure-wool shadow-md',
+        elevated: 'bg-pure-wool shadow-md hover:shadow-lg',
         flat: 'bg-pure-wool',
         bordered: 'bg-pure-wool border-2 border-chalk-gray',
     };
