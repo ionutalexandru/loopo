@@ -323,7 +323,8 @@ export default function StyleGuide() {
                                 action panels, or high-priority focal cards.
                                 Lifts the surface using a soft volumetric
                                 shadow, signaling to the user that it sits on a
-                                superior visual plane.
+                                superior visual plane. On hover, the shadow is
+                                more noticeable.
                             </div>
                             <div className="sg-preview">
                                 <Card variant="elevated">
@@ -888,6 +889,7 @@ export default function StyleGuide() {
                                     totalRows={320}
                                     activePart="Front"
                                     lastUpdated="2h ago"
+                                    url="/"
                                 />
                             </div>
                         </div>
@@ -901,11 +903,12 @@ export default function StyleGuide() {
                                 count is tracked globally.
                             </div>
                             <div className="sg-preview flex flex-col items-start gap-8">
-                                <ProgressBar
-                                    shape="circular"
-                                    value={50}
-                                    max={120}
-                                    disabled
+                                <ProjectCard
+                                    title="Pullover Iceland"
+                                    currentRows={240}
+                                    totalRows={320}
+                                    lastUpdated="2h ago"
+                                    url="/"
                                 />
                             </div>
                         </div>

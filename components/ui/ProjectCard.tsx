@@ -68,7 +68,11 @@ export const ProjectCard = ({
     );
 
     if (url) {
-        return <Link href={url}>{cardContent}</Link>;
+        return (
+            <Link href={url} className="w-full">
+                {cardContent}
+            </Link>
+        );
     }
 
     return cardContent;
