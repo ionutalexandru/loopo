@@ -11,6 +11,7 @@ import { ProjectCard } from '@/components/widgets/ProjectCard';
 
 import { Sparkles, Plus, Search, Trash2 } from 'lucide-react';
 import { GlobalCounter } from '@/components/widgets/GlobalCounter';
+import { RowAlert } from '@/components/widgets/RowAlert';
 
 export default function StyleGuide() {
     return (
@@ -338,6 +339,34 @@ export default function StyleGuide() {
                                         parameters safely.
                                     </p>
                                 </Card>
+                            </div>
+                        </div>
+                    </div>
+                </Card>
+                <Card variant="bordered">
+                    <h2>Row Alert Notification</h2>
+                    <p>
+                        Inline contextual alert triggered when the global
+                        counter reaches specific pattern instruction thresholds
+                        (e.g., decreases, increases, color shifts).
+                    </p>
+                    <div className="space-y-6">
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">State: default</code>
+                                You can control whether the alert should be
+                                visible or not by using isVisible; and adding a
+                                onDismiss handler.
+                            </div>
+                            <div className="sg-preview">
+                                <RowAlert
+                                    isVisible={true}
+                                    title="Time to decrease"
+                                    description="Decrease one stitch at the beginning of the row."
+                                    onDismiss={() =>
+                                        console.log('Alert dismissed')
+                                    }
+                                />
                             </div>
                         </div>
                     </div>

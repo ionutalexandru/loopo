@@ -17,5 +17,6 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "editor.fontFamily": "'Geist Mono', monospace",
-    "editor.fontLigatures": true
+    "editor.fontLigatures": true,
+    "prettier.singleQuote": true
 }
