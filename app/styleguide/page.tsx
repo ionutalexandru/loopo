@@ -32,6 +32,11 @@ export default function StyleGuide() {
                                 class: 'bg-pure-wool text-charcoal',
                             },
                             {
+                                name: 'Wool',
+                                hex: '#F9EDE4',
+                                class: 'bg-wool text-charcoal',
+                            },
+                            {
                                 name: 'Bone White',
                                 hex: '#FDFBF7',
                                 class: 'bg-bone-white text-charcoal',
@@ -974,10 +979,9 @@ export default function StyleGuide() {
                                 <code className="coral">
                                     State: Maximum / Goal Reached
                                 </code>
-                                Triggers automatically when{' '}
-                                <code>value &gt;= totalRows</code>. Highlights
-                                the text metric in Vibrant Coral with a
-                                completion tag.
+                                Triggers automatically when value &gt;=
+                                totalRows. Highlights the text metric in Vibrant
+                                Coral with a completion tag.
                             </div>
                             <div className="sg-preview flex flex-col items-start">
                                 <GlobalCounter

@@ -48,7 +48,7 @@ export const GlobalCounter = ({
         <Card
             variant="elevated"
             onClick={handleIncrement}
-            className={`group active:bg-bone-white relative flex max-w-88! cursor-pointer flex-col items-center justify-between gap-3 transition-all duration-150 select-none active:scale-[0.99] ${isCompleted ? 'border-vibrant-coral/40 bg-deep-coral/10' : ''} ${className}`}
+            className={`group active:bg-wool/30 relative flex max-w-88! cursor-pointer flex-col items-center justify-between gap-3 transition-all duration-150 select-none active:scale-[0.99] ${isCompleted ? 'border-vibrant-coral/40 bg-deep-coral/10' : ''} ${className}`}
         >
             <div className="relative flex w-full items-center justify-center">
                 <div className="absolute left-0 flex items-center">
