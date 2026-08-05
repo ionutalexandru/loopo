@@ -1,3 +1,5 @@
+'use client';
+
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -5,9 +7,10 @@ import { Select } from '@/components/ui/Select';
 import { Toggle } from '@/components/ui/Toggle';
 import { Tag } from '@/components/ui/Tag';
 import { ProgressBar } from '@/components/ui/ProgressBar';
-import { ProjectCard } from '@/components/ui/ProjectCard';
+import { ProjectCard } from '@/components/widgets/ProjectCard';
 
 import { Sparkles, Plus, Search, Trash2 } from 'lucide-react';
+import { GlobalCounter } from '@/components/widgets/GlobalCounter';
 
 export default function StyleGuide() {
     return (
@@ -909,6 +912,68 @@ export default function StyleGuide() {
                                     totalRows={320}
                                     lastUpdated="2h ago"
                                     url="/"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </Card>
+                <Card variant="bordered">
+                    <h2>Global Counter</h2>
+                    <p>
+                        Large tactile surface for hands-free counting.
+                        Automatically shifts into a celebration visual state
+                        upon reaching target capacity.
+                    </p>
+                    <div className="space-y-6">
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    State: In-Progress
+                                </code>
+                                Active interactive counter. Click/tap anywhere
+                                on the card to increment toward the target.
+                            </div>
+                            <div className="sg-preview flex flex-col items-start">
+                                <GlobalCounter
+                                    initialRow={37}
+                                    totalRows={100}
+                                />
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    State: Maximum / Goal Reached
+                                </code>
+                                Triggers automatically when{' '}
+                                <code>value &gt;= totalRows</code>. Highlights
+                                the text metric in Vibrant Coral with a
+                                completion tag.
+                            </div>
+                            <div className="sg-preview flex flex-col items-start">
+                                <GlobalCounter
+                                    initialRow={100}
+                                    totalRows={100}
+                                />
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    onChange?: (value: number) =&gt; void
+                                </code>
+                                Emits the updated row count on every increment
+                                (tap) or decrement (- button). Useful for
+                                persisting data to a database. In this example,
+                                it logs in the console the current row.
+                            </div>
+                            <div className="sg-preview flex flex-col items-start">
+                                <GlobalCounter
+                                    initialRow={67}
+                                    totalRows={100}
+                                    onChange={(row) =>
+                                        console.log(`Current row: ${row}`)
+                                    }
                                 />
                             </div>
                         </div>

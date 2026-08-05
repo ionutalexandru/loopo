@@ -6,7 +6,7 @@ interface TagProps {
     label: string;
     className?: string;
     variant?: TagVariant;
-    icon: React.ReactNode;
+    icon?: React.ReactNode;
 }
 
 export const Tag = ({

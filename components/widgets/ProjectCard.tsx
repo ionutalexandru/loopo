@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
-import { Card } from './Card';
-import { ProgressBar } from './ProgressBar';
+import { Card } from '@/components/ui/Card';
+import { ProgressBar } from '@/components/ui/ProgressBar';
 
 interface ProjectCardProps {
     title: string;

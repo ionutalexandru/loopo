@@ -3,7 +3,7 @@ import React, { useId } from 'react';
 export type ProgressBarShape = 'linear' | 'circular';
 
 interface ProgressBarProps {
-    shape: ProgressBarShape;
+    shape?: ProgressBarShape;
     value: number;
     max: number;
     disabled?: boolean;
@@ -26,7 +26,7 @@ export const ProgressBar = ({
     if (shape === 'circular') {
         const trackStyles = disabled
             ? 'stroke-chalk-gray group-hover:stroke-chalk-gray'
-            : 'stroke-chalk-gray group-hover:stroke-steel-needle';
+            : 'stroke-chalk-gray group-hover:stroke-steel-needle/40';
 
         const barStyles = disabled
             ? 'stroke-charcoal/70 group-hover:stroke-charcoal/70'
@@ -79,7 +79,7 @@ export const ProgressBar = ({
 
     const trackStyles = disabled
         ? 'bg-chalk-gray group-hover:bg-chalk-gray'
-        : 'bg-chalk-gray group-hover:bg-steel-needle';
+        : 'bg-chalk-gray group-hover:bg-steel-needle/40';
 
     const barStyles = disabled
         ? 'bg-charcoal/70 group-hover:bg-charcoal/70'
