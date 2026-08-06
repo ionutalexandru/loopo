@@ -30,10 +30,12 @@ export const RowAlert = ({
 
     return (
         <div
-            className={`bg-vibrant-coral/10 border-vibrant-coral relative flex w-full flex-col gap-3 rounded-3xl border p-6 transition-all duration-200 ${className}`}
+            className={`bg-vibrant-coral/10 border-vibrant-coral relative flex
+                w-full flex-col gap-3 rounded-3xl border p-6 transition-all
+                shadow-md duration-200 ${className}`}
         >
             <div className="flex items-center justify-between">
-                <h4 className="text-vibrant-coral mb-0! font-bold">{title}</h4>
+                <h4 className="text-vibrant-coral! mb-0! font-bold">{title}</h4>
                 <Button
                     variant="text"
                     icon={<X />}

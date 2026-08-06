@@ -2,17 +2,20 @@ import React from 'react';
 
 export type ButtonVariant = 'text' | 'squared' | 'pill';
 export type ButtonColor = 'primary' | 'secondary' | 'danger';
+export type ButtonSize = 'default' | 'small';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     color?: ButtonColor;
     variant?: ButtonVariant;
     icon?: React.ReactNode;
     children?: React.ReactNode;
+    size?: ButtonSize;
 }
 
 export const Button = ({
     variant = 'pill',
     color = 'primary',
+    size = 'default',
     icon,
     children,
     className = '',
@@ -21,10 +24,10 @@ export const Button = ({
 }: ButtonProps) => {
     const onlyIcon = icon !== undefined && children === undefined;
 
-    const baseStyles = `inline-flex items-center justify-center gap-2 font-bold ${onlyIcon ? 'p-3.5' : 'py-4 px-6'} select-none cursor-pointer active:scale-[0.98] focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:rounded-2xl focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:rounded-2xl disabled:cursor-not-allowed disabled:text-misty-gray disabled:scale-none`;
+    const baseStyles = `inline-flex items-center justify-center gap-2 font-bold ${onlyIcon ? (size === 'small' ? 'p-1.5' : 'p-3.5') : 'py-4 px-6'} select-none cursor-pointer active:scale-[0.98] focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:rounded-2xl focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:rounded-2xl disabled:cursor-not-allowed disabled:text-misty-gray disabled:scale-none`;
 
     const shapeStyles: Record<ButtonVariant, string> = {
-        squared: 'rounded-2xl',
+        squared: size === 'small' ? 'rounded-xl' : 'rounded-2xl',
         pill: 'rounded-full focus:rounded-full focus-visible:rounded-full',
         text: 'active:scale-none',
     };
@@ -72,7 +75,8 @@ export const Button = ({
 
     return (
         <button
-            className={`${baseStyles} ${shapeStyles[variant]} ${getColors(variant, color)} ${className}`}
+            className={`${baseStyles} ${shapeStyles[variant]}
+                ${getColors(variant, color)} ${className}`}
             disabled={disabled}
             {...props}
         >

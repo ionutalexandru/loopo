@@ -12,6 +12,7 @@ import { ProjectCard } from '@/components/widgets/ProjectCard';
 import { Sparkles, Plus, Search, Trash2 } from 'lucide-react';
 import { GlobalCounter } from '@/components/widgets/GlobalCounter';
 import { RowAlert } from '@/components/widgets/RowAlert';
+import { SecondaryCounter } from '@/components/widgets/SecondaryCounter';
 
 export default function StyleGuide() {
     return (
@@ -89,7 +90,9 @@ export default function StyleGuide() {
                         ].map((color) => (
                             <div
                                 key={color.hex}
-                                className={`rounded-xl p-4 ${color.class} border-charcoal flex h-24 flex-col justify-between border`}
+                                className={`rounded-xl p-4 ${color.class}
+                                border-charcoal flex h-24 flex-col
+                                justify-between border`}
                             >
                                 <span className="text-sm font-bold">
                                     {color.name}
@@ -863,7 +866,10 @@ export default function StyleGuide() {
                                 grey track. Ideal for standard operational
                                 tracking.
                             </div>
-                            <div className="sg-preview flex flex-col items-start gap-8">
+                            <div
+                                className="sg-preview flex flex-col items-start
+                                    gap-8"
+                            >
                                 <ProgressBar
                                     shape="linear"
                                     value={25}
@@ -884,7 +890,10 @@ export default function StyleGuide() {
                                 change, highlighting the card container&#39;s
                                 focused zone.
                             </div>
-                            <div className="sg-preview flex flex-col items-start gap-8">
+                            <div
+                                className="sg-preview flex flex-col items-start
+                                    gap-8"
+                            >
                                 <ProgressBar
                                     shape="linear"
                                     value={79}
@@ -919,7 +928,10 @@ export default function StyleGuide() {
                                 &#34;). On hover, the active section label turns
                                 Vibrant Coral.
                             </div>
-                            <div className="sg-preview flex flex-col items-start gap-8">
+                            <div
+                                className="sg-preview flex flex-col items-start
+                                    gap-8"
+                            >
                                 <ProjectCard
                                     title="Pullover Iceland"
                                     currentRows={240}
@@ -939,7 +951,10 @@ export default function StyleGuide() {
                                 projects or high-level overview cards where row
                                 count is tracked globally.
                             </div>
-                            <div className="sg-preview flex flex-col items-start gap-8">
+                            <div
+                                className="sg-preview flex flex-col items-start
+                                    gap-8"
+                            >
                                 <ProjectCard
                                     title="Pullover Iceland"
                                     currentRows={240}
@@ -967,7 +982,9 @@ export default function StyleGuide() {
                                 Active interactive counter. Click/tap anywhere
                                 on the card to increment toward the target.
                             </div>
-                            <div className="sg-preview flex flex-col items-start">
+                            <div
+                                className="sg-preview flex flex-col items-start"
+                            >
                                 <GlobalCounter
                                     initialRow={37}
                                     totalRows={100}
@@ -983,7 +1000,9 @@ export default function StyleGuide() {
                                 totalRows. Highlights the text metric in Vibrant
                                 Coral with a completion tag.
                             </div>
-                            <div className="sg-preview flex flex-col items-start">
+                            <div
+                                className="sg-preview flex flex-col items-start"
+                            >
                                 <GlobalCounter
                                     initialRow={100}
                                     totalRows={100}
@@ -1000,13 +1019,45 @@ export default function StyleGuide() {
                                 persisting data to a database. In this example,
                                 it logs in the console the current row.
                             </div>
-                            <div className="sg-preview flex flex-col items-start">
+                            <div
+                                className="sg-preview flex flex-col items-start"
+                            >
                                 <GlobalCounter
                                     initialRow={67}
                                     totalRows={100}
                                     onChange={(row) =>
                                         console.log(`Current row: ${row}`)
                                     }
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </Card>
+                <Card variant="bordered">
+                    <h2>Secondary Counter & Settings Modal</h2>
+                    <p>
+                        Compact tactile widget designed for tracking sub-repeats
+                        (braids, or gauge repeats). Features isolated touch
+                        targets for incrementing, decrementing, and launching
+                        URL-driven settings.
+                    </p>
+                    <div className="space-y-6">
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    State: In-Progress
+                                </code>
+                                Active interactive counter. Click/tap anywhere
+                                on the card to increment toward the target.
+                            </div>
+                            <div
+                                className="sg-preview flex flex-col items-start"
+                            >
+                                <SecondaryCounter
+                                    title="Braid"
+                                    initialRow={37}
+                                    totalRows={100}
+                                    tagLabel="#123"
                                 />
                             </div>
                         </div>

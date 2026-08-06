@@ -28,11 +28,10 @@ export const GlobalCounter = ({
     const isCompleted = row >= totalRows;
 
     const handleIncrement = () => {
-        if (!isCompleted) {
-            const nextRow = row + 1;
-            setRow(nextRow);
-            if (onChange) onChange(nextRow);
-        }
+        if (isCompleted) return;
+        const nextRow = row + 1;
+        setRow(nextRow);
+        if (onChange) onChange(nextRow);
     };
 
     const handleDecrement = (e: React.MouseEvent) => {
