@@ -24,7 +24,7 @@ export const Button = ({
 }: ButtonProps) => {
     const onlyIcon = icon !== undefined && children === undefined;
 
-    const baseStyles = `inline-flex items-center justify-center gap-2 font-bold ${onlyIcon ? (size === 'small' ? 'p-1.5' : 'p-3.5') : 'py-4 px-6'} select-none cursor-pointer active:scale-[0.98] focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:rounded-2xl focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:rounded-2xl disabled:cursor-not-allowed disabled:text-misty-gray disabled:scale-none`;
+    const baseStyles = `inline-flex items-center justify-center gap-2 font-bold ${onlyIcon ? (size === 'small' ? 'p-1.5' : 'p-3.5') : 'py-4 px-6'} select-none cursor-pointer active:scale-[0.98] focus:outline-hidden focus:ring-2 focus:ring-offset-2 ${size === 'small' ? 'focus:rounded-xl focus-visible:rounded-xl' : 'focus:rounded-2xl focus-visible:rounded-2xl'} focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:text-misty-gray disabled:scale-none`;
 
     const shapeStyles: Record<ButtonVariant, string> = {
         squared: size === 'small' ? 'rounded-xl' : 'rounded-2xl',

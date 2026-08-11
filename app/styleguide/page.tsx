@@ -1,5 +1,8 @@
 'use client';
 
+import { Sparkles, Plus, Search, Trash2 } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
+
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -8,13 +11,39 @@ import { Toggle } from '@/components/ui/Toggle';
 import { Tag } from '@/components/ui/Tag';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { ProjectCard } from '@/components/widgets/ProjectCard';
-
-import { Sparkles, Plus, Search, Trash2 } from 'lucide-react';
 import { GlobalCounter } from '@/components/widgets/GlobalCounter';
 import { RowAlert } from '@/components/widgets/RowAlert';
 import { SecondaryCounter } from '@/components/widgets/SecondaryCounter';
+import {
+    SecondaryCounterSettingsModal,
+    SecondaryCounterFormData,
+} from '@/components/widgets/SecondaryCounterSettingsModal';
+
+const SECONDARY_COUNTER_MOCK_DATA: Record<string, SecondaryCounterFormData> = {
+    braid: {
+        counterName: 'Braid',
+        startsOnGlobalRow: 30,
+        rowsPerRepeat: 12,
+        totalRepeats: 4,
+        additionalDetails: '3.5mm',
+    },
+    sleve: {
+        counterName: 'Sleve',
+        startsOnGlobalRow: 80,
+        rowsPerRepeat: 40,
+        totalRepeats: 1,
+        additionalDetails: 'Color #75',
+    },
+};
 
 export default function StyleGuide() {
+    const searchParams = useSearchParams();
+    const activeCounterKey = searchParams.get('counterSettings');
+
+    const secondaryCounterInitialData = activeCounterKey
+        ? SECONDARY_COUNTER_MOCK_DATA[activeCounterKey]
+        : undefined;
+
     return (
         <main className="mx-auto min-h-screen max-w-6xl p-8">
             <header className="border-chalk-gray mb-12 border-b pb-6">
@@ -1050,18 +1079,37 @@ export default function StyleGuide() {
                                 Active interactive counter. Click/tap anywhere
                                 on the card to increment toward the target.
                             </div>
-                            <div
-                                className="sg-preview flex flex-col items-start"
-                            >
-                                <SecondaryCounter
-                                    title="Braid"
-                                    initialRow={37}
-                                    totalRows={100}
-                                    tagLabel="#123"
-                                />
+
+                            <SecondaryCounter
+                                title="Braid"
+                                initialRow={2}
+                                totalRows={12}
+                                tagLabel="#123"
+                                settingsHref="?counterSettings=braid"
+                            />
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">State: Completed</code>
+                                Once completed, the counter gets a gray
+                                background.
                             </div>
+                            <SecondaryCounter
+                                title="Sleve"
+                                initialRow={40}
+                                totalRows={40}
+                                tagLabel="Color #75"
+                                settingsHref="?counterSettings=sleve"
+                            />
                         </div>
                     </div>
+                    <SecondaryCounterSettingsModal
+                        key={activeCounterKey}
+                        initialData={secondaryCounterInitialData}
+                        onSave={(data) => {
+                            console.log(`Saving data secondary counter:`, data);
+                        }}
+                    />
                 </Card>
             </div>
         </main>

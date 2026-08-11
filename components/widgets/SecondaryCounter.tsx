@@ -30,8 +30,6 @@ export const SecondaryCounter = ({
     onChange,
     className = '',
 }: SecondaryCounterProps) => {
-    // TODO Handle different states
-
     const [row, setRow] = useState(initialRow);
     const isCompleted = row >= totalRows;
 
@@ -90,8 +88,7 @@ export const SecondaryCounter = ({
             className={`group active:bg-wool/30 relative flex max-w-42! py-2.5!
                 px-4! cursor-pointer flex-col items-center justify-between gap-3
                 transition-all duration-150 select-none active:scale-[0.99]
-                ${isCompleted ? 'border-vibrant-coral/40 bg-deep-coral/10' : ''}
-                ${className}`}
+                ${isCompleted ? 'bg-chalk-gray!' : ''} ${className}`}
         >
             <div className="font-semibold">{title}</div>
             <div className="flex flex-col gap-1.5 items-center">
@@ -100,6 +97,7 @@ export const SecondaryCounter = ({
                     value={row}
                     max={totalRows}
                     className="w-20"
+                    disabled={isCompleted}
                 />
                 {tagLabel && (
                     <Tag icon={<Icon iconNode={yarnBall} />} label={tagLabel} />
