@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import { Sparkles, Plus, Search, Trash2 } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 
@@ -19,6 +19,7 @@ import {
     SecondaryCounterSettingsModal,
     SecondaryCounterFormData,
 } from '@/components/widgets/SecondaryCounterSettingsModal';
+import { ProjectPartsNav } from '@/components/navigation/ProjectPartsNav';
 
 const SECONDARY_COUNTER_MOCK_DATA: Record<string, SecondaryCounterFormData> = {
     braid: {
@@ -37,9 +38,20 @@ const SECONDARY_COUNTER_MOCK_DATA: Record<string, SecondaryCounterFormData> = {
     },
 };
 
+const DEMO_PARTS = [
+    { id: 'neck', label: 'Neck' },
+    { id: 'back', label: 'Back part' },
+    { id: 'front', label: 'Front part' },
+    { id: 'left-sleeve', label: 'Left sleeve' },
+    { id: 'right-sleeve', label: 'Right sleeve' },
+    { id: 'collar', label: 'Ribbing Collar' },
+];
+
 function StyleGuidePage() {
     const searchParams = useSearchParams();
     const activeCounterKey = searchParams.get('counterSettings');
+
+    const [activePart, setActivePart] = useState('front');
 
     const secondaryCounterInitialData = activeCounterKey
         ? SECONDARY_COUNTER_MOCK_DATA[activeCounterKey]
@@ -879,6 +891,33 @@ function StyleGuidePage() {
                     </div>
                 </Card>
                 <Card variant="bordered">
+                    <h2>Project parts navigation</h2>
+                    <p>
+                        A compact, horizontally scrollable segmented navigation
+                        bar designed for switching between project parts.
+                    </p>
+                    <div className="space-y-6">
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">State: Default</code>
+                                <strong>Visual</strong>: It features pill-shaped
+                                tabs with active state highlighting, smooth
+                                auto-centering for the selected item, and edge
+                                fade gradients indicating overflow content
+                            </div>
+                            <div className="sg-preview">
+                                <div className="w-md">
+                                    <ProjectPartsNav
+                                        parts={DEMO_PARTS}
+                                        activePartId={activePart}
+                                        onSelectPart={(id) => setActivePart(id)}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </Card>
+                <Card variant="bordered">
                     <h2>Progress Indicators</h2>
                     <p>
                         Visual systems displaying completion metrics in both
@@ -1122,9 +1161,7 @@ export default function StyleGuide() {
     return (
         <Suspense
             fallback={
-                <div className="p-8 text-sm text-misty-grey">
-                    Loading counter demos...
-                </div>
+                <div className="p-8 text-sm text-misty-grey">Loading...</div>
             }
         >
             <StyleGuidePage />
