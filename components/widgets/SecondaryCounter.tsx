@@ -18,6 +18,7 @@ export interface SecondaryCounterProps {
     openSenttings?: () => void;
     onChange?: (val: number) => void;
     className?: string;
+    isInactive?: boolean;
 }
 
 export const SecondaryCounter = ({
@@ -29,12 +30,13 @@ export const SecondaryCounter = ({
     openSenttings,
     onChange,
     className = '',
+    isInactive = false,
 }: SecondaryCounterProps) => {
     const [row, setRow] = useState(initialRow);
     const isCompleted = row >= totalRows;
 
     const handleIncrement = () => {
-        if (isCompleted) return;
+        if (isCompleted || isInactive) return;
         const nextRow = row + 1;
         setRow(nextRow);
         if (onChange) onChange(nextRow);
@@ -42,7 +44,7 @@ export const SecondaryCounter = ({
 
     const handleDecrement = (e: React.MouseEvent) => {
         e.stopPropagation();
-        if (row > 0) {
+        if (row > 0 && !isInactive) {
             const nextRow = row - 1;
             setRow(nextRow);
             if (onChange) onChange(nextRow);
@@ -88,7 +90,8 @@ export const SecondaryCounter = ({
             className={`group active:bg-wool/30 relative flex max-w-42! py-2.5!
                 px-4! cursor-pointer flex-col items-center justify-between gap-3
                 transition-all duration-150 select-none active:scale-[0.99]
-                ${isCompleted ? 'bg-chalk-gray!' : ''} ${className}`}
+                ${isCompleted || isInactive ? 'bg-chalk-gray/30! shadow-none!' : ''}
+                ${className}`}
         >
             <div className="font-semibold">{title}</div>
             <div className="flex flex-col gap-1.5 items-center">
@@ -97,7 +100,7 @@ export const SecondaryCounter = ({
                     value={row}
                     max={totalRows}
                     className="w-20"
-                    disabled={isCompleted}
+                    disabled={isCompleted || isInactive}
                 />
                 {tagLabel && (
                     <Tag icon={<Icon iconNode={yarnBall} />} label={tagLabel} />

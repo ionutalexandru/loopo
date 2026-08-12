@@ -38,14 +38,16 @@ export const ProgressBar = ({
         return (
             <div
                 id={generatedId}
-                className={`group relative inline-flex flex-col items-center justify-center ${className}`}
+                className={`group relative inline-flex flex-col items-center
+                    justify-center ${className}`}
             >
                 <svg className="h-24 w-24 -rotate-90 transform">
                     <circle
                         cx="48"
                         cy="48"
                         r={radius}
-                        className={`transition-colors duration-200 ${trackStyles}`}
+                        className={`transition-colors duration-200
+                            ${trackStyles}`}
                         strokeWidth="6"
                         fill="transparent"
                     />
@@ -56,15 +58,20 @@ export const ProgressBar = ({
                         strokeWidth="6"
                         strokeLinecap="round"
                         fill="transparent"
-                        className={`transition-all duration-300 ease-out ${barStyles}`}
+                        className={`transition-all duration-300 ease-out
+                            ${barStyles}`}
                         strokeDasharray={circumference}
                         strokeDashoffset={strokeDashoffset}
                     />
                 </svg>
                 {!hideStats && (
-                    <div className="font-inter absolute flex flex-col items-center justify-center select-none">
+                    <div
+                        className="font-inter absolute flex flex-col
+                            items-center justify-center select-none"
+                    >
                         <span
-                            className={`${disabled ? 'text-misty-gray' : 'text-charcoal'} text-2xl leading-none font-bold`}
+                            className={`${disabled ? 'text-misty-gray' : 'text-charcoal'}
+                            text-2xl leading-none font-bold`}
                         >
                             {value}
                         </span>
@@ -92,16 +99,19 @@ export const ProgressBar = ({
         >
             {!hideStats && (
                 <span
-                    className={`${disabled ? 'text-misty-gray' : 'text-charcoal'} font-inter text-xs font-semibold`}
+                    className={`${disabled ? 'text-misty-gray' : 'text-charcoal'}
+                    font-inter text-xs font-semibold`}
                 >
                     {value}/{max}
                 </span>
             )}
             <div
-                className={`h-2.5 w-full overflow-hidden rounded-full transition-colors duration-150 ${trackStyles}`}
+                className={`h-2.5 w-full overflow-hidden rounded-full
+                    transition-colors duration-150 ${trackStyles}`}
             >
                 <div
-                    className={`h-full rounded-full transition-all duration-300 ease-out ${barStyles}`}
+                    className={`h-full rounded-full transition-all duration-300
+                        ease-out ${barStyles}`}
                     style={{ width: `${percentage}%` }}
                 />
             </div>
