@@ -4,6 +4,7 @@ type CardVariant = 'elevated' | 'flat' | 'bordered';
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
     variant?: CardVariant;
+    width?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
     children: React.ReactNode;
 }
 
@@ -11,6 +12,7 @@ export const Card = ({
     variant = 'elevated',
     children,
     className = '',
+    width = 'full',
     ...props
 }: CardProps) => {
     const variantStyles: Record<CardVariant, string> = {
@@ -21,7 +23,8 @@ export const Card = ({
 
     return (
         <div
-            className={`w-full rounded-2xl px-4 py-5 transition-all md:px-6 md:py-8 ${variantStyles[variant]} ${className}`}
+            className={`w-${width} rounded-2xl px-4 py-5 transition-all md:px-6
+                md:py-8 ${variantStyles[variant]} ${className}`}
             {...props}
         >
             {children}

@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
-import { X } from 'lucide-react';
+
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import { Card } from '@/components/ui/Card';
+import { Modal } from '@/components/ui/Modal';
 
 export interface SecondaryCounterSettingsModalProps {
     isOpen?: boolean;
@@ -80,78 +80,62 @@ export const SecondaryCounterSettingsModal = ({
     };
 
     return (
-        <div
-            className="fixed inset-0 z-50 flex items-center justify-center
-                backdrop-blur-sm animate-puls overflow-scroll overscroll-contain
-                p-4"
-        >
-            <Card variant="elevated" className="w-sm lg:w-lg gap-5">
-                <div className="w-full flex justify-between items-center">
-                    <h3 className="capitalize mb-0!">Counter Settings</h3>
-                    <Button
-                        variant="text"
-                        color="secondary"
-                        onClick={handleClose}
-                        icon={<X />}
+        <Modal title="Counter Settings" onClose={handleClose} isOpen={isOpen}>
+            <form onSubmit={handleSubmit} className="space-y-5">
+                <Input
+                    label="Counter name"
+                    value={formData.counterName}
+                    name="counterName"
+                    onChange={handleChange}
+                    helpText="e.g. Braid Cable, Sleeve Decrease"
+                />
+                <div className="grid grid-cols-2 gap-x-2.5 gap-y-5">
+                    <Input
+                        label="Starts on Global Row"
+                        value={formData.startsOnGlobalRow}
+                        name="startsOnGlobalRow"
+                        onChange={handleChange}
+                        helpText="When this counter begins"
+                    />
+                    <Input
+                        label="Rows per Repeat"
+                        value={formData.rowsPerRepeat}
+                        name="startsOnGlobalRow"
+                        onChange={handleChange}
+                        helpText="Length of one sequence"
+                    />
+                    <Input
+                        label="Total Repeats"
+                        value={formData.totalRepeats}
+                        name="totalRepeats"
+                        onChange={handleChange}
+                        helpText="How many times it repeats"
+                    />
+                    <Input
+                        label="Additional Details"
+                        value={formData.additionalDetails}
+                        name="additionalDetails"
+                        onChange={handleChange}
+                        helpText="e.g. 3.5mm or Color #76"
                     />
                 </div>
-
-                <form onSubmit={handleSubmit} className="space-y-5">
-                    <Input
-                        label="Counter name"
-                        value={formData.counterName}
-                        name="counterName"
-                        onChange={handleChange}
-                        helpText="e.g. Braid Cable, Sleeve Decrease"
-                    />
-                    <div className="grid grid-cols-2 gap-x-2.5 gap-y-5">
-                        <Input
-                            label="Starts on Global Row"
-                            value={formData.startsOnGlobalRow}
-                            name="startsOnGlobalRow"
-                            onChange={handleChange}
-                            helpText="When this counter begins"
-                        />
-                        <Input
-                            label="Rows per Repeat"
-                            value={formData.rowsPerRepeat}
-                            name="startsOnGlobalRow"
-                            onChange={handleChange}
-                            helpText="Length of one sequence"
-                        />
-                        <Input
-                            label="Total Repeats"
-                            value={formData.totalRepeats}
-                            name="totalRepeats"
-                            onChange={handleChange}
-                            helpText="How many times it repeats"
-                        />
-                        <Input
-                            label="Additional Details"
-                            value={formData.additionalDetails}
-                            name="additionalDetails"
-                            onChange={handleChange}
-                            helpText="e.g. 3.5mm or Color #76"
-                        />
-                    </div>
-                    <Button
-                        variant="pill"
-                        color="primary"
-                        type="submit"
-                        className="w-full"
-                    >
-                        Save
-                    </Button>
-                    <Button
-                        variant="text"
-                        color="secondary"
-                        onClick={handleClose}
-                        className="w-full"
-                    >
-                        Cancel
-                    </Button>
-                </form>
-            </Card>
-        </div>
+                <Button
+                    variant="pill"
+                    color="primary"
+                    type="submit"
+                    className="w-full"
+                >
+                    Save
+                </Button>
+                <Button
+                    variant="text"
+                    color="secondary"
+                    onClick={handleClose}
+                    className="w-full"
+                >
+                    Cancel
+                </Button>
+            </form>
+        </Modal>
     );
 };

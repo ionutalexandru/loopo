@@ -20,6 +20,7 @@ import {
     SecondaryCounterFormData,
 } from '@/components/widgets/SecondaryCounterSettingsModal';
 import { ProjectPartsNav } from '@/components/navigation/ProjectPartsNav';
+import { Modal } from '@/components/ui/Modal';
 
 const SECONDARY_COUNTER_MOCK_DATA: Record<string, SecondaryCounterFormData> = {
     braid: {
@@ -50,6 +51,7 @@ const DEMO_PARTS = [
 function StyleGuidePage() {
     const searchParams = useSearchParams();
     const activeCounterKey = searchParams.get('counterSettings');
+    const [activeModal, setActiveModal] = useState<string | null>(null);
 
     const [activePart, setActivePart] = useState('front');
 
@@ -886,6 +888,70 @@ function StyleGuidePage() {
                                     variant="muted"
                                     icon={<Sparkles />}
                                 />
+                            </div>
+                        </div>
+                    </div>
+                </Card>
+                <Card variant="bordered">
+                    <h2>Modal System</h2>
+                    <p>
+                        A versatile, accessible modal overlay component built
+                        with backdrop blur, and body scroll locking.
+                    </p>
+                    <div className="space-y-6">
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    Variant: Standard (md)
+                                </code>
+                                <strong>Visual</strong>: Default medium width
+                                centered dialog with backdrop blur, uppercase
+                                header, subtitle, and background scroll locking.
+                            </div>
+                            <div className="sg-preview">
+                                <Button
+                                    variant="squared"
+                                    onClick={() => setActiveModal('default')}
+                                    size="small"
+                                >
+                                    Open Standard Modal
+                                </Button>
+
+                                <Modal
+                                    isOpen={activeModal === 'default'}
+                                    onClose={() => setActiveModal(null)}
+                                    title="EDIT PATTERN NOTES"
+                                    subtitle="Changes here will be stored locally."
+                                >
+                                    <div className="space-y-4 my-8">
+                                        <Input
+                                            label="Project Title"
+                                            placeholder="e.g., Crochet Summer Cardigan"
+                                        />
+                                        <div
+                                            className="flex justify-end gap-3
+                                                pt-2"
+                                        >
+                                            <Button
+                                                variant="squared"
+                                                onClick={() =>
+                                                    setActiveModal(null)
+                                                }
+                                            >
+                                                Save notes
+                                            </Button>
+                                            <Button
+                                                color="secondary"
+                                                variant="text"
+                                                onClick={() =>
+                                                    setActiveModal(null)
+                                                }
+                                            >
+                                                Cancel
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </Modal>
                             </div>
                         </div>
                     </div>
