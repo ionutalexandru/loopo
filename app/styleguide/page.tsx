@@ -1313,7 +1313,7 @@ function StyleGuidePage() {
                                 </code>
                                 Once completed, the counter gets a gray
                                 background. It happens the same when you set
-                                isInactive={true}.
+                                isInactive.
                             </div>
                             <SecondaryCounter
                                 title="Sleve"
