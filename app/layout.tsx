@@ -3,41 +3,41 @@ import { Outfit, Inter, Comfortaa, Geist_Mono } from 'next/font/google';
 import './globals.css';
 
 const outfit = Outfit({
-  variable: '--font-outfit',
-  subsets: ['latin'],
+    variable: '--font-outfit',
+    subsets: ['latin'],
 });
 
 const inter = Inter({
-  variable: '--font-inter-sans',
-  subsets: ['latin'],
+    variable: '--font-inter',
+    subsets: ['latin'],
 });
 
 const comfortaa = Comfortaa({
-  variable: '--font-comfortaa',
-  subsets: ['latin'],
+    variable: '--font-comfortaa',
+    subsets: ['latin'],
 });
 
 const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+    variable: '--font-geist-mono',
+    subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
-  title: 'Loopo',
-  description: 'Knitting, perfectly organized',
+    title: 'Loopo',
+    description: 'Knitting, perfectly organized',
 };
 
 export default function RootLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-  return (
-    <html
-      lang="en"
-      className={`${outfit.variable} ${inter.variable} ${comfortaa.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="flex min-h-full flex-col">{children}</body>
-    </html>
-  );
+    return (
+        <html
+            lang="en"
+            className={`${outfit.variable} ${inter.variable} ${comfortaa.variable} ${geistMono.variable} h-full antialiased`}
+        >
+            <body className="flex min-h-full flex-col">{children}</body>
+        </html>
+    );
 }
