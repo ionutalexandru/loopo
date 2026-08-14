@@ -12,11 +12,19 @@ export interface ModalProps {
     title?: string;
     subtitle?: string;
     children?: React.ReactNode;
-    width?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
+    maxWidth?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
     closeOnBackdropClick?: boolean;
     showCloseButton?: boolean;
     className?: string;
 }
+
+const MAX_WIDTH_CLASSES = {
+    sm: 'max-w-sm',
+    md: 'max-w-md',
+    lg: 'max-w-lg',
+    xl: 'max-w-3xl',
+    full: 'max-w-full',
+};
 
 export const Modal = ({
     isOpen,
@@ -24,7 +32,7 @@ export const Modal = ({
     title,
     subtitle,
     children,
-    width = 'md',
+    maxWidth = 'md',
     closeOnBackdropClick = true,
     showCloseButton = true,
     className = '',
@@ -66,8 +74,8 @@ export const Modal = ({
         >
             <Card
                 variant="elevated"
-                width={width}
-                className={`gap-5 hover:shadow-md ${className}`}
+                className={`${MAX_WIDTH_CLASSES[maxWidth]} gap-5 hover:shadow-md
+                    ${className}`}
             >
                 {(title || showCloseButton) && (
                     <div className="w-full flex justify-between items-center">

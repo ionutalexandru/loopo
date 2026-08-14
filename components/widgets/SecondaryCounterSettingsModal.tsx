@@ -1,20 +1,23 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Modal } from '@/components/ui/Modal';
+import { useUrlModal } from '@/hooks/useUrlModal';
 
 export interface SecondaryCounterSettingsModalProps {
     isOpen?: boolean;
     onClose?: () => void;
+    paramName?: string;
+    paramValue?: string;
     initialData?: Partial<SecondaryCounterFormData>;
     onSave?: (data: SecondaryCounterFormData) => void;
 }
 
 export interface SecondaryCounterFormData {
+    id: string | undefined;
     counterName: string;
     startsOnGlobalRow: number;
     rowsPerRepeat: number;
@@ -23,6 +26,7 @@ export interface SecondaryCounterFormData {
 }
 
 const DEFAULT_FORM_DATA: SecondaryCounterFormData = {
+    id: 'braid',
     counterName: 'Braid',
     startsOnGlobalRow: 1,
     rowsPerRepeat: 12,
@@ -33,16 +37,18 @@ const DEFAULT_FORM_DATA: SecondaryCounterFormData = {
 export const SecondaryCounterSettingsModal = ({
     isOpen: controlledIsOpen,
     onClose: controlledOnClose,
+    paramName = 'counterSettings',
+    paramValue = 'true',
     initialData,
     onSave,
 }: SecondaryCounterSettingsModalProps) => {
-    const searchParams = useSearchParams();
-    const router = useRouter();
-    const pathname = usePathname();
+    const { isOpen: isUrlModalOpen, close: urlModalClose } = useUrlModal(
+        paramName,
+        paramValue
+    );
 
     const isControlled = controlledIsOpen !== undefined;
-    const urlCounterId = searchParams?.get('counterSettings') ?? undefined;
-    const isOpen = isControlled ? controlledIsOpen : Boolean(urlCounterId);
+    const isOpen = isControlled ? controlledIsOpen : isUrlModalOpen;
 
     const [formData, setFormData] = useState<SecondaryCounterFormData>({
         ...DEFAULT_FORM_DATA,
@@ -53,24 +59,15 @@ export const SecondaryCounterSettingsModal = ({
 
     const handleClose = () => {
         if (isControlled) {
-            if (controlledOnClose) controlledOnClose();
+            controlledOnClose?.();
         } else {
-            const params = new URLSearchParams(searchParams?.toString());
-
-            params.delete('counterSettings');
-
-            const newQuery = params.toString();
-            const newUrl = newQuery ? `${pathname}?${newQuery}` : pathname;
-
-            router.replace(newUrl, { scroll: false });
+            urlModalClose();
         }
     };
 
     const handleSubmit = (e: React.SubmitEvent) => {
         e.preventDefault();
-        if (onSave) {
-            onSave(formData);
-        }
+        onSave?.(formData);
         handleClose();
     };
 

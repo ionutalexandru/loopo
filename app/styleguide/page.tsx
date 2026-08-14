@@ -21,9 +21,12 @@ import {
 } from '@/components/widgets/SecondaryCounterSettingsModal';
 import { ProjectPartsNav } from '@/components/navigation/ProjectPartsNav';
 import { Modal } from '@/components/ui/Modal';
+import { UrlModal } from '@/components/ui/UrlModal';
+import { useUrlModal } from '@/hooks/useUrlModal';
 
 const SECONDARY_COUNTER_MOCK_DATA: Record<string, SecondaryCounterFormData> = {
     braid: {
+        id: 'braid',
         counterName: 'Braid',
         startsOnGlobalRow: 30,
         rowsPerRepeat: 12,
@@ -31,6 +34,7 @@ const SECONDARY_COUNTER_MOCK_DATA: Record<string, SecondaryCounterFormData> = {
         additionalDetails: '3.5mm',
     },
     sleve: {
+        id: 'sleve',
         counterName: 'Sleve',
         startsOnGlobalRow: 80,
         rowsPerRepeat: 40,
@@ -52,12 +56,11 @@ function StyleGuidePage() {
     const searchParams = useSearchParams();
     const activeCounterKey = searchParams.get('counterSettings');
     const [activeModal, setActiveModal] = useState<string | null>(null);
-
     const [activePart, setActivePart] = useState('front');
-
     const secondaryCounterInitialData = activeCounterKey
         ? SECONDARY_COUNTER_MOCK_DATA[activeCounterKey]
         : undefined;
+    const { open: openDemoUrlModal } = useUrlModal('modal', 'demo');
 
     return (
         <main className="mx-auto min-h-screen max-w-6xl p-8">
@@ -902,7 +905,7 @@ function StyleGuidePage() {
                         <div className="sg-row">
                             <div className="sg-meta">
                                 <code className="coral">
-                                    Variant: Standard (md)
+                                    Variant: Standard (Max Width MD)
                                 </code>
                                 <strong>Visual</strong>: Default medium width
                                 centered dialog with backdrop blur, uppercase
@@ -952,6 +955,118 @@ function StyleGuidePage() {
                                         </div>
                                     </div>
                                 </Modal>
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    Variant: Non-standard (Max Width XL)
+                                </code>
+                                You can change the maximum width of the modal by
+                                using one of the next options: &#39;sm&#39;,
+                                &#39;md&#39; (default), &#39;lg&#39;,
+                                &#39;xl&#39;, and &#39;full&#39;.
+                            </div>
+                            <div className="sg-preview">
+                                <Button
+                                    variant="squared"
+                                    onClick={() => setActiveModal('modal-xl')}
+                                    size="small"
+                                >
+                                    Open XL Modal
+                                </Button>
+
+                                <Modal
+                                    isOpen={activeModal === 'modal-xl'}
+                                    onClose={() => setActiveModal(null)}
+                                    title="EDIT PATTERN NOTES"
+                                    subtitle="Changes here will be stored locally."
+                                    maxWidth="xl"
+                                >
+                                    <div className="space-y-4 my-8">
+                                        <Input
+                                            label="Project Title"
+                                            placeholder="e.g., Crochet Summer Cardigan"
+                                        />
+                                        <div
+                                            className="flex justify-end gap-3
+                                                pt-2"
+                                        >
+                                            <Button
+                                                variant="squared"
+                                                onClick={() =>
+                                                    setActiveModal(null)
+                                                }
+                                            >
+                                                Save notes
+                                            </Button>
+                                            <Button
+                                                color="secondary"
+                                                variant="text"
+                                                onClick={() =>
+                                                    setActiveModal(null)
+                                                }
+                                            >
+                                                Cancel
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </Modal>
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    Variant: URL Modal
+                                </code>
+                                You can open based on the URL. For example, this
+                                modal reacts when url is &#39;?modal=demo&#39;.
+                            </div>
+                            <div className="sg-preview">
+                                <Button
+                                    variant="squared"
+                                    onClick={openDemoUrlModal}
+                                    size="small"
+                                >
+                                    Open URL Modal
+                                </Button>
+
+                                <UrlModal
+                                    paramName="modal"
+                                    paramValue="demo"
+                                    title="EDIT PATTERN NOTES"
+                                    subtitle="Changes here will be stored locally."
+                                    maxWidth="full"
+                                >
+                                    <div className="space-y-4 my-8">
+                                        <Input
+                                            label="Project Title"
+                                            placeholder="e.g., Crochet Summer Cardigan"
+                                        />
+                                        <div
+                                            className="flex justify-end gap-3
+                                                pt-2"
+                                        >
+                                            <Button
+                                                variant="squared"
+                                                onClick={() =>
+                                                    setActiveModal(null)
+                                                }
+                                            >
+                                                Save notes
+                                            </Button>
+                                            <Button
+                                                color="secondary"
+                                                variant="text"
+                                                onClick={() =>
+                                                    setActiveModal(null)
+                                                }
+                                            >
+                                                Cancel
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </UrlModal>
                             </div>
                         </div>
                     </div>
@@ -1216,6 +1331,12 @@ function StyleGuidePage() {
                         onSave={(data) => {
                             console.log(`Saving data secondary counter:`, data);
                         }}
+                        {...(secondaryCounterInitialData
+                            ? {
+                                  paramName: 'counterSettings',
+                                  paramValue: secondaryCounterInitialData.id,
+                              }
+                            : null)}
                     />
                 </Card>
             </div>
