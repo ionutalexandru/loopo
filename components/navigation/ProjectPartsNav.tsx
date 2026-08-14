@@ -47,11 +47,11 @@ export const ProjectPartsNav = ({
         <div className={`relative ${className}`}>
             <div
                 className="absolute left-0 top-0 bottom-0 w-16 bg-linear-to-r
-                    from-bone-white to-transparent pointer-events-none z-10"
+                    from-pure-wool to-transparent pointer-events-none z-10"
             />
             <div
                 className="absolute right-0 top-0 bottom-0 w-16 bg-linear-to-l
-                    from-bone-white to-transparent pointer-events-none z-10"
+                    from-pure-wool to-transparent pointer-events-none z-10"
             />
             <div
                 ref={containerRef}
