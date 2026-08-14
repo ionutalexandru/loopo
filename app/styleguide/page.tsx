@@ -1087,7 +1087,7 @@ function StyleGuidePage() {
                                 fade gradients indicating overflow content
                             </div>
                             <div className="sg-preview">
-                                <div className="w-md">
+                                <div className="w-full max-w-md">
                                     <ProjectPartsNav
                                         parts={DEMO_PARTS}
                                         activePartId={activePart}
