@@ -334,7 +334,7 @@ function StyleGuidePage() {
                         <div className="sg-row">
                             <div className="sg-meta">
                                 <code className="coral">
-                                    variant&#34;=bordered&#34;
+                                    variant=&#34;bordered&#34;
                                 </code>
                                 <strong>Usage</strong>: The standard workspace
                                 container. Uses a crisp, thin outline with an
@@ -355,7 +355,7 @@ function StyleGuidePage() {
                         <div className="sg-row">
                             <div className="sg-meta">
                                 <code className="coral">
-                                    variant&#34;=flat&#34;
+                                    variant=&#34;flat&#34;
                                 </code>
                                 <strong>Usage</strong>: Secondary or tertiary
                                 tracking elements. Removes the border. Perfect
@@ -376,7 +376,7 @@ function StyleGuidePage() {
                         <div className="sg-row">
                             <div className="sg-meta">
                                 <code className="coral">
-                                    variant&#34;=elevated&#34;
+                                    variant=&#34;elevated&#34;
                                 </code>
                                 <strong>Usage</strong>: Overlays, floating
                                 action panels, or high-priority focal cards.
@@ -846,7 +846,7 @@ function StyleGuidePage() {
                         <div className="sg-row">
                             <div className="sg-meta">
                                 <code className="coral">
-                                    variant&#34;=neutral&#34;
+                                    variant=&#34;neutral&#34;
                                 </code>
                                 <strong>Usage</strong>: Standard structural
                                 data. Ideal for technical attributes that carry
@@ -860,7 +860,7 @@ function StyleGuidePage() {
                         <div className="sg-row">
                             <div className="sg-meta">
                                 <code className="coral">
-                                    variant&#34;=highlight&#34;
+                                    variant=&#34;highlight&#34;
                                 </code>
                                 <strong>Usage</strong>: High attention hooks.
                                 Reserved for active states, crucial system
@@ -878,7 +878,7 @@ function StyleGuidePage() {
                         <div className="sg-row">
                             <div className="sg-meta">
                                 <code className="coral">
-                                    variant&#34;=muted&#34;
+                                    variant=&#34;muted&#34;
                                 </code>
                                 <strong>Usage</strong>: De-prioritized states.
                                 Perfect for completed tasks, historical data, or
