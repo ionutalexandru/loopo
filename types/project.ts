@@ -1,5 +1,14 @@
 // TBD Alert
 
+export interface User {
+    id: string;
+    email: string;
+    name: string;
+    avatarUrl?: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
 export interface SecondaryCounter {
     id: string;
     partId: string;
@@ -16,11 +25,12 @@ export interface SecondaryCounter {
 export interface ProjectPart {
     id: string;
     projectId: string;
+    slug: string;
     name: string;
     createdAt: string;
     updatedAt: string;
     currentRow: number;
-    totalRows?: number;
+    totalRows: number;
     needleSize?: string;
     yarnDetails?: string;
     notes?: string;
@@ -30,8 +40,10 @@ export interface ProjectPart {
 export interface Project {
     id: string;
     name: string;
+    slug: string;
     createdAt: string;
     updatedAt: string;
+    userId: string;
     craftType: 'knit' | 'crochet';
     currentPartId: string; // active part id
     parts: ProjectPart[];
