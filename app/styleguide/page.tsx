@@ -492,7 +492,8 @@ function StyleGuidePage() {
                     <h2>Button System Architecture</h2>
                     <p>
                         The matrix combining structural variants, semantic
-                        hierarchies, and contextual micro-states.
+                        hierarchies, and contextual micro-states. You can also
+                        use it an anchor element by adding a href value.
                     </p>
                     <hr />
                     <div className="space-y-6">
