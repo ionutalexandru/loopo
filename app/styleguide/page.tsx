@@ -23,6 +23,7 @@ import { ProjectPartsNav } from '@/components/navigation/ProjectPartsNav';
 import { Modal } from '@/components/ui/Modal';
 import { UrlModal } from '@/components/ui/UrlModal';
 import { useUrlModal } from '@/hooks/useUrlModal';
+import { FormAlert } from '@/components/ui/FormAlert';
 
 const SECONDARY_COUNTER_MOCK_DATA: Record<string, SecondaryCounterFormData> = {
     braid: {
@@ -421,6 +422,67 @@ function StyleGuidePage() {
                                     onDismiss={() =>
                                         console.log('Alert dismissed')
                                     }
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </Card>
+                <Card variant="bordered">
+                    <h2>Form Alerts</h2>
+                    <p>
+                        Inline contextual banners used inside forms and modals
+                        to communicate validation errors, range overlaps, and
+                        system advisories.
+                    </p>
+                    <div className="space-y-6">
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    variant=&#34;error&#34;
+                                </code>
+                                <strong>Usage</strong>: Critical blocking
+                                states. Used for counter range overlaps, failed
+                                mutations, or invalid row inputs that prevent
+                                saving.
+                            </div>
+                            <div className="sg-preview">
+                                <FormAlert
+                                    isVisible={true}
+                                    message="The row range overlaps with an existing motif on this part."
+                                />
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    variant=&#34;warning&#34;
+                                </code>
+                                <strong>Usage</strong>: Non-blocking cautions.
+                                Ideal for approaching target row boundaries,
+                                unsaved changes, or pattern gauge discrepancies.
+                            </div>
+                            <div className="sg-preview">
+                                <FormAlert
+                                    variant="warning"
+                                    isVisible={true}
+                                    message="Current row count has exceeded the target rows for this part."
+                                />
+                            </div>
+                        </div>
+                        <div className="sg-row">
+                            <div className="sg-meta">
+                                <code className="coral">
+                                    variant=&#34;info&#34;
+                                </code>
+                                <strong>Usage</strong>: Contextual guidance.
+                                Highlights pattern milestones, repeat behavior
+                                explanations, or offline sync status.
+                            </div>
+                            <div className="sg-preview">
+                                <FormAlert
+                                    variant="info"
+                                    isVisible={true}
+                                    message="Secondary motifs automatically advance as you log rows in the main counter."
                                 />
                             </div>
                         </div>
@@ -1313,7 +1375,7 @@ function StyleGuidePage() {
                                 </code>
                                 Once completed, the counter gets a gray
                                 background. It happens the same when you set
-                                isInactive={true}.
+                                isInactive.
                             </div>
                             <SecondaryCounter
                                 title="Sleve"

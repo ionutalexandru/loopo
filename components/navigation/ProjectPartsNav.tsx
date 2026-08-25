@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -24,22 +24,32 @@ export const ProjectPartsNav = ({
     className = '',
 }: NavProps) => {
     const containerRef = useRef<HTMLDivElement>(null);
+    const isFirstRender = useRef(true);
     const pathname = usePathname();
     const activePartId =
         controlledActivePartId ??
         parts.find((p) => p.href && pathname === p.href)?.id;
 
     useEffect(() => {
-        if (!containerRef.current) return;
-        const activeElement = containerRef.current.querySelector(
+        const container = containerRef.current;
+        if (!container) return;
+
+        const activeElement = container.querySelector<HTMLElement>(
             '[data-active="true"]'
         );
         if (activeElement) {
-            activeElement.scrollIntoView({
-                behavior: 'smooth',
-                block: 'nearest',
-                inline: 'center',
+            const containerWidth = container.clientWidth;
+            const elementOffsetLeft = activeElement.offsetLeft;
+            const elementWidth = activeElement.clientWidth;
+
+            const targetScrollLeft =
+                elementOffsetLeft - containerWidth / 2 + elementWidth / 2;
+
+            container.scrollTo({
+                left: targetScrollLeft,
+                behavior: isFirstRender.current ? 'instant' : 'smooth',
             });
+            isFirstRender.current = false;
         }
     }, [activePartId]);
 
