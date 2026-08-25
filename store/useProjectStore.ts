@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { Project, ProjectPart, SecondaryCounter } from '@/types/project';
 import { hasCounterOverlap } from '@/utils/counter';
+import { MOCK_PROJECTS } from '@/data/mockProjects';
 
 export interface CounterMutationResult {
     success: boolean;
@@ -16,9 +17,9 @@ interface ProjectState {
     // Create a new project and returns its generated UUID
     addProject: (
         project: Omit<Project, 'id' | 'createdAt' | 'updatedAt'>
-    ) => void;
+    ) => string;
     // Update top-level project metadata
-    updateProject: (projectId: string, data: Partial<ProjectPart>) => void;
+    updateProject: (projectId: string, data: Partial<ProjectPart>) => string;
     // Deletes an entire project and its cascading entities
     deleteProject: (projectId: string) => void;
 
@@ -30,7 +31,7 @@ interface ProjectState {
             ProjectPart,
             'id' | 'projectId' | 'createdAt' | 'updatedAt' | 'secondaryCounters'
         >
-    ) => void;
+    ) => string;
     // Updates details of a specific part
     updatePart: (
         projectId: string,
@@ -82,6 +83,7 @@ interface ProjectState {
         partId: string,
         counterId: string
     ) => void;
+    resetToMockData: () => void;
 }
 
 export const useProjectStore = create<ProjectState>()(
@@ -106,6 +108,8 @@ export const useProjectStore = create<ProjectState>()(
                 set((state) => ({
                     projects: [...state.projects, project],
                 }));
+
+                return id;
             },
 
             updateProject: (projectId, data) => {
@@ -120,6 +124,8 @@ export const useProjectStore = create<ProjectState>()(
                             : p
                     ),
                 }));
+
+                return projectId;
             },
 
             deleteProject: (projectId) => {
@@ -129,12 +135,13 @@ export const useProjectStore = create<ProjectState>()(
             },
 
             // -- PART ACTIONS --
-            addPart: (projectId, data) =>
+            addPart: (projectId, data) => {
+                const partId = crypto.randomUUID();
                 set((state) => {
                     const now = new Date().toISOString();
                     const newPart: ProjectPart = {
                         ...data,
-                        id: crypto.randomUUID(),
+                        id: partId,
                         projectId,
                         secondaryCounters: [],
                         createdAt: now,
@@ -151,7 +158,9 @@ export const useProjectStore = create<ProjectState>()(
                             };
                         }),
                     };
-                }),
+                });
+                return partId;
+            },
 
             updatePart: (projectId, partId, data) =>
                 set((state) => {
@@ -370,7 +379,7 @@ export const useProjectStore = create<ProjectState>()(
 
                 return { success: true };
             },
-            deleteSecondaryCounter: (projectId, partId, counterId) =>
+            deleteSecondaryCounter: (projectId, partId, counterId) => {
                 set((state) => {
                     const now = new Date().toISOString();
                     return {
@@ -394,7 +403,11 @@ export const useProjectStore = create<ProjectState>()(
                             };
                         }),
                     };
-                }),
+                });
+            },
+            resetToMockData: () => {
+                set({ projects: MOCK_PROJECTS });
+            },
         }),
         {
             name: 'loopo-projects-storage',

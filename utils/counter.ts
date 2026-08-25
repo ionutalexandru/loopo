@@ -15,6 +15,10 @@ export interface SecondaryCounterProgress {
     rowInCurrentRepeat: number;
     // total number of rows required to finish all repeats
     totalRows: number;
+    // rows completed row
+    rowsCompleted: number;
+    // current progress in %
+    progressPercentage: number;
 }
 
 /**
@@ -97,7 +101,7 @@ export function getSecondaryCounterProgress(
     counter: SecondaryCounter,
     currentRow: number
 ): SecondaryCounterProgress {
-    const { startRow, totalRows } = getCounterRowRange(counter);
+    const { startRow, endRow, totalRows } = getCounterRowRange(counter);
 
     // 1. State: the counter has not started yet
     if (currentRow < startRow) {
@@ -106,31 +110,39 @@ export function getSecondaryCounterProgress(
             isCompleted: false,
             currentRepeat: 0,
             rowInCurrentRepeat: 0,
+            progressPercentage: 0,
+            rowsCompleted: 0,
             totalRows,
         };
     }
 
-    const rowsElapsed = currentRow - startRow;
-
     // 2. State: the counter sequence has been completed
-    if (rowsElapsed >= totalRows) {
+    if (currentRow > endRow) {
         return {
             hasStarted: true,
             isCompleted: true,
             currentRepeat: counter.totalRepeats,
             rowInCurrentRepeat: counter.rowsPerRepeat,
+            progressPercentage: 100,
+            rowsCompleted: totalRows,
             totalRows,
         };
     }
 
     // 3. State: the counter is in progress
-    const currentRepeat = Math.floor(rowsElapsed / counter.rowsPerRepeat) + 1;
-    const rowInCurrentRepeat = (rowsElapsed % counter.rowsPerRepeat) + 1;
+    const rowsCompleted = currentRow - startRow + 1;
+    const currentRepeat =
+        Math.floor((rowsCompleted - 1) / counter.rowsPerRepeat) + 1;
+    const rowInCurrentRepeat =
+        ((rowsCompleted - 1) % counter.rowsPerRepeat) + 1;
+    const progressPercentage = Math.round((rowsCompleted / totalRows) * 100);
 
     return {
         hasStarted: true,
         isCompleted: false,
+        progressPercentage,
         currentRepeat,
+        rowsCompleted,
         rowInCurrentRepeat,
         totalRows,
     };
