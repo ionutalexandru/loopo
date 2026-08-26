@@ -1247,7 +1247,7 @@ function StyleGuidePage() {
                             >
                                 <ProjectCard
                                     title="Pullover Iceland"
-                                    currentRows={240}
+                                    currentRow={240}
                                     totalRows={320}
                                     activePart="Front"
                                     lastUpdated="2h ago"
@@ -1270,7 +1270,7 @@ function StyleGuidePage() {
                             >
                                 <ProjectCard
                                     title="Pullover Iceland"
-                                    currentRows={240}
+                                    currentRow={240}
                                     totalRows={320}
                                     lastUpdated="2h ago"
                                     url="/"

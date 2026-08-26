@@ -1,3 +1,6 @@
+export type CraftType = 'knit' | 'crochet';
+export type ProjectStatus = 'active' | 'paused' | 'completed' | 'archived';
+
 export interface SecondaryCounter {
     id: string;
     partId: string;
@@ -33,10 +36,9 @@ export interface Project {
     createdAt: string;
     updatedAt: string;
     userId: string;
-    craftType: 'knit' | 'crochet';
-    currentPartId?: string; // active part id
+    craftType: CraftType;
     parts: ProjectPart[];
-    status?: 'in_progress' | 'completed' | 'hibernating';
+    status: ProjectStatus;
     patternName?: string;
     notes?: string;
 }

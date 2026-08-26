@@ -5,8 +5,8 @@ import { ProgressBar } from '@/components/ui/ProgressBar';
 
 interface ProjectCardProps {
     title: string;
-    currentRows: number;
-    totalRows: number;
+    currentRow: number;
+    totalRows?: number;
     activePart?: string;
     lastUpdated?: string;
     className?: string;
@@ -15,22 +15,22 @@ interface ProjectCardProps {
 
 export const ProjectCard = ({
     title,
-    currentRows,
-    totalRows,
+    currentRow,
+    totalRows = undefined,
     activePart = '',
     lastUpdated = '',
     url = '',
     className = '',
 }: ProjectCardProps) => {
-    const percentage = Math.min(
-        Math.max((currentRows / totalRows) * 100, 0),
-        100
-    );
+    const percentage = totalRows
+        ? Math.round(Math.min(Math.max((currentRow / totalRows) * 100, 0), 100))
+        : 0;
 
     const cardContent = (
         <Card
             variant="elevated"
-            className={`group cursor-pointer transition-all duration-200 select-none ${className} `}
+            className={`group cursor-pointer transition-all duration-200
+                select-none ${className} `}
         >
             <div className="flex flex-col gap-3">
                 <div className="flex items-center justify-between gap-2">
@@ -43,22 +43,29 @@ export const ProjectCard = ({
                 </div>
                 <ProgressBar
                     shape="linear"
-                    value={currentRows}
+                    value={currentRow}
                     max={totalRows}
                     hideStats={true}
                 />
-                <div className="text-misty-gray flex items-center justify-between text-xs select-none">
+                <div
+                    className="text-misty-gray flex items-center justify-between
+                        text-xs select-none"
+                >
                     <div className="flex items-center gap-1.5">
                         {activePart && (
                             <>
-                                <span className="group-hover:text-vibrant-coral font-semibold transition-colors duration-150">
+                                <span
+                                    className="group-hover:text-vibrant-coral
+                                        font-semibold transition-colors
+                                        duration-150"
+                                >
                                     {activePart}
                                 </span>
                                 <span className="font-semibold">•</span>
                             </>
                         )}
                         <span>
-                            {currentRows}/{totalRows}
+                            {currentRow}/{totalRows ? totalRows : 0}
                         </span>
                     </div>
                     {lastUpdated && <span>{lastUpdated}</span>}
