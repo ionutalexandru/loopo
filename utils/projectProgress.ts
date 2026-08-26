@@ -8,6 +8,7 @@ export interface ProjectProgressSummary {
     isCompleted: boolean;
     url: string;
     lastUpdated?: string;
+    hasParts: boolean;
 }
 
 /**
@@ -20,13 +21,13 @@ export interface ProjectProgressSummary {
 export function getProjectProgressSummary(
     project: Project
 ): ProjectProgressSummary {
-    if (!project.parts) {
+    if (!project.parts || project.parts.length === 0) {
         return {
             currentRow: 0,
             totalRows: undefined,
             isCompleted: false,
             url: `/projects/${project.slug}/parts/new`,
-            lastUpdated: '',
+            hasParts: false,
         };
     }
 
@@ -45,5 +46,6 @@ export function getProjectProgressSummary(
         isCompleted: totalRows ? currentRow >= totalRows : false,
         url: `/projects/${project.slug}/parts/${slug}`,
         lastUpdated: formatRelativeTime(updatedAt),
+        hasParts: true,
     };
 }
