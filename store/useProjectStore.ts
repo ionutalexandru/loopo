@@ -1,6 +1,11 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { Project, ProjectPart, SecondaryCounter } from '@/types/project';
+import {
+    Project,
+    ProjectPart,
+    ProjectStatus,
+    SecondaryCounter,
+} from '@/types/project';
 import { hasCounterOverlap } from '@/utils/counter';
 import { MOCK_PROJECTS } from '@/data/mockProjects';
 
@@ -16,12 +21,15 @@ interface ProjectState {
     // -- PROJECT CRUD ACTIONS --
     // Create a new project and returns its generated UUID
     addProject: (
-        project: Omit<Project, 'id' | 'createdAt' | 'updatedAt'>
+        project: Omit<Project, 'id' | 'status' | 'createdAt' | 'updatedAt'> & {
+            status?: ProjectStatus;
+        }
     ) => string;
     // Update top-level project metadata
     updateProject: (projectId: string, data: Partial<ProjectPart>) => string;
     // Deletes an entire project and its cascading entities
     deleteProject: (projectId: string) => void;
+    setProjectStatus: (projectId: string, status: ProjectStatus) => void;
 
     // -- PROJECT PART CRUD ACTIONS --
     // Add a new part to a project
@@ -89,7 +97,7 @@ interface ProjectState {
 export const useProjectStore = create<ProjectState>()(
     persist(
         (set, get) => ({
-            projects: [],
+            projects: MOCK_PROJECTS,
             // --  PROJECT ACTIONS --
             addProject: (projectData) => {
                 const id = crypto.randomUUID();
@@ -103,6 +111,7 @@ export const useProjectStore = create<ProjectState>()(
                     id,
                     createdAt: now,
                     updatedAt: now,
+                    status: data.status ?? 'active',
                 };
 
                 set((state) => ({
@@ -131,6 +140,20 @@ export const useProjectStore = create<ProjectState>()(
             deleteProject: (projectId) => {
                 set((state) => ({
                     projects: state.projects.filter((p) => p.id !== projectId),
+                }));
+            },
+
+            setProjectStatus: (projectId, status) => {
+                set((state) => ({
+                    projects: state.projects.map((p) =>
+                        p.id === projectId
+                            ? {
+                                  ...p,
+                                  status,
+                                  updatedAt: new Date().toISOString(),
+                              }
+                            : p
+                    ),
                 }));
             },
 

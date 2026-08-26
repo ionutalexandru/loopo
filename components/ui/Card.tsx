@@ -22,12 +22,12 @@ export const Card = ({
     };
 
     return (
-        <div
+        <section
             className={`w-${width} rounded-2xl px-4 py-5 transition-all md:px-6
                 md:py-8 ${variantStyles[variant]} ${className}`}
             {...props}
         >
             {children}
-        </div>
+        </section>
     );
 };

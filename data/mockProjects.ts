@@ -11,6 +11,7 @@ export const MOCK_PROJECTS: Project[] = [
         notes: 'Gauge: 21 sts x 28 rows on 4.0 mm needles in stockinette stitch.',
         createdAt: '2026-02-01T10:00:00.000Z',
         updatedAt: '2026-02-15T18:30:00.000Z',
+        status: 'active',
         parts: [
             {
                 id: 'part-main-body-01',
@@ -54,13 +55,13 @@ export const MOCK_PROJECTS: Project[] = [
                 projectId: 'proj-sweater-001',
                 name: 'Left Sleeve',
                 slug: 'left-sleeve',
-                currentRow: 0,
+                currentRow: 50,
                 totalRows: 96,
                 needleSize: '3.5 mm',
                 yarnDetails: 'Merino DK - Terracotta Heather',
                 notes: 'Magic loop technique. Decrease 2 sts every 8 rounds.',
                 createdAt: '2026-02-02T11:00:00.000Z',
-                updatedAt: '2026-02-02T11:00:00.000Z',
+                updatedAt: '2026-02-18T11:00:00.000Z',
                 secondaryCounters: [],
             },
         ],
@@ -75,6 +76,7 @@ export const MOCK_PROJECTS: Project[] = [
         notes: 'Open-ended length. Crochet until all 3 skeins are fully exhausted.',
         createdAt: '2026-02-10T09:00:00.000Z',
         updatedAt: '2026-02-18T14:20:00.000Z',
+        status: 'paused',
         parts: [
             {
                 id: 'part-scarf-body',
@@ -85,8 +87,8 @@ export const MOCK_PROJECTS: Project[] = [
                 totalRows: undefined,
                 needleSize: '5.0 mm Hook (H-8)',
                 yarnDetails: 'Alpaca & Silk Soft Blend (Oatmeal / Sage)',
-                createdAt: '2026-02-10T09:00:00.000Z',
-                updatedAt: '2026-02-18T14:20:00.000Z',
+                createdAt: '2026-08-10T09:00:00.000Z',
+                updatedAt: '2026-08-18T14:20:00.000Z',
                 secondaryCounters: [
                     {
                         id: 'counter-ripple-01',

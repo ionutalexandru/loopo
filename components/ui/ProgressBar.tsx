@@ -1,11 +1,11 @@
-import React, { useId } from 'react';
+import { useId } from 'react';
 
 export type ProgressBarShape = 'linear' | 'circular';
 
 interface ProgressBarProps {
     shape?: ProgressBarShape;
     value: number;
-    max: number;
+    max?: number;
     disabled?: boolean;
     className?: string;
     radius?: number;
@@ -15,13 +15,15 @@ interface ProgressBarProps {
 export const ProgressBar = ({
     shape = 'linear',
     value,
-    max,
+    max = undefined,
     disabled = false,
     className = '',
     hideStats = false,
 }: ProgressBarProps) => {
     const generatedId = useId();
-    const percentage = Math.min(Math.max((value / max) * 100, 0), 100);
+    const percentage = max
+        ? Math.round(Math.min(Math.max((value / max) * 100, 0), 100))
+        : 0;
 
     if (shape === 'circular') {
         const trackStyles = disabled
@@ -76,7 +78,7 @@ export const ProgressBar = ({
                             {value}
                         </span>
                         <span className="text-misty-gray text-xs font-medium">
-                            {max}
+                            {max ? max : 0}
                         </span>
                     </div>
                 )}
@@ -102,7 +104,7 @@ export const ProgressBar = ({
                     className={`${disabled ? 'text-misty-gray' : 'text-charcoal'}
                     font-inter text-xs font-semibold`}
                 >
-                    {value}/{max}
+                    {value}/{max ? max : 0}
                 </span>
             )}
             <div
