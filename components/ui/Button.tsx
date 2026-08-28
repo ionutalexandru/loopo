@@ -63,7 +63,7 @@ export const Button = React.forwardRef<
                 const colors: Record<ButtonColor, string> = {
                     primary:
                         'text-vibrant-coral stroke-vibrant-coral hover:text-deep-coral hover:stroke-deep-coral',
-                    secondary: 'text-misty-gray hover:text-charcoal',
+                    secondary: 'text-charcoal',
                     danger: 'text-crimson stroke-crimson hover:text-deep-crimson hover:stroke-deep-crimson',
                 };
                 return colors[c];
