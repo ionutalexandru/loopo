@@ -119,6 +119,6 @@ blockquote {
 }
 
 main.page {
-    @apply w-md md:w-2xl lg:w-4xl mx-auto px-4 py-5 flex flex-col gap-6
+    @apply w-full w-max-md md:w-max-2xl lg:w-max-4xl mx-auto px-4 py-5 flex flex-col gap-6
         min-h-screen antialiased;
 }
