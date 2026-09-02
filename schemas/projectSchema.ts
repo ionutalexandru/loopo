@@ -17,12 +17,10 @@ export const createProjectSchema: z.ZodType<CreateProjectDTO> = z.object({
         .string()
         .trim()
         .max(120, 'Input must be 120 characters or less')
-        .optional()
-        .transform((val) => (val && val.length > 0 ? val : undefined)),
+        .optional(),
     notes: z
         .string()
         .trim()
         .max(500, 'Input must be 500 characters or less')
-        .optional()
-        .transform((val) => (val && val.length > 0 ? val : undefined)),
+        .optional(),
 });

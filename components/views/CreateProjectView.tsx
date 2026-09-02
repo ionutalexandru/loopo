@@ -1,74 +1,40 @@
 'use client';
 
 import { ArrowLeft } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
-import { Project } from '@/types/project';
+import { createProjectSchema } from '@/schemas/projectSchema';
+import { useProjectStore } from '@/store/useProjectStore';
+import { slugify } from '@/utils/slugify';
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
 import { Input } from '../ui/Input';
 import { Select } from '../ui/Select';
-import React, { useState } from 'react';
-import { createProjectSchema } from '@/schemas/projectSchema';
-import { useRouter } from 'next/navigation';
-import { useProjectStore } from '@/store/useProjectStore';
 import { FormAlert } from '../ui/FormAlert';
-import { slugify } from '@/utils/slugify';
-
-type ProjectFormState = Pick<
-    Project,
-    'name' | 'patternName' | 'craftType' | 'notes'
->;
-
-type FieldErrors = Partial<Record<keyof ProjectFormState | 'general', string>>;
+import { useZodForm } from '@/hooks/useZodForm';
 
 export default function CreateProjectView() {
     const router = useRouter();
     const addProject = useProjectStore((state) => state.addProject);
     const existingProjects = useProjectStore((state) => state.projects);
 
-    const [formData, setFormData] = useState<ProjectFormState>({
-        name: '',
-        patternName: '',
-        craftType: 'knit',
-        notes: '',
-    });
-    const [errors, setErrors] = useState<FieldErrors>({});
-    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-
-    const handleFormChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-    ) => {
-        const {
-            target: { name, value },
-        } = e;
-        const field = name as keyof ProjectFormState;
-        setFormData((prev) => ({ ...prev, [field]: value }));
-        if (errors[field]) {
-            setErrors((prev) => ({ ...prev, [field]: undefined }));
-        }
-    };
-
-    const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        const result = createProjectSchema.safeParse(formData);
-
-        if (!result.success) {
-            const formattedError: FieldErrors = {};
-            result.error.issues.forEach((iss) => {
-                const fieldName = iss.path[0] as keyof ProjectFormState;
-                if (fieldName && !formattedError[fieldName]) {
-                    formattedError[fieldName] = iss.message;
-                }
-            });
-            setErrors(formattedError);
-            return;
-        }
-
-        setIsSubmitting(true);
-
-        try {
-            const validData = result.data;
+    const {
+        formData,
+        errors,
+        isSubmitting,
+        handleFieldChange,
+        handleBlur,
+        isFieldValid,
+        handleSubmit,
+    } = useZodForm({
+        schema: createProjectSchema,
+        initialValues: {
+            name: '',
+            patternName: '',
+            craftType: 'knit',
+            notes: '',
+        },
+        onSubmit: (validData) => {
             const baseSlug = slugify(validData.name);
 
             const duplicates = existingProjects.filter((p) =>
@@ -88,14 +54,8 @@ export default function CreateProjectView() {
             });
 
             router.push(`/projects/${projectSlug}/parts/new`);
-        } catch {
-            setErrors({
-                general:
-                    'Failed to create the project. Please check your data and try again.',
-            });
-            setIsSubmitting(false);
-        }
-    };
+        },
+    });
 
     return (
         <main className="page">
@@ -113,9 +73,9 @@ export default function CreateProjectView() {
                 />
                 <h1 className="text-2xl!">Create a project</h1>
             </header>
-            <Card variant="bordered">
+            <Card variant="elevated">
                 <form
-                    onSubmit={handleSubmit}
+                    action={handleSubmit}
                     noValidate
                     className="flex flex-col gap-5"
                 >
@@ -125,23 +85,30 @@ export default function CreateProjectView() {
                     <Input
                         label="Project Name"
                         value={formData.name}
-                        onChange={handleFormChange}
+                        onChange={handleFieldChange}
                         error={errors.name}
                         name="name"
+                        placeholder="Winter Wool Sweater"
+                        onBlur={handleBlur}
+                        success={isFieldValid('name')}
                     />
                     <Input
                         label="Pattern Name"
                         value={formData.patternName}
-                        onChange={handleFormChange}
+                        onChange={handleFieldChange}
                         error={errors.patternName}
                         name="patternName"
+                        placeholder="Nordic Winter Pullover by DROPS Design"
+                        onBlur={handleBlur}
+                        success={isFieldValid('patternName')}
                     />
                     <Select
                         label="Craft type"
                         defaultValue={formData.craftType}
-                        onChange={handleFormChange}
+                        onChange={handleFieldChange}
                         error={errors.craftType}
                         name="craftType"
+                        onBlur={handleBlur}
                     >
                         <option value="" disabled>
                             Select an option
@@ -152,9 +119,11 @@ export default function CreateProjectView() {
                     <Input
                         label="Notes"
                         value={formData.notes}
-                        onChange={handleFormChange}
+                        onChange={handleFieldChange}
                         error={errors.notes}
                         name="notes"
+                        onBlur={handleBlur}
+                        success={isFieldValid('notes')}
                     />
                     <Button
                         type="submit"

@@ -9,14 +9,14 @@ import { Plus } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
 import { Toggle } from '../ui/Toggle';
-import { useHydratedStore } from '@/hooks/useHydratedStore';
 import { useProjectStore } from '@/store/useProjectStore';
 import { ProjectCard } from '../widgets/ProjectCard';
 import { getProjectProgressSummary } from '@/utils/projectProgress';
+import { useHydratedStore } from '@/hooks/useHydratedStore';
 
 export default function MyBasketView() {
     const [activeOnly, setActiveOnly] = useState<boolean>(true);
-    const projects = useHydratedStore(
+    const { data: projects } = useHydratedStore(
         useProjectStore,
         (state) => state.projects
     );
