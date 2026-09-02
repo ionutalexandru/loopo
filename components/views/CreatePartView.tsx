@@ -12,6 +12,7 @@ import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
 import { FormAlert } from '../ui/FormAlert';
 import { Input } from '../ui/Input';
+import { Loading } from '../ui/Loading';
 
 interface CreatePartViewProps {
     slug: string;
@@ -22,16 +23,6 @@ export default function CreatePartView({ slug }: CreatePartViewProps) {
         useProjectStore,
         (state) => state.projects
     );
-
-    if (!projects || !isHydrated) {
-        notFound();
-    }
-
-    const project = projects.find((p) => p.slug === slug);
-
-    if (!project) {
-        notFound();
-    }
     const router = useRouter();
     const addPart = useProjectStore((state) => state.addPart);
 
@@ -48,21 +39,26 @@ export default function CreatePartView({ slug }: CreatePartViewProps) {
         initialValues: {
             name: '',
             currentRow: 0,
-            totalRows: undefined as number | undefined,
+            totalRows: 0,
             needleSize: '',
             yarnDetails: '',
             notes: '',
         },
-        onSubmit: (validatedData) => {
+        onSubmit: async (validatedData) => {
+            const currentProjects = useProjectStore.getState().projects;
+            const currentProject = currentProjects.find((p) => p.slug === slug);
+
+            if (!currentProject) return;
+
             const baseSlug = slugify(validatedData.name);
 
-            const duplicates = (project.parts || []).filter((p) =>
+            const duplicates = (currentProject.parts || []).filter((p) =>
                 p.slug.startsWith(baseSlug)
             ).length;
             const partSlug =
                 duplicates > 0 ? `${baseSlug}-${duplicates + 1}` : baseSlug;
 
-            addPart(project.id, {
+            addPart(currentProject.id, {
                 name: validatedData.name,
                 slug: partSlug,
                 currentRow: validatedData.currentRow,
@@ -71,10 +67,19 @@ export default function CreatePartView({ slug }: CreatePartViewProps) {
                 yarnDetails: validatedData.yarnDetails,
                 notes: validatedData.notes,
             });
-
-            router.push(`/projects/${project.slug}/parts/${partSlug}`);
+            router.push(`/projects/${currentProject.slug}/parts/${partSlug}`);
         },
     });
+
+    if (!isHydrated || !projects) {
+        return <Loading message="Loading your part..." />;
+    }
+
+    const project = projects.find((p) => p.slug === slug);
+
+    if (!project) {
+        notFound();
+    }
 
     return (
         <main className="page">
@@ -95,7 +100,7 @@ export default function CreatePartView({ slug }: CreatePartViewProps) {
             </header>
             <Card variant="elevated">
                 <form
-                    action={handleSubmit}
+                    onSubmit={handleSubmit}
                     noValidate
                     className="flex flex-col gap-5"
                 >
@@ -179,6 +184,7 @@ export default function CreatePartView({ slug }: CreatePartViewProps) {
                     </Button>
                 </form>
             </Card>
+            {isSubmitting && <Loading message="Creating part..." />}
         </main>
     );
 }

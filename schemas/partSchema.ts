@@ -17,7 +17,11 @@ export const createPartSchema: z.ZodType<CreatePartDTO> = z.object({
         .int()
         .min(0, 'Input must be 0 or positive.')
         .default(0),
-    totalRows: z.coerce.number().int().positive().optional(),
+    totalRows: z.coerce
+        .number()
+        .int()
+        .min(0, 'Input must be 0 or positive.')
+        .optional(),
     needleSize: z
         .string()
         .trim()

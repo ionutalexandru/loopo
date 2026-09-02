@@ -12,6 +12,7 @@ import { Input } from '../ui/Input';
 import { Select } from '../ui/Select';
 import { FormAlert } from '../ui/FormAlert';
 import { useZodForm } from '@/hooks/useZodForm';
+import { Loading } from '../ui/Loading';
 
 export default function CreateProjectView() {
     const router = useRouter();
@@ -75,7 +76,7 @@ export default function CreateProjectView() {
             </header>
             <Card variant="elevated">
                 <form
-                    action={handleSubmit}
+                    onSubmit={handleSubmit}
                     noValidate
                     className="flex flex-col gap-5"
                 >
@@ -139,6 +140,7 @@ export default function CreateProjectView() {
                     </Button>
                 </form>
             </Card>
+            {isSubmitting && <Loading message="Creating project..." />}
         </main>
     );
 }

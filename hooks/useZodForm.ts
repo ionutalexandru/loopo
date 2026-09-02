@@ -96,7 +96,11 @@ export function useZodForm<
         [errors, formData, touched]
     );
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e?: React.SubmitEvent<HTMLFormElement>) => {
+        if (e && typeof e.preventDefault === 'function') {
+            e.preventDefault();
+        }
+
         const allTouched = Object.keys(formData).reduce((acc, key) => {
             acc[key as keyof TInput] = true;
             return acc;
@@ -118,7 +122,6 @@ export function useZodForm<
                         ? err.message
                         : 'An unexpected error ocurred. Please try again.',
             }));
-        } finally {
             setIsSubmitting(false);
         }
     };

@@ -6,7 +6,7 @@ export const metadata = {
 };
 
 interface CreatePartPageProps {
-    params: Promise<{ slug: string } | { slug: string }>;
+    params: Promise<{ slug: string }> | { slug: string };
 }
 
 export default async function CreatePartPage({ params }: CreatePartPageProps) {
