@@ -13,7 +13,7 @@ export const Tag = ({
     label,
     variant = 'neutral',
     icon,
-    className,
+    className = '',
 }: TagProps) => {
     const generatedId = useId();
 

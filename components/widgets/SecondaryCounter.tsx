@@ -1,5 +1,7 @@
 'use client';
 
+// TODO fix useState for preview in styleguide
+
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { MoreVertical, Minus, Icon } from 'lucide-react';
@@ -11,43 +13,47 @@ import { Tag } from '@/components/ui/Tag';
 
 export interface SecondaryCounterProps {
     title: string;
-    initialRow?: number;
+    row?: number;
     totalRows: number;
+    absoluteTotalRows: number;
     tagLabel?: string;
     settingsHref?: string;
     openSenttings?: () => void;
-    onChange?: (val: number) => void;
+    onIncrement?: () => void;
+    onDecrement?: () => void;
     className?: string;
     isInactive?: boolean;
 }
 
 export const SecondaryCounter = ({
     title,
-    initialRow = 0,
+    row = 0,
     totalRows,
+    absoluteTotalRows,
     tagLabel = '',
     settingsHref = '',
     openSenttings,
-    onChange,
+    onIncrement,
+    onDecrement,
     className = '',
     isInactive = false,
 }: SecondaryCounterProps) => {
-    const [row, setRow] = useState(initialRow);
-    const isCompleted = row >= totalRows;
+    // const [row, setRow] = useState(initialRow);
+    const isCompleted = row >= absoluteTotalRows;
 
     const handleIncrement = () => {
         if (isCompleted || isInactive) return;
-        const nextRow = row + 1;
-        setRow(nextRow);
-        if (onChange) onChange(nextRow);
+        // const nextRow = row + 1;
+        // setRow(nextRow);
+        onIncrement?.();
     };
 
     const handleDecrement = (e: React.MouseEvent) => {
         e.stopPropagation();
         if (row > 0 && !isInactive) {
-            const nextRow = row - 1;
-            setRow(nextRow);
-            if (onChange) onChange(nextRow);
+            // const nextRow = row - 1;
+            // setRow(nextRow);
+            onDecrement?.();
         }
     };
 
@@ -76,7 +82,7 @@ export const SecondaryCounter = ({
             <Button
                 onClick={(e) => {
                     e.stopPropagation();
-                    if (openSenttings) openSenttings();
+                    openSenttings?.();
                 }}
                 {...buttonProps}
             />
