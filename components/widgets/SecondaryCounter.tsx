@@ -99,7 +99,7 @@ export const SecondaryCounter = ({
                 ${isCompleted || isInactive ? 'bg-chalk-gray/30! shadow-none!' : ''}
                 ${className}`}
         >
-            <div className="font-semibold">{title}</div>
+            <div className="font-semibold text-center">{title}</div>
             <div className="flex flex-col gap-1.5 items-center">
                 <ProgressBar
                     shape="circular"

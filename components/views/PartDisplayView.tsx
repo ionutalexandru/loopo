@@ -69,7 +69,8 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
         return (
             <section
                 aria-label="Secondary counters"
-                className="w-full flex flex-wrap gap-5 px-6"
+                className={`w-full flex flex-wrap gap-5 px-6
+                    ${part.secondaryCounters.length > 1 && 'justify-center'}`}
             >
                 {active && activeProgress ? (
                     <SecondaryCounter
@@ -79,6 +80,7 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
                         absoluteTotalRows={activeProgress.totalRows}
                         onIncrement={handleIncrementRow}
                         onDecrement={handledDcrementRow}
+                        tagLabel={active.notes}
                     />
                 ) : null}
                 {part.secondaryCounters.map((i) => {
@@ -94,6 +96,7 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
                                 totalRows={i.rowsPerRepeat}
                                 absoluteTotalRows={progress.totalRows}
                                 row={progress.rowInCurrentRepeat}
+                                tagLabel={i.notes}
                                 isInactive
                             />
                         );
