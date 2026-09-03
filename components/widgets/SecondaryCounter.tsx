@@ -17,8 +17,8 @@ export interface SecondaryCounterProps {
     tagLabel?: string;
     settingsHref?: string;
     openSenttings?: () => void;
-    onIncrement: () => void;
-    onDecrement: () => void;
+    onIncrement?: () => void;
+    onDecrement?: () => void;
     className?: string;
     isInactive?: boolean;
 }
@@ -40,13 +40,13 @@ export const SecondaryCounter = ({
 
     const handleIncrement = () => {
         if (isCompleted || isInactive) return;
-        onIncrement();
+        onIncrement?.();
     };
 
     const handleDecrement = (e: React.MouseEvent) => {
         e.stopPropagation();
         if (row > 0 && !isInactive) {
-            onDecrement();
+            onDecrement?.();
         }
     };
 
