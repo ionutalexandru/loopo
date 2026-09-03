@@ -161,9 +161,9 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
                 className="w-full flex justify-center"
             >
                 <GlobalCounter
-                    currentRow={part.currentRow}
+                    row={part.currentRow}
                     totalRows={part.totalRows}
-                    onChange={handleSetRow}
+                    setRow={handleSetRow}
                 />
             </section>
             {renderSecondaryCounters()}

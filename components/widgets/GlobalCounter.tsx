@@ -1,7 +1,5 @@
 'use client';
 
-// TODO fix useState for preview in styleguide
-
 import React, { useState } from 'react';
 import { Minus, Medal } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
@@ -10,38 +8,39 @@ import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Tag } from '../ui/Tag';
 
 interface GlobalCounterProps {
-    currentRow?: number;
+    row?: number;
     totalRows?: number;
     hintText?: string;
     completedHintText?: string;
+    setRow: (val: number) => void;
     onChange?: (val: number) => void;
     className?: string;
 }
 
 export const GlobalCounter = ({
-    currentRow = 0,
+    row = 0,
     totalRows,
     hintText = '(Tap to sum a row)',
     completedHintText = 'Goal reacted!',
+    setRow,
     onChange,
     className = '',
 }: GlobalCounterProps) => {
-    // const [row, setRow] = useState(currentRow);
-    const isCompleted = totalRows ? currentRow >= totalRows : false;
+    const isCompleted = totalRows ? row >= totalRows : false;
 
     const handleIncrement = () => {
         if (isCompleted) return;
-        const nextRow = currentRow + 1;
-        // setRow(nextRow);
-        if (onChange) onChange(nextRow);
+        const nextRow = row + 1;
+        setRow(nextRow);
+        onChange?.(nextRow);
     };
 
     const handleDecrement = (e: React.MouseEvent) => {
         e.stopPropagation();
-        if (currentRow > 0) {
-            const nextRow = currentRow - 1;
-            // setRow(nextRow);
-            if (onChange) onChange(nextRow);
+        if (row > 0) {
+            const nextRow = row - 1;
+            setRow(nextRow);
+            onChange?.(nextRow);
         }
     };
 
@@ -66,7 +65,7 @@ export const GlobalCounter = ({
                         />
                     )}
                 </div>
-                <span className="text-center font-bold">Current Row</span>
+                <span className="text-center font-bold">Global counter</span>
                 <div className="absolute right-0 flex items-center">
                     <Button
                         variant="squared"
@@ -82,7 +81,7 @@ export const GlobalCounter = ({
                     className={`font-inter text-5xl font-bold tracking-tight
                         sm:text-7xl ${isCompleted && 'text-vibrant-coral'}`}
                 >
-                    {currentRow}
+                    {row}
                 </span>
                 <span
                     className="font-inter text-misty-gray mt-2 text-xs
@@ -99,12 +98,20 @@ export const GlobalCounter = ({
                 >
                     {isCompleted ? completedHintText : hintText}
                 </span>
-                <ProgressBar
-                    value={currentRow}
-                    max={totalRows}
-                    hideStats={true}
-                />
+                <ProgressBar value={row} max={totalRows} hideStats={true} />
             </div>
         </Card>
     );
+};
+
+type DemoGlobalCounterProps = Omit<GlobalCounterProps, 'row' | 'setRow'> & {
+    initialRow?: number;
+};
+
+export const DemoGlobalCounter = ({
+    initialRow = 0,
+    ...props
+}: DemoGlobalCounterProps) => {
+    const [row, setRow] = useState<number>(initialRow);
+    return <GlobalCounter row={row} setRow={setRow} {...props} />;
 };

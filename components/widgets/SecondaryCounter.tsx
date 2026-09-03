@@ -1,7 +1,5 @@
 'use client';
 
-// TODO fix useState for preview in styleguide
-
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { MoreVertical, Minus, Icon } from 'lucide-react';
@@ -19,8 +17,8 @@ export interface SecondaryCounterProps {
     tagLabel?: string;
     settingsHref?: string;
     openSenttings?: () => void;
-    onIncrement?: () => void;
-    onDecrement?: () => void;
+    onIncrement: () => void;
+    onDecrement: () => void;
     className?: string;
     isInactive?: boolean;
 }
@@ -38,22 +36,17 @@ export const SecondaryCounter = ({
     className = '',
     isInactive = false,
 }: SecondaryCounterProps) => {
-    // const [row, setRow] = useState(initialRow);
     const isCompleted = row >= absoluteTotalRows;
 
     const handleIncrement = () => {
         if (isCompleted || isInactive) return;
-        // const nextRow = row + 1;
-        // setRow(nextRow);
-        onIncrement?.();
+        onIncrement();
     };
 
     const handleDecrement = (e: React.MouseEvent) => {
         e.stopPropagation();
         if (row > 0 && !isInactive) {
-            // const nextRow = row - 1;
-            // setRow(nextRow);
-            onDecrement?.();
+            onDecrement();
         }
     };
 
@@ -124,5 +117,25 @@ export const SecondaryCounter = ({
                 />
             </div>
         </Card>
+    );
+};
+
+type DemoSecondaryCounterProps = Omit<
+    SecondaryCounterProps,
+    'row' | 'onIncrement' | 'onDecrement'
+> & { initialRow?: number };
+
+export const DemoSecondaryCounter = ({
+    initialRow = 0,
+    ...props
+}: DemoSecondaryCounterProps) => {
+    const [row, setRow] = useState<number>(initialRow);
+    return (
+        <SecondaryCounter
+            row={row}
+            onIncrement={() => setRow((prev) => ++prev)}
+            onDecrement={() => setRow((prev) => --prev)}
+            {...props}
+        />
     );
 };

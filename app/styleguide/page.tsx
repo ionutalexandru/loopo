@@ -12,9 +12,9 @@ import { Toggle } from '@/components/ui/Toggle';
 import { Tag } from '@/components/ui/Tag';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { ProjectCard } from '@/components/widgets/ProjectCard';
-import { GlobalCounter } from '@/components/widgets/GlobalCounter';
+import { DemoGlobalCounter } from '@/components/widgets/GlobalCounter';
 import { RowAlert } from '@/components/widgets/RowAlert';
-import { SecondaryCounter } from '@/components/widgets/SecondaryCounter';
+import { DemoSecondaryCounter } from '@/components/widgets/SecondaryCounter';
 import {
     SecondaryCounterSettingsModal,
     SecondaryCounterFormData,
@@ -1297,7 +1297,7 @@ function StyleGuidePage() {
                             </div>
                             <div className="sg-preview flex flex-col
                                 items-start">
-                                <GlobalCounter
+                                <DemoGlobalCounter
                                     initialRow={37}
                                     totalRows={100}
                                 />
@@ -1314,7 +1314,7 @@ function StyleGuidePage() {
                             </div>
                             <div className="sg-preview flex flex-col
                                 items-start">
-                                <GlobalCounter
+                                <DemoGlobalCounter
                                     initialRow={100}
                                     totalRows={100}
                                 />
@@ -1332,7 +1332,7 @@ function StyleGuidePage() {
                             </div>
                             <div className="sg-preview flex flex-col
                                 items-start">
-                                <GlobalCounter
+                                <DemoGlobalCounter
                                     initialRow={67}
                                     totalRows={100}
                                     onChange={(row) =>
@@ -1361,10 +1361,11 @@ function StyleGuidePage() {
                                 on the card to increment toward the target.
                             </div>
 
-                            <SecondaryCounter
+                            <DemoSecondaryCounter
                                 title="Braid"
                                 initialRow={2}
                                 totalRows={12}
+                                absoluteTotalRows={12}
                                 tagLabel="#123"
                                 settingsHref="?counterSettings=braid"
                             />
@@ -1378,10 +1379,11 @@ function StyleGuidePage() {
                                 background. It happens the same when you set
                                 isInactive.
                             </div>
-                            <SecondaryCounter
+                            <DemoSecondaryCounter
                                 title="Sleve"
                                 initialRow={20}
                                 totalRows={40}
+                                absoluteTotalRows={40}
                                 tagLabel="Color #75"
                                 settingsHref="?counterSettings=sleve"
                                 isInactive={true}
