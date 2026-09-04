@@ -122,8 +122,15 @@ export function useZodForm<
                         ? err.message
                         : 'An unexpected error ocurred. Please try again.',
             }));
+        } finally {
             setIsSubmitting(false);
         }
+    };
+
+    const restart = () => {
+        setFormData(initialValues);
+        setErrors({});
+        setTouched({});
     };
 
     return {
@@ -136,5 +143,6 @@ export function useZodForm<
         isFieldValid,
         handleSubmit,
         setFormData,
+        restart,
     };
 }

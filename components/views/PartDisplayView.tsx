@@ -17,10 +17,8 @@ import {
     getActiveSecondaryCounter,
     getSecondaryCounterProgress,
 } from '@/utils/counter';
-import {
-    SecondaryCounterFormData,
-    SecondaryCounterSettingsModal,
-} from '../widgets/SecondaryCounterSettingsModal';
+import { SecondaryCounterSettingsModal } from '../widgets/SecondaryCounterSettingsModal';
+import { EditSecondaryCounterDTO } from '@/schemas/secondaryCounterSchema';
 
 interface PageDisplayProps {
     slug: string;
@@ -79,7 +77,7 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
     };
     const handleUpdateSecondaryCounter = (
         counterId: string,
-        data: SecondaryCounterFormData
+        data: EditSecondaryCounterDTO
     ) => {
         updatedSecondaryCounter(project.id, part.id, counterId, data);
     };
@@ -188,6 +186,8 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
                     onSave={(data) => {
                         handleUpdateSecondaryCounter(activeCounter.id, data);
                     }}
+                    currentGlobalRow={part.currentRow}
+                    existingCounters={part.secondaryCounters}
                 />
             )}
         </main>
