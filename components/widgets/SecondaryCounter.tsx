@@ -92,7 +92,9 @@ export const SecondaryCounter = ({
                 ${isCompleted || isInactive ? 'bg-chalk-gray/30! shadow-none!' : ''}
                 ${className}`}
         >
-            <div className="font-semibold text-center">{title}</div>
+            <div className="w-full line-clamp-2 font-semibold text-center h-12">
+                {title}
+            </div>
             <div className="flex flex-col gap-1.5 items-center">
                 <ProgressBar
                     shape="circular"
@@ -101,8 +103,14 @@ export const SecondaryCounter = ({
                     className="w-20"
                     disabled={isCompleted || isInactive}
                 />
-                {tagLabel && (
-                    <Tag icon={<Icon iconNode={yarnBall} />} label={tagLabel} />
+                {tagLabel ? (
+                    <Tag
+                        className="w-full!"
+                        icon={<Icon iconNode={yarnBall} />}
+                        label={tagLabel}
+                    />
+                ) : (
+                    <div className="h-9" aria-hidden="true"></div>
                 )}
             </div>
             <div className="flex w-full justify-between">

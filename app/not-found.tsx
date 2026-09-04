@@ -20,7 +20,7 @@ export default function NotFound() {
                 you dropped a stitch
             </h1>
 
-            <p className="lead">Could not find requested resource</p>
+            <p className="lead">Could not find the requested resource</p>
 
             <Button href="/" variant="pill" color="primary" className="w-fit!">
                 Back to My Basket
