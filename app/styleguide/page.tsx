@@ -15,17 +15,15 @@ import { ProjectCard } from '@/components/widgets/ProjectCard';
 import { DemoGlobalCounter } from '@/components/widgets/GlobalCounter';
 import { RowAlert } from '@/components/widgets/RowAlert';
 import { DemoSecondaryCounter } from '@/components/widgets/SecondaryCounter';
-import {
-    SecondaryCounterSettingsModal,
-    SecondaryCounterFormData,
-} from '@/components/widgets/SecondaryCounterSettingsModal';
+import { SecondaryCounterSettingsModal } from '@/components/widgets/SecondaryCounterSettingsModal';
 import { ProjectPartsNav } from '@/components/navigation/ProjectPartsNav';
 import { Modal } from '@/components/ui/Modal';
 import { UrlModal } from '@/components/ui/UrlModal';
 import { useUrlModal } from '@/hooks/useUrlModal';
 import { FormAlert } from '@/components/ui/FormAlert';
+import { EditSecondaryCounterDTO } from '@/schemas/secondaryCounterSchema';
 
-const SECONDARY_COUNTER_MOCK_DATA: Record<string, SecondaryCounterFormData> = {
+const SECONDARY_COUNTER_MOCK_DATA: Record<string, EditSecondaryCounterDTO> = {
     braid: {
         id: 'braid',
         name: 'Braid',
@@ -1390,19 +1388,25 @@ function StyleGuidePage() {
                             />
                         </div>
                     </div>
-                    <SecondaryCounterSettingsModal
-                        key={activeCounterKey}
-                        initialData={secondaryCounterInitialData}
-                        onSave={(data) => {
-                            console.log(`Saving data secondary counter:`, data);
-                        }}
-                        {...(secondaryCounterInitialData
-                            ? {
-                                  paramName: 'counterSettings',
-                                  paramValue: secondaryCounterInitialData.id,
-                              }
-                            : null)}
-                    />
+                    {secondaryCounterInitialData && (
+                        <SecondaryCounterSettingsModal
+                            key={activeCounterKey}
+                            initialData={secondaryCounterInitialData}
+                            onSave={(data) => {
+                                console.log(
+                                    `Saving data secondary counter:`,
+                                    data
+                                );
+                            }}
+                            {...(secondaryCounterInitialData
+                                ? {
+                                      paramName: 'counterSettings',
+                                      paramValue:
+                                          secondaryCounterInitialData.id,
+                                  }
+                                : null)}
+                        />
+                    )}
                 </Card>
             </div>
         </main>

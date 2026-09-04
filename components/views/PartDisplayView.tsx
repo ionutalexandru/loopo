@@ -6,6 +6,11 @@ import { yarnBall } from '@lucide/lab';
 
 import { useHydratedStore } from '@/hooks/useHydratedStore';
 import { useProjectStore } from '@/store/useProjectStore';
+import {
+    getActiveSecondaryCounter,
+    getSecondaryCounterProgress,
+} from '@/utils/counter';
+import { EditSecondaryCounterDTO } from '@/schemas/secondaryCounterSchema';
 import { Button } from '../ui/Button';
 import { Loading } from '../ui/Loading';
 import { ProjectPartsNav } from '../navigation/ProjectPartsNav';
@@ -13,12 +18,7 @@ import { Tag } from '../ui/Tag';
 import { GlobalCounter } from '../widgets/GlobalCounter';
 import { NeedleIcon } from '../icons/NeedleIcon';
 import { SecondaryCounter } from '../widgets/SecondaryCounter';
-import {
-    getActiveSecondaryCounter,
-    getSecondaryCounterProgress,
-} from '@/utils/counter';
 import { SecondaryCounterSettingsModal } from '../widgets/SecondaryCounterSettingsModal';
-import { EditSecondaryCounterDTO } from '@/schemas/secondaryCounterSchema';
 
 interface PageDisplayProps {
     slug: string;
