@@ -81,7 +81,7 @@ interface ProjectState {
         projectId: string,
         partId: string,
         counterId: string,
-        counter: Partial<
+        data: Partial<
             Omit<SecondaryCounter, 'id' | 'partId' | 'createdAt' | 'updatedAt'>
         >
     ) => CounterMutationResult;
@@ -417,7 +417,7 @@ export const useProjectStore = create<ProjectState>()(
                                     return {
                                         ...part,
                                         updatedAt: now,
-                                        SecondaryCounters:
+                                        secondaryCounters:
                                             part.secondaryCounters.filter(
                                                 (c) => c.id !== counterId
                                             ),

@@ -17,6 +17,10 @@ import {
     getActiveSecondaryCounter,
     getSecondaryCounterProgress,
 } from '@/utils/counter';
+import {
+    SecondaryCounterFormData,
+    SecondaryCounterSettingsModal,
+} from '../widgets/SecondaryCounterSettingsModal';
 
 interface PageDisplayProps {
     slug: string;
@@ -31,6 +35,9 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
     const setRow = useProjectStore((state) => state.setRow);
     const incrementRow = useProjectStore((state) => state.incrementRow);
     const decrementRow = useProjectStore((state) => state.decrementRow);
+    const updatedSecondaryCounter = useProjectStore(
+        (state) => state.updatedSecondaryCounter
+    );
 
     if (!projects || !isHydrated) {
         return <Loading message="Loading your part..." />;
@@ -46,6 +53,21 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
         notFound();
     }
 
+    const activeCounter = getActiveSecondaryCounter(
+        part.secondaryCounters,
+        part.currentRow
+    );
+
+    // add active counter at index 0
+    const counters = activeCounter
+        ? [
+              activeCounter,
+              ...part.secondaryCounters.filter(
+                  (c) => c.id !== activeCounter.id
+              ),
+          ]
+        : part.secondaryCounters;
+
     const handleSetRow = (row: number): void => {
         setRow(project.id, part.id, row);
     };
@@ -55,59 +77,11 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
     const handledDcrementRow = (): void => {
         decrementRow(project.id, part.id);
     };
-
-    const renderSecondaryCounters = () => {
-        if (!part.secondaryCounters) return null;
-        const active = getActiveSecondaryCounter(
-            part.secondaryCounters,
-            part.currentRow
-        );
-        const activeProgress = active
-            ? getSecondaryCounterProgress(active, part.currentRow)
-            : null;
-
-        return (
-            <section
-                aria-label="Secondary counters"
-                className="w-full flex justify-center"
-            >
-                <div
-                    className="max-w-88 grid grid-cols-2 gap-3 sm:gap-4
-                        items-stretch justify-items-center"
-                >
-                    {active && activeProgress ? (
-                        <SecondaryCounter
-                            title={active.name}
-                            totalRows={active.rowsPerRepeat}
-                            row={activeProgress.rowInCurrentRepeat}
-                            absoluteTotalRows={activeProgress.totalRows}
-                            onIncrement={handleIncrementRow}
-                            onDecrement={handledDcrementRow}
-                            tagLabel={active.notes}
-                        />
-                    ) : null}
-                    {part.secondaryCounters.map((i) => {
-                        if (i.id !== active?.id) {
-                            const progress = getSecondaryCounterProgress(
-                                i,
-                                part.currentRow
-                            );
-                            return (
-                                <SecondaryCounter
-                                    key={i.id}
-                                    title={i.name}
-                                    totalRows={i.rowsPerRepeat}
-                                    absoluteTotalRows={progress.totalRows}
-                                    row={progress.rowInCurrentRepeat}
-                                    tagLabel={i.notes}
-                                    isInactive
-                                />
-                            );
-                        }
-                    })}
-                </div>
-            </section>
-        );
+    const handleUpdateSecondaryCounter = (
+        counterId: string,
+        data: SecondaryCounterFormData
+    ) => {
+        updatedSecondaryCounter(project.id, part.id, counterId, data);
     };
 
     return (
@@ -170,7 +144,52 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
                     setRow={handleSetRow}
                 />
             </section>
-            {renderSecondaryCounters()}
+            {counters && (
+                <section
+                    aria-label="Secondary counters"
+                    className="w-full flex justify-center"
+                >
+                    <div
+                        className="w-full max-w-sm grid grid-cols-2 gap-3
+                            sm:gap-4 items-stretch justify-items-center"
+                    >
+                        {counters.map((i) => {
+                            const isActive = i.id === activeCounter?.id;
+                            const progress = getSecondaryCounterProgress(
+                                i,
+                                part.currentRow
+                            );
+                            return (
+                                <SecondaryCounter
+                                    key={i.id}
+                                    title={i.name}
+                                    totalRows={i.rowsPerRepeat}
+                                    absoluteTotalRows={progress.totalRows}
+                                    row={progress.rowInCurrentRepeat}
+                                    tagLabel={i.notes}
+                                    isInactive={!isActive}
+                                    {...(isActive && {
+                                        settingsHref: `?counter=${i.id}`,
+                                        onIncrement: handleIncrementRow,
+                                        onDecrement: handledDcrementRow,
+                                    })}
+                                />
+                            );
+                        })}
+                    </div>
+                </section>
+            )}
+            {activeCounter && (
+                <SecondaryCounterSettingsModal
+                    key={`counter-settings-${activeCounter.id}`}
+                    initialData={activeCounter}
+                    paramName="counter"
+                    paramValue={activeCounter.id}
+                    onSave={(data) => {
+                        handleUpdateSecondaryCounter(activeCounter.id, data);
+                    }}
+                />
+            )}
         </main>
     );
 }

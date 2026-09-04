@@ -34,7 +34,7 @@ export function useUrlModal(paramName: string, paramValue: string) {
             const query = params.toString();
             const newUrl = query ? `${pathname}?${query}` : pathname;
 
-            router.replace(newUrl, { scroll: false });
+            router.push(newUrl, { scroll: false });
         },
         [paramName, pathname, searchParams, router]
     );

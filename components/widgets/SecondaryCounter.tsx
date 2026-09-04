@@ -86,14 +86,22 @@ export const SecondaryCounter = ({
         <Card
             variant="elevated"
             onClick={handleIncrement}
-            className={`group active:bg-wool/30 relative flex max-w-42! py-2.5!
+            className={`group active:bg-wool/30 relative flex w-full py-2.5!
                 px-4! cursor-pointer flex-col items-center justify-between gap-3
                 transition-all duration-150 select-none active:scale-[0.99]
                 ${isCompleted || isInactive ? 'bg-chalk-gray/30! shadow-none!' : ''}
                 ${className}`}
         >
-            <div className="w-full line-clamp-2 font-semibold text-center h-12">
-                {title}
+            <div
+                className="w-full h-10 flex items-center justify-center
+                    text-center"
+            >
+                <span
+                    className="line-clamp-2 font-semibold text-xs sm:text-sm
+                        leading-tight"
+                >
+                    {title}
+                </span>
             </div>
             <div className="flex flex-col gap-1.5 items-center">
                 <ProgressBar

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Modal } from '@/components/ui/Modal';
 import { useUrlModal } from '@/hooks/useUrlModal';
+import { SecondaryCounter } from '@/types/project';
 
 export interface SecondaryCounterSettingsModalProps {
     isOpen?: boolean;
@@ -16,22 +17,18 @@ export interface SecondaryCounterSettingsModalProps {
     onSave?: (data: SecondaryCounterFormData) => void;
 }
 
-export interface SecondaryCounterFormData {
-    id: string | undefined;
-    counterName: string;
-    startsOnGlobalRow: number;
-    rowsPerRepeat: number;
-    totalRepeats: number;
-    additionalDetails: string;
-}
+export type SecondaryCounterFormData = Omit<
+    SecondaryCounter,
+    'createdAt' | 'updatedAt' | 'partId'
+>;
 
 const DEFAULT_FORM_DATA: SecondaryCounterFormData = {
     id: 'braid',
-    counterName: 'Braid',
+    name: 'Braid',
     startsOnGlobalRow: 1,
     rowsPerRepeat: 12,
     totalRepeats: 1,
-    additionalDetails: '',
+    notes: '',
 };
 
 export const SecondaryCounterSettingsModal = ({
@@ -81,8 +78,8 @@ export const SecondaryCounterSettingsModal = ({
             <form onSubmit={handleSubmit} className="space-y-5">
                 <Input
                     label="Counter name"
-                    value={formData.counterName}
-                    name="counterName"
+                    value={formData.name}
+                    name="name"
                     onChange={handleChange}
                     helpText="e.g. Braid Cable, Sleeve Decrease"
                 />
@@ -97,7 +94,7 @@ export const SecondaryCounterSettingsModal = ({
                     <Input
                         label="Rows per Repeat"
                         value={formData.rowsPerRepeat}
-                        name="startsOnGlobalRow"
+                        name="rowsPerRepeat"
                         onChange={handleChange}
                         helpText="Length of one sequence"
                     />
@@ -110,8 +107,8 @@ export const SecondaryCounterSettingsModal = ({
                     />
                     <Input
                         label="Additional Details"
-                        value={formData.additionalDetails}
-                        name="additionalDetails"
+                        value={formData.notes}
+                        name="notes"
                         onChange={handleChange}
                         helpText="e.g. 3.5mm or Color #76"
                     />

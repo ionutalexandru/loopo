@@ -105,7 +105,7 @@ export default function CreatePartView({ slug }: CreatePartViewProps) {
                     className="flex flex-col gap-5"
                 >
                     {errors.general && (
-                        <FormAlert variant="error" message="errors.general" />
+                        <FormAlert variant="error" message={errors.general} />
                     )}
                     <Input
                         label="Part Name"

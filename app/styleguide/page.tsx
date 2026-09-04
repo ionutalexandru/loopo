@@ -28,19 +28,19 @@ import { FormAlert } from '@/components/ui/FormAlert';
 const SECONDARY_COUNTER_MOCK_DATA: Record<string, SecondaryCounterFormData> = {
     braid: {
         id: 'braid',
-        counterName: 'Braid',
+        name: 'Braid',
         startsOnGlobalRow: 30,
         rowsPerRepeat: 12,
         totalRepeats: 4,
-        additionalDetails: '3.5mm',
+        notes: '3.5mm',
     },
     sleve: {
         id: 'sleve',
-        counterName: 'Sleve',
+        name: 'Sleve',
         startsOnGlobalRow: 80,
         rowsPerRepeat: 40,
         totalRepeats: 1,
-        additionalDetails: 'Color #75',
+        notes: 'Color #75',
     },
 };
 
