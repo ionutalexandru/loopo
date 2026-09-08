@@ -1,12 +1,18 @@
 import { z } from 'zod';
 import { ProjectPart } from '@/types/project';
 
-export type CreatePartDTO = Pick<
+/**
+ * Data Transfer Object for creating and updating project parts.
+ */
+export type PartDTO = Pick<
     ProjectPart,
     'name' | 'currentRow' | 'totalRows' | 'needleSize' | 'yarnDetails' | 'notes'
 >;
 
-export const createPartSchema: z.ZodType<CreatePartDTO> = z.object({
+export type CreatePartDTO = PartDTO;
+export type UpdatePartDTO = PartDTO;
+
+export const partSchema: z.ZodType<PartDTO> = z.object({
     name: z
         .string()
         .trim()
@@ -38,3 +44,6 @@ export const createPartSchema: z.ZodType<CreatePartDTO> = z.object({
         .max(500, 'Input must be 500 characters or less')
         .optional(),
 });
+
+export const createPartSchema: z.ZodType<CreatePartDTO> = partSchema;
+export const updatePartSchema: z.ZodType<UpdatePartDTO> = partSchema;

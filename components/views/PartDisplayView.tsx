@@ -19,6 +19,7 @@ import { GlobalCounter } from '../widgets/GlobalCounter';
 import { NeedleIcon } from '../icons/NeedleIcon';
 import { SecondaryCounter } from '../widgets/SecondaryCounter';
 import { SecondaryCounterSettingsModal } from '../widgets/SecondaryCounterSettingsModal';
+import { PartSettingsModal } from '../widgets/PartSettingsModal';
 
 interface PageDisplayProps {
     slug: string;
@@ -106,6 +107,7 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
                     variant="text"
                     size="small"
                     color="secondary"
+                    href="?settings=part"
                 />
             </header>
             <section aria-label="Parts navigator" className="w-full">
@@ -199,6 +201,7 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
                     }}
                 />
             )}
+            <PartSettingsModal project={project} part={part} />
         </main>
     );
 }
