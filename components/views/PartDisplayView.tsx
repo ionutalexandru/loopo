@@ -36,6 +36,9 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
     const updatedSecondaryCounter = useProjectStore(
         (state) => state.updatedSecondaryCounter
     );
+    const deleteSecondaryCounter = useProjectStore(
+        (state) => state.deleteSecondaryCounter
+    );
 
     if (!projects || !isHydrated) {
         return <Loading message="Loading your part..." />;
@@ -80,6 +83,9 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
         data: EditSecondaryCounterDTO
     ) => {
         updatedSecondaryCounter(project.id, part.id, counterId, data);
+    };
+    const handleDeleteSecondaryCounter = (counterId: string) => {
+        deleteSecondaryCounter(project.id, part.id, counterId);
     };
 
     return (
@@ -188,6 +194,9 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
                     }}
                     currentGlobalRow={part.currentRow}
                     existingCounters={part.secondaryCounters}
+                    onDelete={() => {
+                        handleDeleteSecondaryCounter(activeCounter.id);
+                    }}
                 />
             )}
         </main>

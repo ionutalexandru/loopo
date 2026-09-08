@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -14,6 +14,7 @@ import { SecondaryCounter } from '@/types/project';
 import { useZodForm } from '@/hooks/useZodForm';
 import { FormAlert } from '../ui/FormAlert';
 import { Loading } from '../ui/Loading';
+import { Trash } from 'lucide-react';
 
 export interface SecondaryCounterSettingsModalProps {
     isOpen?: boolean;
@@ -24,6 +25,7 @@ export interface SecondaryCounterSettingsModalProps {
     onSave?: (data: EditSecondaryCounterDTO) => void;
     currentGlobalRow?: number;
     existingCounters?: SecondaryCounter[];
+    onDelete?: () => void;
 }
 
 export const SecondaryCounterSettingsModal = ({
@@ -35,11 +37,14 @@ export const SecondaryCounterSettingsModal = ({
     onSave,
     currentGlobalRow = 0,
     existingCounters = [],
+    onDelete,
 }: SecondaryCounterSettingsModalProps) => {
     const { isOpen: isUrlModalOpen, close: urlModalClose } = useUrlModal(
         paramName,
         paramValue
     );
+
+    const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
 
     const isControlled = controlledIsOpen !== undefined;
     const isOpen = isControlled ? controlledIsOpen : isUrlModalOpen;
@@ -60,6 +65,16 @@ export const SecondaryCounterSettingsModal = ({
             urlModalClose();
         }
         restart();
+        setIsConfirmingDelete(false);
+    };
+
+    const handleDelete = () => {
+        if (!isConfirmingDelete) {
+            setIsConfirmingDelete(true);
+            return;
+        }
+        onDelete?.();
+        handleClose();
     };
 
     const {
@@ -143,22 +158,38 @@ export const SecondaryCounterSettingsModal = ({
                             success={isFieldValid('notes')}
                         />
                     </div>
-                    <Button
-                        variant="pill"
-                        color="primary"
-                        type="submit"
-                        className="w-full"
-                    >
-                        {isSubmitting ? 'Updating...' : 'Update'}
-                    </Button>
-                    <Button
-                        variant="text"
-                        color="secondary"
-                        onClick={handleClose}
-                        className="w-full"
-                    >
-                        Cancel
-                    </Button>
+                    <div className="flex flex-col gap-2">
+                        <Button
+                            variant="pill"
+                            color="primary"
+                            type="submit"
+                            className="w-full mb-0"
+                            size="small"
+                        >
+                            {isSubmitting ? 'Updating...' : 'Update'}
+                        </Button>
+                        <Button
+                            variant="text"
+                            color="secondary"
+                            onClick={handleClose}
+                            className="w-full mb-0"
+                            size="small"
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            variant="pill"
+                            color="danger"
+                            className="w-full mb-0"
+                            onClick={handleDelete}
+                            icon={<Trash />}
+                            size="small"
+                        >
+                            {!isConfirmingDelete
+                                ? 'Delete counter'
+                                : 'Confirm delete?'}
+                        </Button>
+                    </div>
                 </form>
             </Modal>
             {isSubmitting && <Loading message="Updating counter..." />}
