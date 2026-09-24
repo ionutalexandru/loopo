@@ -21,26 +21,32 @@ import { Modal } from '@/components/ui/Modal';
 import { UrlModal } from '@/components/ui/UrlModal';
 import { useUrlModal } from '@/hooks/useUrlModal';
 import { FormAlert } from '@/components/ui/FormAlert';
-import { EditSecondaryCounterDTO } from '@/schemas/secondaryCounterSchema';
+import { SecondaryCounter } from '@/types/project';
 
-const SECONDARY_COUNTER_MOCK_DATA: Record<string, EditSecondaryCounterDTO> = {
-    braid: {
+const SECONDARY_COUNTER_MOCK_DATA: SecondaryCounter[] = [
+    {
         id: 'braid',
         name: 'Braid',
         startsOnGlobalRow: 30,
         rowsPerRepeat: 12,
         totalRepeats: 4,
         notes: '3.5mm',
+        partId: 'main',
+        createdAt: '2026-02-01T10:10:00.000Z',
+        updatedAt: '2026-02-01T10:10:00.000Z',
     },
-    sleve: {
+    {
         id: 'sleve',
         name: 'Sleve',
         startsOnGlobalRow: 80,
         rowsPerRepeat: 40,
         totalRepeats: 1,
         notes: 'Color #75',
+        partId: 'main',
+        createdAt: '2026-02-01T10:10:00.000Z',
+        updatedAt: '2026-02-01T10:10:00.000Z',
     },
-};
+];
 
 const DEMO_PARTS = [
     { id: 'neck', label: 'Neck' },
@@ -53,12 +59,9 @@ const DEMO_PARTS = [
 
 function StyleGuidePage() {
     const searchParams = useSearchParams();
-    const activeCounterKey = searchParams.get('counterSettings');
+    const activeCounterKey = searchParams.get('counter');
     const [activeModal, setActiveModal] = useState<string | null>(null);
     const [activePart, setActivePart] = useState('front');
-    const secondaryCounterInitialData = activeCounterKey
-        ? SECONDARY_COUNTER_MOCK_DATA[activeCounterKey]
-        : undefined;
     const { open: openDemoUrlModal } = useUrlModal('modal', 'demo');
 
     return (
@@ -136,9 +139,7 @@ function StyleGuidePage() {
                         ].map((color) => (
                             <div
                                 key={color.hex}
-                                className={`rounded-xl p-4 ${color.class}
-                                border-charcoal flex h-24 flex-col
-                                justify-between border`}
+                                className={`rounded-xl p-4 ${color.class} border-charcoal flex h-24 flex-col justify-between border`}
                             >
                                 <span className="text-sm font-bold">
                                     {color.name}
@@ -987,15 +988,12 @@ function StyleGuidePage() {
                                     title="EDIT PATTERN NOTES"
                                     subtitle="Changes here will be stored locally."
                                 >
-                                    <div className="space-y-4 my-8">
+                                    <div className="my-8 space-y-4">
                                         <Input
                                             label="Project Title"
                                             placeholder="e.g., Crochet Summer Cardigan"
                                         />
-                                        <div
-                                            className="flex justify-end gap-3
-                                                pt-2"
-                                        >
+                                        <div className="flex justify-end gap-3 pt-2">
                                             <Button
                                                 variant="squared"
                                                 onClick={() =>
@@ -1044,15 +1042,12 @@ function StyleGuidePage() {
                                     subtitle="Changes here will be stored locally."
                                     maxWidth="xl"
                                 >
-                                    <div className="space-y-4 my-8">
+                                    <div className="my-8 space-y-4">
                                         <Input
                                             label="Project Title"
                                             placeholder="e.g., Crochet Summer Cardigan"
                                         />
-                                        <div
-                                            className="flex justify-end gap-3
-                                                pt-2"
-                                        >
+                                        <div className="flex justify-end gap-3 pt-2">
                                             <Button
                                                 variant="squared"
                                                 onClick={() =>
@@ -1099,15 +1094,12 @@ function StyleGuidePage() {
                                     subtitle="Changes here will be stored locally."
                                     maxWidth="full"
                                 >
-                                    <div className="space-y-4 my-8">
+                                    <div className="my-8 space-y-4">
                                         <Input
                                             label="Project Title"
                                             placeholder="e.g., Crochet Summer Cardigan"
                                         />
-                                        <div
-                                            className="flex justify-end gap-3
-                                                pt-2"
-                                        >
+                                        <div className="flex justify-end gap-3 pt-2">
                                             <Button
                                                 variant="squared"
                                                 onClick={() =>
@@ -1177,10 +1169,7 @@ function StyleGuidePage() {
                                 grey track. Ideal for standard operational
                                 tracking.
                             </div>
-                            <div
-                                className="sg-preview flex flex-col items-start
-                                    gap-8"
-                            >
+                            <div className="sg-preview flex flex-col items-start gap-8">
                                 <ProgressBar
                                     shape="linear"
                                     value={25}
@@ -1201,10 +1190,7 @@ function StyleGuidePage() {
                                 change, highlighting the card container&#39;s
                                 focused zone.
                             </div>
-                            <div
-                                className="sg-preview flex flex-col items-start
-                                    gap-8"
-                            >
+                            <div className="sg-preview flex flex-col items-start gap-8">
                                 <ProgressBar
                                     shape="linear"
                                     value={79}
@@ -1239,10 +1225,7 @@ function StyleGuidePage() {
                                 &#34;). On hover, the active section label turns
                                 Vibrant Coral.
                             </div>
-                            <div
-                                className="sg-preview flex flex-col items-start
-                                    gap-8"
-                            >
+                            <div className="sg-preview flex flex-col items-start gap-8">
                                 <ProjectCard
                                     title="Pullover Iceland"
                                     currentRow={240}
@@ -1262,10 +1245,7 @@ function StyleGuidePage() {
                                 projects or high-level overview cards where row
                                 count is tracked globally.
                             </div>
-                            <div
-                                className="sg-preview flex flex-col items-start
-                                    gap-8"
-                            >
+                            <div className="sg-preview flex flex-col items-start gap-8">
                                 <ProjectCard
                                     title="Pullover Iceland"
                                     currentRow={240}
@@ -1293,8 +1273,7 @@ function StyleGuidePage() {
                                 Active interactive counter. Click/tap anywhere
                                 on the card to increment toward the target.
                             </div>
-                            <div className="sg-preview flex flex-col
-                                items-start">
+                            <div className="sg-preview flex flex-col items-start">
                                 <DemoGlobalCounter
                                     initialRow={37}
                                     totalRows={100}
@@ -1310,8 +1289,7 @@ function StyleGuidePage() {
                                 totalRows. Highlights the text metric in Vibrant
                                 Coral with a completion tag.
                             </div>
-                            <div className="sg-preview flex flex-col
-                                items-start">
+                            <div className="sg-preview flex flex-col items-start">
                                 <DemoGlobalCounter
                                     initialRow={100}
                                     totalRows={100}
@@ -1328,8 +1306,7 @@ function StyleGuidePage() {
                                 persisting data to a database. In this example,
                                 it logs in the console the current row.
                             </div>
-                            <div className="sg-preview flex flex-col
-                                items-start">
+                            <div className="sg-preview flex flex-col items-start">
                                 <DemoGlobalCounter
                                     initialRow={67}
                                     totalRows={100}
@@ -1365,7 +1342,7 @@ function StyleGuidePage() {
                                 totalRows={12}
                                 absoluteTotalRows={12}
                                 tagLabel="#123"
-                                settingsHref="?counterSettings=braid"
+                                settingsHref="?counter=braid"
                             />
                         </div>
                         <div className="sg-row">
@@ -1383,30 +1360,20 @@ function StyleGuidePage() {
                                 totalRows={40}
                                 absoluteTotalRows={40}
                                 tagLabel="Color #75"
-                                settingsHref="?counterSettings=sleve"
+                                settingsHref="?counter=sleve"
                                 isInactive={true}
                             />
                         </div>
                     </div>
-                    {secondaryCounterInitialData && (
-                        <SecondaryCounterSettingsModal
-                            key={activeCounterKey}
-                            initialData={secondaryCounterInitialData}
-                            onSave={(data) => {
-                                console.log(
-                                    `Saving data secondary counter:`,
-                                    data
-                                );
-                            }}
-                            {...(secondaryCounterInitialData
-                                ? {
-                                      paramName: 'counterSettings',
-                                      paramValue:
-                                          secondaryCounterInitialData.id,
-                                  }
-                                : null)}
-                        />
-                    )}
+
+                    <SecondaryCounterSettingsModal
+                        key={activeCounterKey}
+                        paramName="counter"
+                        existingCounters={SECONDARY_COUNTER_MOCK_DATA}
+                        onUpdate={(data) => {
+                            console.log(`Saving data secondary counter:`, data);
+                        }}
+                    />
                 </Card>
             </div>
         </main>
@@ -1417,7 +1384,7 @@ export default function StyleGuide() {
     return (
         <Suspense
             fallback={
-                <div className="p-8 text-sm text-misty-grey">Loading...</div>
+                <div className="text-misty-grey p-8 text-sm">Loading...</div>
             }
         >
             <StyleGuidePage />
