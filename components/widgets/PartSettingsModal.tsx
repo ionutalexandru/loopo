@@ -234,7 +234,7 @@ export const PartSettingsModal = ({
                                 },
                                 {
                                     label: 'Add counter',
-                                    disabled: true,
+                                    href: `/projects/${project.slug}/parts/${part.slug}?counter=new`,
                                 },
                             ]}
                         />

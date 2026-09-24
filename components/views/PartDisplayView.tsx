@@ -11,7 +11,10 @@ import {
     getSecondaryCounterProgress,
 } from '@/utils/counter';
 import { UpdatePartDTO } from '@/schemas/partSchema';
-import { EditSecondaryCounterDTO } from '@/schemas/secondaryCounterSchema';
+import {
+    BaseSecondaryCounterDTO,
+    EditSecondaryCounterDTO,
+} from '@/schemas/secondaryCounterSchema';
 import { ProjectPart } from '@/types/project';
 import { Button } from '../ui/Button';
 import { Loading } from '../ui/Loading';
@@ -38,6 +41,9 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
     const setRow = useProjectStore((state) => state.setRow);
     const incrementRow = useProjectStore((state) => state.incrementRow);
     const decrementRow = useProjectStore((state) => state.decrementRow);
+    const addSecondaryCounter = useProjectStore(
+        (state) => state.addSecondaryCounter
+    );
     const updatedSecondaryCounter = useProjectStore(
         (state) => state.updatedSecondaryCounter
     );
@@ -89,6 +95,10 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
     };
 
     // secondary counter handlers
+    const handleCreateSecondaryCounter = (data: BaseSecondaryCounterDTO) => {
+        addSecondaryCounter(project.id, part.id, data);
+    };
+
     const handleUpdateSecondaryCounter = (
         counterId: string,
         data: EditSecondaryCounterDTO
@@ -203,9 +213,11 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
                                     tagLabel={i.notes}
                                     isInactive={!isActive}
                                     {...(isActive && {
-                                        settingsHref: `?counter=${i.id}`,
                                         onIncrement: handleIncrementRow,
                                         onDecrement: handledDcrementRow,
+                                    })}
+                                    {...(!progress.isCompleted && {
+                                        settingsHref: `?counter=${i.id}`,
                                     })}
                                 />
                             );
@@ -213,22 +225,14 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
                     </div>
                 </section>
             )}
-            {activeCounter && (
-                <SecondaryCounterSettingsModal
-                    key={`counter-settings-${activeCounter.id}`}
-                    initialData={activeCounter}
-                    paramName="counter"
-                    paramValue={activeCounter.id}
-                    onSave={(data) => {
-                        handleUpdateSecondaryCounter(activeCounter.id, data);
-                    }}
-                    currentGlobalRow={part.currentRow}
-                    existingCounters={part.secondaryCounters}
-                    onDelete={() => {
-                        handleDeleteSecondaryCounter(activeCounter.id);
-                    }}
-                />
-            )}
+            <SecondaryCounterSettingsModal
+                paramName="counter"
+                currentGlobalRow={part.currentRow}
+                existingCounters={part.secondaryCounters}
+                onCreate={handleCreateSecondaryCounter}
+                onUpdate={handleUpdateSecondaryCounter}
+                onDelete={handleDeleteSecondaryCounter}
+            />
             <PartSettingsModal
                 key={`part-${part.id}-${part.updatedAt}`}
                 project={project}

@@ -7,21 +7,24 @@ export type BaseSecondaryCounterDTO = Pick<
     'name' | 'startsOnGlobalRow' | 'rowsPerRepeat' | 'totalRepeats' | 'notes'
 >;
 
-export type EditSecondaryCounterDTO = BaseSecondaryCounterDTO & {
-    id: SecondaryCounter['id'];
+export type SecondaryCounterDTO = BaseSecondaryCounterDTO & {
+    id?: SecondaryCounter['id'];
 };
+
+export type CreateSecondaryCounterDTO = BaseSecondaryCounterDTO;
+export type EditSecondaryCounterDTO = SecondaryCounterDTO;
 
 export interface SecondaryCounterValidationContext {
     currentGlobalRow: number;
     existingCounters?: SecondaryCounter[];
 }
 
-export const getEditSecondaryCounterSchema = (
+export const getSecondaryCounterSchema = (
     context?: SecondaryCounterValidationContext
-): z.ZodType<EditSecondaryCounterDTO> =>
+): z.ZodType<SecondaryCounterDTO> =>
     z
         .object({
-            id: z.string(),
+            id: z.string().optional(),
             name: z
                 .string()
                 .trim()
@@ -37,8 +40,7 @@ export const getEditSecondaryCounterSchema = (
                 .optional(),
         })
         .superRefine((data, ctx) => {
-            if (!ctx) return;
-            if (!context) return;
+            if (!ctx || !context) return;
 
             const { currentGlobalRow, existingCounters } = context;
             const { startRow, endRow } = getCounterRowRange(data);

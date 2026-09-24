@@ -7,75 +7,47 @@ import { Input } from '@/components/ui/Input';
 import { Modal } from '@/components/ui/Modal';
 import { useUrlModal } from '@/hooks/useUrlModal';
 import {
-    EditSecondaryCounterDTO,
-    getEditSecondaryCounterSchema,
+    BaseSecondaryCounterDTO,
+    SecondaryCounterDTO,
+    getSecondaryCounterSchema,
 } from '@/schemas/secondaryCounterSchema';
 import { SecondaryCounter } from '@/types/project';
 import { useZodForm } from '@/hooks/useZodForm';
 import { FormAlert } from '../ui/FormAlert';
 import { Loading } from '../ui/Loading';
-import { Trash } from 'lucide-react';
+import { Trash, X } from 'lucide-react';
+import { Card } from '../ui/Card';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-export interface SecondaryCounterSettingsModalProps {
-    isOpen?: boolean;
-    onClose?: () => void;
-    paramName?: string;
-    paramValue?: string;
-    initialData: EditSecondaryCounterDTO;
-    onSave?: (data: EditSecondaryCounterDTO) => void;
-    currentGlobalRow?: number;
-    existingCounters?: SecondaryCounter[];
+interface InnerFormProps {
+    isCreate: boolean;
+    initialData: SecondaryCounterDTO;
+    currentGlobalRow: number;
+    existingCounters: SecondaryCounter[];
+    onSave: (data: BaseSecondaryCounterDTO) => void;
     onDelete?: () => void;
+    onClose: () => void;
 }
 
-export const SecondaryCounterSettingsModal = ({
-    isOpen: controlledIsOpen,
-    onClose: controlledOnClose,
-    paramName = 'counterSettings',
-    paramValue = 'true',
+const SecondaryCounterForm = ({
+    isCreate,
     initialData,
+    currentGlobalRow,
+    existingCounters,
     onSave,
-    currentGlobalRow = 0,
-    existingCounters = [],
     onDelete,
-}: SecondaryCounterSettingsModalProps) => {
-    const { isOpen: isUrlModalOpen, close: urlModalClose } = useUrlModal(
-        paramName,
-        paramValue
-    );
-
+    onClose,
+}: InnerFormProps) => {
     const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
-
-    const isControlled = controlledIsOpen !== undefined;
-    const isOpen = isControlled ? controlledIsOpen : isUrlModalOpen;
 
     const validationSchema = useMemo(
         () =>
-            getEditSecondaryCounterSchema({
+            getSecondaryCounterSchema({
                 currentGlobalRow,
                 existingCounters,
             }),
         [currentGlobalRow, existingCounters]
     );
-
-    const handleClose = () => {
-        if (isControlled) {
-            controlledOnClose?.();
-        } else {
-            urlModalClose();
-        }
-        restart();
-        setIsConfirmingDelete(false);
-    };
-
-    const handleDelete = () => {
-        if (!isConfirmingDelete) {
-            setIsConfirmingDelete(true);
-            return;
-        }
-        onDelete?.();
-        handleClose();
-    };
 
     const {
         formData,
@@ -85,114 +57,255 @@ export const SecondaryCounterSettingsModal = ({
         handleBlur,
         isFieldValid,
         handleSubmit,
-        restart,
-    } = useZodForm<EditSecondaryCounterDTO>({
+    } = useZodForm<SecondaryCounterDTO>({
         schema: validationSchema,
         initialValues: initialData,
-        onSubmit: (data) => {
-            onSave?.(data);
-            handleClose();
+        onSubmit: (validData) => {
+            onSave(validData);
+            onClose();
         },
     });
 
+    const handleDelete = () => {
+        if (!isConfirmingDelete) {
+            setIsConfirmingDelete(true);
+            return;
+        }
+        onDelete?.();
+        onClose();
+    };
+
     return (
-        <>
-            <Modal
-                title="Counter Settings"
-                onClose={handleClose}
-                isOpen={isOpen}
-            >
-                <form onSubmit={handleSubmit} className="space-y-5">
-                    {errors.general && (
-                        <FormAlert variant="error" message="errors.general" />
-                    )}
+        <form onSubmit={handleSubmit} className="space-y-5">
+            {errors.general && (
+                <FormAlert variant="error" message="errors.general" />
+            )}
+            <Card variant="elevated" className="flex flex-col gap-6">
+                <Input
+                    label="Counter name"
+                    value={formData.name}
+                    name="name"
+                    error={errors.name}
+                    onChange={handleFieldChange}
+                    onBlur={handleBlur}
+                    placeholder="e.g. Center Cable, Lace motif"
+                    helpText="Identifies this pattern repeat"
+                    success={isFieldValid('name')}
+                />
+                <div className="grid grid-cols-2 gap-x-2.5 gap-y-5">
                     <Input
-                        label="Counter name"
-                        value={formData.name}
-                        name="name"
-                        error={errors.name}
+                        label="Starts on Global Row"
+                        value={formData.startsOnGlobalRow}
+                        name="startsOnGlobalRow"
+                        min="1"
+                        inputMode="numeric"
+                        type="number"
+                        error={errors.startsOnGlobalRow}
                         onChange={handleFieldChange}
                         onBlur={handleBlur}
-                        helpText="e.g. Braid Cable, Sleeve Decrease"
-                        success={isFieldValid('name')}
+                        helpText="First row of motif"
+                        success={isFieldValid('startsOnGlobalRow')}
                     />
-                    <div className="grid grid-cols-2 gap-x-2.5 gap-y-5">
-                        <Input
-                            label="Starts on Global Row"
-                            value={formData.startsOnGlobalRow}
-                            name="startsOnGlobalRow"
-                            error={errors.startsOnGlobalRow}
-                            onChange={handleFieldChange}
-                            onBlur={handleBlur}
-                            helpText="When this counter begins"
-                            success={isFieldValid('startsOnGlobalRow')}
-                        />
-                        <Input
-                            label="Rows per Repeat"
-                            value={formData.rowsPerRepeat}
-                            name="rowsPerRepeat"
-                            error={errors.rowsPerRepeat}
-                            onChange={handleFieldChange}
-                            onBlur={handleBlur}
-                            helpText="Length of one sequence"
-                            success={isFieldValid('rowsPerRepeat')}
-                        />
-                        <Input
-                            label="Total Repeats"
-                            value={formData.totalRepeats}
-                            error={errors.totalRepeats}
-                            name="totalRepeats"
-                            onChange={handleFieldChange}
-                            onBlur={handleBlur}
-                            helpText="How many times it repeats"
-                            success={isFieldValid('totalRepeats')}
-                        />
-                        <Input
-                            label="Additional Details"
-                            value={formData.notes}
-                            error={errors.notes}
-                            name="notes"
-                            onChange={handleFieldChange}
-                            onBlur={handleBlur}
-                            helpText="e.g. 3.5mm or Color #76"
-                            success={isFieldValid('notes')}
-                        />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <Button
-                            variant="pill"
-                            color="primary"
-                            type="submit"
-                            className="w-full mb-0"
-                            size="small"
-                        >
-                            {isSubmitting ? 'Updating...' : 'Update'}
-                        </Button>
-                        <Button
-                            variant="text"
-                            color="secondary"
-                            onClick={handleClose}
-                            className="w-full mb-0"
-                            size="small"
-                        >
-                            Cancel
-                        </Button>
-                        <Button
-                            variant="pill"
-                            color="danger"
-                            className="w-full mb-0"
-                            onClick={handleDelete}
-                            icon={<Trash />}
-                            size="small"
-                        >
-                            {!isConfirmingDelete
-                                ? 'Delete counter'
-                                : 'Confirm delete?'}
-                        </Button>
-                    </div>
-                </form>
-            </Modal>
-            {isSubmitting && <Loading message="Updating counter..." />}
-        </>
+                    <Input
+                        label="Rows per Repeat"
+                        value={formData.rowsPerRepeat}
+                        name="rowsPerRepeat"
+                        min="1"
+                        inputMode="numeric"
+                        type="number"
+                        error={errors.rowsPerRepeat}
+                        onChange={handleFieldChange}
+                        onBlur={handleBlur}
+                        helpText="Rows per sequence"
+                        success={isFieldValid('rowsPerRepeat')}
+                    />
+                    <Input
+                        label="Total Repeats"
+                        value={formData.totalRepeats}
+                        error={errors.totalRepeats}
+                        name="totalRepeats"
+                        min="1"
+                        inputMode="numeric"
+                        type="number"
+                        onChange={handleFieldChange}
+                        onBlur={handleBlur}
+                        helpText="Number of repetitions"
+                        success={isFieldValid('totalRepeats')}
+                    />
+                    <Input
+                        label="Details / Tag"
+                        value={formData.notes}
+                        error={errors.notes}
+                        name="notes"
+                        onChange={handleFieldChange}
+                        onBlur={handleBlur}
+                        placeholder="e.g. 3.5mm or Color #76"
+                        helpText="Optional fiber/needle hint"
+                        success={isFieldValid('notes')}
+                    />
+                </div>
+            </Card>
+            {!isCreate && onDelete && (
+                <Card variant="elevated" className="flex flex-col gap-6">
+                    <h4 className="text-crimson! mb-0!">Danger zone</h4>
+                    <Button
+                        variant="pill"
+                        color="danger"
+                        className="mb-0 w-full"
+                        onClick={handleDelete}
+                        icon={<Trash />}
+                        size="small"
+                    >
+                        {!isConfirmingDelete
+                            ? 'Delete counter'
+                            : 'Confirm delete?'}
+                    </Button>
+                </Card>
+            )}
+            <div className="flex flex-col gap-2">
+                <Button
+                    variant="pill"
+                    color="primary"
+                    type="submit"
+                    className="mb-0 w-full"
+                    size="small"
+                >
+                    {isSubmitting
+                        ? isCreate
+                            ? 'Creating counter...'
+                            : 'Saving changes...'
+                        : isCreate
+                          ? 'Create counter'
+                          : 'Save changes'}
+                </Button>
+                <Button
+                    variant="text"
+                    color="secondary"
+                    onClick={onClose}
+                    className="mb-0 w-full"
+                    size="small"
+                >
+                    Cancel
+                </Button>
+            </div>
+            {isSubmitting && (
+                <Loading
+                    message={
+                        isCreate ? 'Creating counter...' : 'Updating counter...'
+                    }
+                />
+            )}
+        </form>
+    );
+};
+
+export interface SecondaryCounterSettingsModalProps {
+    paramName?: string;
+    currentGlobalRow?: number;
+    existingCounters?: SecondaryCounter[];
+    onCreate?: (data: BaseSecondaryCounterDTO) => void;
+    onUpdate?: (counterId: string, data: BaseSecondaryCounterDTO) => void;
+    onDelete?: (counterId: string) => void;
+}
+
+export const SecondaryCounterSettingsModal = ({
+    paramName = 'counter',
+    currentGlobalRow = 0,
+    existingCounters = [],
+    onCreate,
+    onUpdate,
+    onDelete,
+}: SecondaryCounterSettingsModalProps) => {
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    const pathname = usePathname();
+
+    const activeParam = searchParams.get(paramName);
+    const isOpen = Boolean(activeParam);
+    const isCreate = activeParam === 'new';
+
+    const editingCounter = useMemo(() => {
+        if (!isOpen || isCreate) return undefined;
+        return existingCounters.find((c) => c.id === activeParam);
+    }, [isOpen, isCreate, existingCounters, activeParam]);
+
+    const handleClose = () => {
+        const params = new URLSearchParams(searchParams.toString());
+        params.delete(paramName);
+        const query = params.toString();
+        router.push(query ? `${pathname}?${query}` : pathname, {
+            scroll: false,
+        });
+    };
+
+    if (!isOpen || (!isCreate && !editingCounter)) {
+        return null;
+    }
+
+    const initialData: SecondaryCounterDTO = isCreate
+        ? {
+              name: '',
+              startsOnGlobalRow: currentGlobalRow > 0 ? currentGlobalRow : 1,
+              rowsPerRepeat: 4,
+              totalRepeats: 1,
+              notes: '',
+          }
+        : {
+              id: editingCounter!.id,
+              name: editingCounter!.name,
+              startsOnGlobalRow: editingCounter!.startsOnGlobalRow,
+              rowsPerRepeat: editingCounter!.rowsPerRepeat,
+              totalRepeats: editingCounter!.totalRepeats,
+              notes: editingCounter!.notes ?? '',
+          };
+
+    return (
+        <Modal
+            isOpen={isOpen}
+            onClose={handleClose}
+            maxWidth="lg"
+            cartProps={{ variant: 'ghost' }}
+            showCloseButton={false}
+            containerClassName="backdrop-blur-xl"
+        >
+            <div className="flex w-full items-center justify-between">
+                <span className="text-misty-gray text-base font-black uppercase">
+                    {isCreate ? 'New repeat pattern' : 'Pattern repeat setup'}
+                </span>
+                <Button
+                    variant="squared"
+                    color="secondary"
+                    onClick={handleClose}
+                    icon={<X />}
+                />
+            </div>
+
+            <h3 className="my-2">
+                {isCreate
+                    ? 'Add Secondary Counter'
+                    : `${editingCounter!.name} Settings`}
+            </h3>
+
+            <SecondaryCounterForm
+                key={activeParam}
+                isCreate={isCreate}
+                initialData={initialData}
+                currentGlobalRow={currentGlobalRow}
+                existingCounters={existingCounters}
+                onSave={(data) => {
+                    if (isCreate) {
+                        onCreate?.(data);
+                    } else if (editingCounter) {
+                        onUpdate?.(editingCounter.id, data);
+                    }
+                }}
+                onDelete={
+                    editingCounter
+                        ? () => onDelete?.(editingCounter.id)
+                        : undefined
+                }
+                onClose={handleClose}
+            />
+        </Modal>
     );
 };
