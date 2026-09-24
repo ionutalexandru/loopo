@@ -32,12 +32,11 @@ export function getProjectProgressSummary(
     }
 
     const { name, currentRow, totalRows, slug, updatedAt }: ProjectPart =
-        project.parts.reduce((latest, current) => {
-            const latestTime = new Date(latest.updatedAt || 0).getTime();
-            const currentTime = new Date(current.updatedAt || 0).getTime();
-
-            return currentTime > latestTime ? current : latest;
-        }, project.parts[0]);
+        project.parts.sort(
+            (a: ProjectPart, b: ProjectPart): number =>
+                new Date(b.updatedAt).getTime() -
+                new Date(a.updatedAt).getTime()
+        )[0];
 
     return {
         activePartName: name,

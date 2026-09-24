@@ -22,7 +22,7 @@ export interface PartSettingsModalProps {
     paramValue?: string;
     onSave?: (data: UpdatePartDTO) => void;
     onDelete?: () => void;
-    onDuplicatePart?: () => void;
+    onDuplicate?: () => void;
     part: ProjectPart;
     project: Project;
 }
@@ -36,7 +36,7 @@ export const PartSettingsModal = ({
     project,
     onSave,
     onDelete,
-    onDuplicatePart,
+    onDuplicate,
 }: PartSettingsModalProps) => {
     const { isOpen: isUrlModalOpen, close: urlModalClose } = useUrlModal(
         paramName,
@@ -46,6 +46,7 @@ export const PartSettingsModal = ({
     const isControlled = controlledIsOpen !== undefined;
     const isOpen = isControlled ? controlledIsOpen : isUrlModalOpen;
     const pathname = usePathname();
+    const canDelete = project.parts.length > 1;
 
     const restart = () => {
         _restart();
@@ -89,13 +90,12 @@ export const PartSettingsModal = ({
     });
 
     const handleDelete = () => {
-        if (project.parts.length <= 1) return;
+        if (!canDelete) return;
         if (!isConfirmingDelete) {
             setIsConfirmingDelete(true);
             return;
         }
         onDelete?.();
-        handleClose();
     };
 
     return (
@@ -225,7 +225,7 @@ export const PartSettingsModal = ({
                                     label: 'Duplicate Part',
                                     onClick: () => {
                                         handleClose();
-                                        onDuplicatePart?.();
+                                        onDuplicate?.();
                                     },
                                 },
                                 {
@@ -249,8 +249,8 @@ export const PartSettingsModal = ({
                                 type="button"
                                 size="small"
                                 onClick={handleDelete}
-                                disabled={project.parts.length === 1}
                                 className="w-fit!"
+                                disabled={!canDelete}
                             >
                                 {!isConfirmingDelete
                                     ? 'Delete part?'

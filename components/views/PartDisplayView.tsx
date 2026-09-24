@@ -1,6 +1,6 @@
 'use client';
 
-import { notFound } from 'next/navigation';
+import { notFound, useRouter } from 'next/navigation';
 import { ArrowLeft, EllipsisVertical, Icon } from 'lucide-react';
 import { yarnBall } from '@lucide/lab';
 
@@ -10,17 +10,18 @@ import {
     getActiveSecondaryCounter,
     getSecondaryCounterProgress,
 } from '@/utils/counter';
+import { UpdatePartDTO } from '@/schemas/partSchema';
 import { EditSecondaryCounterDTO } from '@/schemas/secondaryCounterSchema';
+import { ProjectPart } from '@/types/project';
 import { Button } from '../ui/Button';
 import { Loading } from '../ui/Loading';
-import { ProjectPartsNav } from '../navigation/ProjectPartsNav';
 import { Tag } from '../ui/Tag';
+import { ProjectPartsNav } from '../navigation/ProjectPartsNav';
 import { GlobalCounter } from '../widgets/GlobalCounter';
-import { NeedleIcon } from '../icons/NeedleIcon';
 import { SecondaryCounter } from '../widgets/SecondaryCounter';
 import { SecondaryCounterSettingsModal } from '../widgets/SecondaryCounterSettingsModal';
 import { PartSettingsModal } from '../widgets/PartSettingsModal';
-import { useRouter } from 'next/navigation';
+import { NeedleIcon } from '../icons/NeedleIcon';
 
 interface PageDisplayProps {
     slug: string;
@@ -29,7 +30,7 @@ interface PageDisplayProps {
 
 export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
     const router = useRouter();
-    
+
     const { data: projects, isHydrated } = useHydratedStore(
         useProjectStore,
         (state) => state.projects
@@ -43,7 +44,9 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
     const deleteSecondaryCounter = useProjectStore(
         (state) => state.deleteSecondaryCounter
     );
-    const duplicatePart = useProjectStore(state => state.duplicatePart)
+    const duplicatePart = useProjectStore((state) => state.duplicatePart);
+    const updatePart = useProjectStore((state) => state.updatePart);
+    const deletePart = useProjectStore((state) => state.deletePart);
 
     if (!projects || !isHydrated) {
         return <Loading message="Loading your part..." />;
@@ -74,6 +77,7 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
           ]
         : part.secondaryCounters;
 
+    // rows handlers
     const handleSetRow = (row: number): void => {
         setRow(project.id, part.id, row);
     };
@@ -83,6 +87,8 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
     const handledDcrementRow = (): void => {
         decrementRow(project.id, part.id);
     };
+
+    // secondary counter handlers
     const handleUpdateSecondaryCounter = (
         counterId: string,
         data: EditSecondaryCounterDTO
@@ -93,26 +99,40 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
         deleteSecondaryCounter(project.id, part.id, counterId);
     };
 
+    // part handlers
     const handleDuplicatePart = () => {
-        const newSlug = duplicatePart(project.id, part.id)
+        const newSlug = duplicatePart(project.id, part.id);
         if (newSlug) {
-            router.push(`/projects/${project.slug}/parts/${newSlug}`)
+            router.push(`/projects/${project.slug}/parts/${newSlug}`);
         }
-    }
+    };
+    const handleSavePart = (data: UpdatePartDTO) => {
+        updatePart(project.id, part.id, data);
+    };
+    const handleDeletePart = () => {
+        deletePart(project.id, part.id);
+        const parts = project.parts.filter(({ id }) => id !== part.id);
+        const slug = parts.length
+            ? parts.sort(
+                  (a: ProjectPart, b: ProjectPart): number =>
+                      new Date(b.updatedAt).getTime() -
+                      new Date(a.updatedAt).getTime()
+              )[0].slug
+            : 'new';
+        const url = `/projects/${project.slug}/parts/${slug}`;
+        router.push(url);
+    };
 
     return (
         <main className="page">
-            <header
-                className="w-full relative flex items-center justify-between
-                    py-3"
-            >
+            <header className="relative flex w-full items-center justify-between py-3">
                 <Button
                     href="/"
                     icon={<ArrowLeft />}
                     variant="text"
                     size="small"
                 />
-                <h1 className="text-2xl! mb-0!">{project.name}</h1>
+                <h1 className="mb-0! text-2xl!">{project.name}</h1>
                 <Button
                     icon={<EllipsisVertical />}
                     variant="text"
@@ -133,7 +153,7 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
             {(part.needleSize || part.yarnDetails) && (
                 <section
                     aria-label="Needle and yarn details"
-                    className="w-full flex justify-center gap-3"
+                    className="flex w-full justify-center gap-3"
                 >
                     {part.needleSize && (
                         <Tag
@@ -153,7 +173,7 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
             )}
             <section
                 aria-label="Main row counter"
-                className="w-full flex justify-center"
+                className="flex w-full justify-center"
             >
                 <GlobalCounter
                     row={part.currentRow}
@@ -164,12 +184,9 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
             {counters && (
                 <section
                     aria-label="Secondary counters"
-                    className="w-full flex justify-center"
+                    className="flex w-full justify-center"
                 >
-                    <div
-                        className="w-full max-w-sm grid grid-cols-2 gap-3
-                            sm:gap-4 items-stretch justify-items-center"
-                    >
+                    <div className="grid w-full max-w-sm grid-cols-2 items-stretch justify-items-center gap-3 sm:gap-4">
                         {counters.map((i) => {
                             const isActive = i.id === activeCounter?.id;
                             const progress = getSecondaryCounterProgress(
@@ -212,7 +229,14 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
                     }}
                 />
             )}
-            <PartSettingsModal project={project} part={part} onDuplicatePart={handleDuplicatePart} />
+            <PartSettingsModal
+                key={`part-${part.id}-${part.updatedAt}`}
+                project={project}
+                part={part}
+                onDuplicate={handleDuplicatePart}
+                onSave={handleSavePart}
+                onDelete={handleDeletePart}
+            />
         </main>
     );
 }
