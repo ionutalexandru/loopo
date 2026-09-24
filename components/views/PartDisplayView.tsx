@@ -20,6 +20,7 @@ import { NeedleIcon } from '../icons/NeedleIcon';
 import { SecondaryCounter } from '../widgets/SecondaryCounter';
 import { SecondaryCounterSettingsModal } from '../widgets/SecondaryCounterSettingsModal';
 import { PartSettingsModal } from '../widgets/PartSettingsModal';
+import { useRouter } from 'next/navigation';
 
 interface PageDisplayProps {
     slug: string;
@@ -27,6 +28,8 @@ interface PageDisplayProps {
 }
 
 export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
+    const router = useRouter();
+    
     const { data: projects, isHydrated } = useHydratedStore(
         useProjectStore,
         (state) => state.projects
@@ -40,6 +43,7 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
     const deleteSecondaryCounter = useProjectStore(
         (state) => state.deleteSecondaryCounter
     );
+    const duplicatePart = useProjectStore(state => state.duplicatePart)
 
     if (!projects || !isHydrated) {
         return <Loading message="Loading your part..." />;
@@ -88,6 +92,13 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
     const handleDeleteSecondaryCounter = (counterId: string) => {
         deleteSecondaryCounter(project.id, part.id, counterId);
     };
+
+    const handleDuplicatePart = () => {
+        const newSlug = duplicatePart(project.id, part.id)
+        if (newSlug) {
+            router.push(`/projects/${project.slug}/parts/${newSlug}`)
+        }
+    }
 
     return (
         <main className="page">
@@ -201,7 +212,7 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
                     }}
                 />
             )}
-            <PartSettingsModal project={project} part={part} />
+            <PartSettingsModal project={project} part={part} onDuplicatePart={handleDuplicatePart} />
         </main>
     );
 }

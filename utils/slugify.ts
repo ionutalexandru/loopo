@@ -1,5 +1,5 @@
 /**
- * Transform a guman-readable title into a URL-safe, normalized slug.
+ * Transform a human-readable title into a URL-safe, normalized slug.
  *
  * @param text - Input string
  * @param prefix - Text to prepend to the slug
@@ -23,4 +23,26 @@ export function slugify(
         .substring(0, 50);
 
     return [prefix, slug, sufix].filter((el) => el).join('-');
+}
+
+/**
+ * Transform a human-readbale title into a normalized slug, and guarantees that
+ * there are no collisions.
+ *
+ * @param title - Input string
+ * @param existing - List of existing slugs
+ * @returns Unique slug
+ */
+export function generateUniqueSlug(title: string, existing: string[]): string {
+    const baseSlug = slugify(title);
+    const slugSet = new Set(existing);
+
+    if (!slugSet.has(baseSlug)) return baseSlug;
+
+    let counter = 2;
+    while (slugSet.has(`${baseSlug}-${counter}`)) {
+        counter++;
+    }
+
+    return `${baseSlug}-${counter}`;
 }

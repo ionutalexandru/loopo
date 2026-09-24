@@ -8,6 +8,7 @@ import {
 } from '@/types/project';
 import { hasCounterOverlap } from '@/utils/counter';
 import { MOCK_PROJECTS } from '@/data/mockProjects';
+import { generateUniqueSlug } from '@/utils/slugify';
 
 export interface CounterMutationResult {
     success: boolean;
@@ -57,6 +58,8 @@ interface ProjectState {
     ) => void;
     // Deletes a part from a project
     deletePart: (projectId: string, partId: string) => void;
+    // Duplicate a part from a project, counter set to 0
+    duplicatePart: (projectId: string, partId: string) => void | string;
 
     // -- ROW TRACKING CRUD ACTIONS --
     // Increments current row of a part by 1
@@ -217,6 +220,59 @@ export const useProjectStore = create<ProjectState>()(
                         };
                     }),
                 })),
+
+            duplicatePart: (projectId, partId) => {
+                const project = get().projects.find(
+                    ({ id }) => id === projectId
+                );
+                const sourcePart = project?.parts.find(
+                    ({ id }) => id === partId
+                );
+
+                if (!project || !sourcePart) return undefined;
+
+                const now = new Date().toISOString();
+                const newPartId = crypto.randomUUID();
+                const baseName = `${sourcePart.name} (Copy)`;
+                const newSlug = generateUniqueSlug(
+                    baseName,
+                    project.parts.map(({ slug }) => slug)
+                );
+
+                const clonedCounters: SecondaryCounter[] =
+                    sourcePart.secondaryCounters.map((counter) => ({
+                        ...counter,
+                        id: crypto.randomUUID(),
+                        partId: newPartId,
+                        createdAt: now,
+                        updatedAt: now,
+                    }));
+
+                const newPart: ProjectPart = {
+                    ...sourcePart,
+                    id: newPartId,
+                    projectId,
+                    name: baseName,
+                    slug: newSlug,
+                    currentRow: 0,
+                    secondaryCounters: clonedCounters,
+                    createdAt: now,
+                    updatedAt: now,
+                };
+
+                set((state) => ({
+                    projects: state.projects.map((p) => {
+                        if (p.id !== projectId) return p;
+                        return {
+                            ...p,
+                            updatedAt: now,
+                            parts: [...p.parts, newPart],
+                        };
+                    }),
+                }));
+
+                return newSlug;
+            },
 
             // -- ROW ACTIONS --
             incrementRow: (projectId, partId) => {

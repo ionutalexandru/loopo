@@ -4,7 +4,7 @@ import { useUrlModal } from '@/hooks/useUrlModal';
 import { Project, ProjectPart } from '@/types/project';
 import { Modal } from '../ui/Modal';
 import { Loading } from '../ui/Loading';
-import { BellRing, Check, ChevronRight, X } from 'lucide-react';
+import { BellRing, Check, X } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
 import { UpdatePartDTO, updatePartSchema } from '@/schemas/partSchema';
@@ -12,6 +12,8 @@ import { useZodForm } from '@/hooks/useZodForm';
 import { FormAlert } from '../ui/FormAlert';
 import { Input } from '../ui/Input';
 import { useState } from 'react';
+import { ActionList } from '../ui/ActionList';
+import { usePathname } from 'next/navigation';
 
 export interface PartSettingsModalProps {
     isOpen?: boolean;
@@ -20,6 +22,7 @@ export interface PartSettingsModalProps {
     paramValue?: string;
     onSave?: (data: UpdatePartDTO) => void;
     onDelete?: () => void;
+    onDuplicatePart?: () => void;
     part: ProjectPart;
     project: Project;
 }
@@ -33,6 +36,7 @@ export const PartSettingsModal = ({
     project,
     onSave,
     onDelete,
+    onDuplicatePart,
 }: PartSettingsModalProps) => {
     const { isOpen: isUrlModalOpen, close: urlModalClose } = useUrlModal(
         paramName,
@@ -41,6 +45,7 @@ export const PartSettingsModal = ({
     const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
     const isControlled = controlledIsOpen !== undefined;
     const isOpen = isControlled ? controlledIsOpen : isUrlModalOpen;
+    const pathname = usePathname();
 
     const restart = () => {
         _restart();
@@ -103,11 +108,8 @@ export const PartSettingsModal = ({
                 showCloseButton={false}
                 containerClassName="backdrop-blur-xl"
             >
-                <div className="w-full flex justify-between items-center">
-                    <span
-                        className="uppercase text-misty-gray text-base
-                            font-black"
-                    >
+                <div className="flex w-full items-center justify-between">
+                    <span className="text-misty-gray text-base font-black uppercase">
                         {project.name}
                     </span>
                     <Button
@@ -211,41 +213,31 @@ export const PartSettingsModal = ({
                                 size="small"
                                 className="w-fit!"
                                 icon={<BellRing />}
+                                disabled
                             >
                                 View alerts
                             </Button>
                         </Card>
-                        <Card
-                            variant="elevated"
-                            className="flex flex-col gap-6"
-                        >
-                            <h4 className="text-misty-gray! mb-0!">
-                                Additional actions
-                            </h4>
-                            <div
-                                className="flex flex-col divide-y
-                                    divide-chalk-gray"
-                            >
-                                <button
-                                    type="button"
-                                    className="flex justify-between
-                                        font-semibold cursor-pointer py-4
-                                        hover:text-crimson"
-                                >
-                                    Duplicate Part
-                                    <ChevronRight />
-                                </button>
-                                <button
-                                    type="button"
-                                    className="flex justify-between
-                                        font-semibold cursor-pointer py-4
-                                        hover:text-crimson"
-                                >
-                                    Add Counter
-                                    <ChevronRight />
-                                </button>
-                            </div>
-                        </Card>
+                        <ActionList
+                            title="Addtional actions"
+                            items={[
+                                {
+                                    label: 'Duplicate Part',
+                                    onClick: () => {
+                                        handleClose();
+                                        onDuplicatePart?.();
+                                    },
+                                },
+                                {
+                                    label: 'Add part',
+                                    href: `/projects/${project.slug}/parts/new?from=${encodeURIComponent(pathname)}`,
+                                },
+                                {
+                                    label: 'Add counter',
+                                    disabled: true,
+                                },
+                            ]}
+                        />
                         <Card
                             variant="elevated"
                             className="flex flex-col gap-6"
@@ -268,6 +260,7 @@ export const PartSettingsModal = ({
                         <Button
                             type="submit"
                             className="w-fit!"
+                            variant="squared"
                             icon={<Check />}
                         >
                             {isSubmitting

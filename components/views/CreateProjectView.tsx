@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 
 import { createProjectSchema } from '@/schemas/projectSchema';
 import { useProjectStore } from '@/store/useProjectStore';
-import { slugify } from '@/utils/slugify';
+import { generateUniqueSlug } from '@/utils/slugify';
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
 import { Input } from '../ui/Input';
@@ -36,13 +36,10 @@ export default function CreateProjectView() {
             notes: '',
         },
         onSubmit: (validData) => {
-            const baseSlug = slugify(validData.name);
-
-            const duplicates = existingProjects.filter((p) =>
-                p.slug.startsWith(baseSlug)
-            ).length;
-            const projectSlug =
-                duplicates > 0 ? `${baseSlug}-${duplicates + 1}` : baseSlug;
+            const projectSlug = generateUniqueSlug(
+                validData.name,
+                existingProjects.map(({ slug }) => slug)
+            );
 
             addProject({
                 userId: 'user-local',
@@ -61,10 +58,7 @@ export default function CreateProjectView() {
     return (
         <main className="page">
             {/* Header Bar */}
-            <header
-                className="w-full relative flex items-center justify-center
-                    py-3"
-            >
+            <header className="relative flex w-full items-center justify-center py-3">
                 <Button
                     href="/"
                     icon={<ArrowLeft />}

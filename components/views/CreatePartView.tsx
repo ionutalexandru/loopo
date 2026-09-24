@@ -1,12 +1,12 @@
 'use client';
 
 import { ArrowLeft, Check } from 'lucide-react';
-import { notFound, useRouter } from 'next/navigation';
+import { notFound, useRouter, useSearchParams } from 'next/navigation';
 
 import { useProjectStore } from '@/store/useProjectStore';
 import { useHydratedStore } from '@/hooks/useHydratedStore';
 import { useZodForm } from '@/hooks/useZodForm';
-import { slugify } from '@/utils/slugify';
+import { generateUniqueSlug } from '@/utils/slugify';
 import { createPartSchema } from '@/schemas/partSchema';
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
@@ -50,13 +50,10 @@ export default function CreatePartView({ slug }: CreatePartViewProps) {
 
             if (!currentProject) return;
 
-            const baseSlug = slugify(validatedData.name);
-
-            const duplicates = (currentProject.parts || []).filter((p) =>
-                p.slug.startsWith(baseSlug)
-            ).length;
-            const partSlug =
-                duplicates > 0 ? `${baseSlug}-${duplicates + 1}` : baseSlug;
+            const partSlug = generateUniqueSlug(
+                validatedData.name,
+                currentProject.parts.map(({ slug }) => slug)
+            );
 
             addPart(currentProject.id, {
                 name: validatedData.name,
@@ -70,6 +67,7 @@ export default function CreatePartView({ slug }: CreatePartViewProps) {
             router.push(`/projects/${currentProject.slug}/parts/${partSlug}`);
         },
     });
+    const searchParams = useSearchParams();
 
     if (!isHydrated || !projects) {
         return <Loading message="Loading your part..." />;
@@ -83,14 +81,9 @@ export default function CreatePartView({ slug }: CreatePartViewProps) {
 
     return (
         <main className="page">
-            <header
-                className="w-full relative flex items-center justify-center
-                    py-3"
-            >
+            <header className="relative flex w-full items-center justify-center py-3">
                 <Button
-                    href={
-                        project.parts.length ? `/projects/${project.slug}` : '/'
-                    }
+                    href={searchParams.get('from') || '/'}
                     icon={<ArrowLeft />}
                     variant="text"
                     size="small"
