@@ -1,12 +1,12 @@
 import { z } from 'zod';
 import { Project } from '@/types/project';
 
-export type CreateProjectDTO = Pick<
+type BaseProjectDTO = Pick<
     Project,
     'name' | 'craftType' | 'patternName' | 'notes'
 >;
 
-export const createProjectSchema: z.ZodType<CreateProjectDTO> = z.object({
+const baseProjectSchema = z.object({
     name: z
         .string()
         .trim()
@@ -24,3 +24,17 @@ export const createProjectSchema: z.ZodType<CreateProjectDTO> = z.object({
         .max(500, 'Input must be 500 characters or less')
         .optional(),
 });
+
+export type CreateProjectDTO = BaseProjectDTO;
+export const createProjectSchema: z.ZodType<CreateProjectDTO> =
+    baseProjectSchema;
+
+export type UpdateProjectDTO = Pick<
+    Project,
+    'name' | 'craftType' | 'patternName' | 'notes' | 'status'
+>;
+
+export const updateProjectSchema: z.ZodType<UpdateProjectDTO> =
+    baseProjectSchema.extend({
+        status: z.enum(['active', 'paused', 'completed', 'archived'] as const),
+    });

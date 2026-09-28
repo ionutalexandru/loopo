@@ -46,7 +46,7 @@ export const getSecondaryCounterSchema = (
             const { startRow, endRow } = getCounterRowRange(data);
 
             // Active counter cannot start in a future row
-            if (data.startsOnGlobalRow > currentGlobalRow) {
+            if (data.startsOnGlobalRow < currentGlobalRow) {
                 ctx.addIssue({
                     code: 'custom',
                     path: ['startsOnGlobalRow'],

@@ -1,9 +1,6 @@
 import { z } from 'zod';
 import { ProjectPart } from '@/types/project';
 
-/**
- * Data Transfer Object for creating and updating project parts.
- */
 export type PartDTO = Pick<
     ProjectPart,
     'name' | 'currentRow' | 'totalRows' | 'needleSize' | 'yarnDetails' | 'notes'

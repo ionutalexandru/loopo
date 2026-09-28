@@ -5,7 +5,6 @@ import { useMemo, useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Modal } from '@/components/ui/Modal';
-import { useUrlModal } from '@/hooks/useUrlModal';
 import {
     BaseSecondaryCounterDTO,
     SecondaryCounterDTO,

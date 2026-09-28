@@ -25,6 +25,9 @@ import { SecondaryCounter } from '../widgets/SecondaryCounter';
 import { SecondaryCounterSettingsModal } from '../widgets/SecondaryCounterSettingsModal';
 import { PartSettingsModal } from '../widgets/PartSettingsModal';
 import { NeedleIcon } from '../icons/NeedleIcon';
+import Link from 'next/link';
+import { ProjectSettingsModal } from '../widgets/PorjectSettingsModal';
+import { UpdateProjectDTO } from '@/schemas/projectSchema';
 
 interface PageDisplayProps {
     slug: string;
@@ -41,6 +44,8 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
     const setRow = useProjectStore((state) => state.setRow);
     const incrementRow = useProjectStore((state) => state.incrementRow);
     const decrementRow = useProjectStore((state) => state.decrementRow);
+    const updateProject = useProjectStore((state) => state.updateProject);
+    const deleteProject = useProjectStore((state) => state.deleteProject);
     const addSecondaryCounter = useProjectStore(
         (state) => state.addSecondaryCounter
     );
@@ -133,6 +138,15 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
         router.push(url);
     };
 
+    // project handlers
+    const handleUpdateProject = (data: UpdateProjectDTO) => {
+        updateProject(project.id, data);
+    };
+    const handleDeleteProject = () => {
+        deleteProject(project.id);
+        router.push('/');
+    };
+
     return (
         <main className="page">
             <header className="relative flex w-full items-center justify-between py-3">
@@ -142,7 +156,16 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
                     variant="text"
                     size="small"
                 />
-                <h1 className="mb-0! text-2xl!">{project.name}</h1>
+                <Link
+                    href="?settings=project"
+                    scroll={false}
+                    className="cursor-pointer text-center transition-colors select-none"
+                    title="Project settings"
+                >
+                    <h1 className="hover:text-vibrant-coral! mb-0! text-2xl! transition-colors">
+                        {project.name}
+                    </h1>
+                </Link>
                 <Button
                     icon={<EllipsisVertical />}
                     variant="text"
@@ -240,6 +263,12 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
                 onDuplicate={handleDuplicatePart}
                 onSave={handleSavePart}
                 onDelete={handleDeletePart}
+            />
+            <ProjectSettingsModal
+                key={`project-${project.id}-${project.updatedAt}`}
+                project={project}
+                onSave={handleUpdateProject}
+                onDelete={handleDeleteProject}
             />
         </main>
     );
