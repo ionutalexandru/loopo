@@ -51,11 +51,16 @@ export const Input = ({
     };
 
     return (
-        <div className="flex w-full flex-col gap-1.5 font-sans focus:outline-hidden focus-visible:outline-hidden">
+        <div
+            className="flex w-full flex-col gap-1.5 font-sans
+                focus:outline-hidden focus-visible:outline-hidden"
+        >
             {label && (
                 <label
                     htmlFor={generatedId}
-                    className={`text-xs font-semibold transition-colors select-none ${error ? 'text-crimson' : disabled ? 'opacity-40' : ''}`}
+                    className={`text-xs font-semibold transition-colors
+                    select-none
+                    ${error ? 'text-crimson' : disabled ? 'opacity-40' : ''}`}
                 >
                     {label}
                 </label>
@@ -67,16 +72,23 @@ export const Input = ({
                     type={type}
                     ref={ref}
                     disabled={disabled}
-                    className={`${baseInputStyles} ${getInputModifiers()} ${className}`}
+                    className={`${baseInputStyles} ${getInputModifiers()}
+                        ${className}`}
                     {...props}
                 />
                 {error && (
-                    <span className="text-crimson animate-fade-in absolute right-4 flex items-center justify-center">
+                    <span
+                        className="text-crimson animate-fade-in absolute right-4
+                            flex items-center justify-center"
+                    >
                         <AlertTriangle size={20} strokeWidth={2.5} />
                     </span>
                 )}
                 {success && !error && (
-                    <span className="text-misty-grey animate-fade-in absolute right-4 flex items-center justify-center">
+                    <span
+                        className="text-misty-grey animate-fade-in absolute
+                            right-4 flex items-center justify-center"
+                    >
                         <Check size={20} strokeWidth={2.5} />
                     </span>
                 )}
@@ -87,7 +99,10 @@ export const Input = ({
                 </span>
             ) : (
                 helpText && (
-                    <div className="text-misty-grey flex items-center gap-1.5 text-xs select-none">
+                    <div
+                        className="text-misty-grey flex items-center gap-1.5
+                            text-xs select-none"
+                    >
                         <HelpCircle
                             size={14}
                             strokeWidth={2.5}

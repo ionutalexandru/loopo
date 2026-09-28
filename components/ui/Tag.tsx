@@ -13,7 +13,7 @@ export const Tag = ({
     label,
     variant = 'neutral',
     icon,
-    className,
+    className = '',
 }: TagProps) => {
     const generatedId = useId();
 
@@ -53,7 +53,7 @@ export const Tag = ({
             className={`${defaultStyles} ${variantStyles[variant]} ${className}`}
         >
             {renderIcon()}
-            {label}
+            <span className="line-clamp-1">{label}</span>
         </div>
     );
 };

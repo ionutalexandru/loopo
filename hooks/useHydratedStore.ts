@@ -7,7 +7,7 @@ const emptySubscribe = () => () => {};
 export function useHydratedStore<T, F>(
     store: (callback: (state: T) => unknown) => unknown,
     selector: (state: T) => F
-): F | undefined {
+): { data: F | undefined; isHydrated: boolean } {
     const isHydrated = useSyncExternalStore(
         emptySubscribe,
         () => true,
@@ -16,5 +16,5 @@ export function useHydratedStore<T, F>(
 
     const data = store(selector) as F;
 
-    return isHydrated ? data : undefined;
+    return { data, isHydrated };
 }

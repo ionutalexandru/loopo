@@ -15,7 +15,9 @@ export interface ModalProps {
     maxWidth?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
     closeOnBackdropClick?: boolean;
     showCloseButton?: boolean;
+    containerClassName?: string;
     className?: string;
+    cartProps?: Omit<React.ComponentProps<typeof Card>, 'children'>;
 }
 
 const MAX_WIDTH_CLASSES = {
@@ -35,7 +37,9 @@ export const Modal = ({
     maxWidth = 'md',
     closeOnBackdropClick = true,
     showCloseButton = true,
+    containerClassName = '',
     className = '',
+    cartProps,
 }: ModalProps) => {
     const handleKeyDown = useCallback(
         (e: KeyboardEvent) => {
@@ -60,46 +64,57 @@ export const Modal = ({
 
     if (!isOpen) return null;
 
+    const handleBackdropClick = (e: React.MouseEvent) => {
+        if (closeOnBackdropClick && e.target === e.currentTarget) {
+            onClose();
+        }
+    };
+
     return (
         <div
             role="dialog"
             aria-modal="true"
-            className="fixed inset-0 z-50 backdrop-blur-sm overflow-scroll
-                overscroll-contain px-4 flex items-center justify-center"
-            onClick={(e) => {
-                if (closeOnBackdropClick && e.target === e.currentTarget) {
-                    onClose();
-                }
-            }}
+            className={`fixed inset-0 z-50 overflow-y-auto overscroll-contain
+                backdrop-blur-sm ${containerClassName}`}
+            onClick={handleBackdropClick}
         >
-            <Card
-                variant="elevated"
-                className={`${MAX_WIDTH_CLASSES[maxWidth]} gap-5 hover:shadow-md
-                    ${className}`}
+            <div
+                className="flex min-h-full items-center justify-center p-4 py-8
+                    sm:py-12"
+                onClick={handleBackdropClick}
             >
-                {(title || showCloseButton) && (
-                    <div className="w-full flex justify-between items-center">
-                        {title && (
-                            <h3
-                                className="uppercase text-misty-gray! text-base!
-                                    mb-0!"
-                            >
-                                {title}
-                            </h3>
-                        )}
-                        {showCloseButton && (
-                            <Button
-                                variant="text"
-                                color="secondary"
-                                onClick={onClose}
-                                icon={<X />}
-                            />
-                        )}
-                    </div>
-                )}
-                {subtitle && <h4 className="text-sm!">{subtitle}</h4>}
-                <div className="w-full">{children}</div>
-            </Card>
+                <Card
+                    variant="elevated"
+                    className={`${MAX_WIDTH_CLASSES[maxWidth]} gap-5
+                        ${className}`}
+                    {...cartProps}
+                >
+                    {(title || showCloseButton) && (
+                        <div
+                            className="w-full flex justify-between items-center"
+                        >
+                            {title && (
+                                <h3
+                                    className="uppercase text-misty-gray!
+                                        text-base! mb-0!"
+                                >
+                                    {title}
+                                </h3>
+                            )}
+                            {showCloseButton && (
+                                <Button
+                                    variant="text"
+                                    color="secondary"
+                                    onClick={onClose}
+                                    icon={<X />}
+                                />
+                            )}
+                        </div>
+                    )}
+                    {subtitle && <h4 className="text-sm!">{subtitle}</h4>}
+                    <div className="w-full">{children}</div>
+                </Card>
+            </div>
         </div>
     );
 };

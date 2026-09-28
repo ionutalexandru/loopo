@@ -12,23 +12,23 @@ export interface NavItemProps {
 
 export interface NavProps {
     parts: NavItemProps[];
-    activePartId: string;
+    activePartId?: string;
     onSelectPart?: (partId: string) => void;
     className?: string;
 }
 
 export const ProjectPartsNav = ({
     parts,
-    activePartId: controlledActivePartId,
+    activePartId: controlledActivePartId = '',
     onSelectPart,
     className = '',
 }: NavProps) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const isFirstRender = useRef(true);
     const pathname = usePathname();
-    const activePartId =
-        controlledActivePartId ??
-        parts.find((p) => p.href && pathname === p.href)?.id;
+    const activePartId = controlledActivePartId
+        ? controlledActivePartId
+        : parts.find((p) => p.href && pathname === p.href)?.id;
 
     useEffect(() => {
         const container = containerRef.current;
@@ -57,52 +57,52 @@ export const ProjectPartsNav = ({
         <div className={`relative ${className}`}>
             <div
                 className="absolute left-0 top-0 bottom-0 w-16 bg-linear-to-r
-                    from-pure-wool to-transparent pointer-events-none z-10"
+                    from-bone-white to-transparent pointer-events-none z-10"
             />
             <div
                 className="absolute right-0 top-0 bottom-0 w-16 bg-linear-to-l
-                    from-pure-wool to-transparent pointer-events-none z-10"
+                    from-bone-white to-transparent pointer-events-none z-10"
             />
             <div
                 ref={containerRef}
-                className="px-16 w-full flex items-center gap-2 [scrollbar-none]
-                    overflow-auto [&::-webkit-scrollbar]:hidden scroll-smooth
-                    select-none whitespace-nowrap"
+                className="w-full overflow-x-auto [scrollbar-none]
+                    [&::-webkit-scrollbar]:hidden scroll-smooth"
             >
-                {parts.map((part) => {
-                    const isActive = part.id === activePartId;
+                <div
+                    className="flex w-max min-w-full items-center justify-center
+                        gap-2 px-16"
+                >
+                    {parts.map((part) => {
+                        const isActive = part.id === activePartId;
 
-                    const baseStyles = `text-xs font-bold px-5 py-3 inline-block rounded-full cursor-pointer ${isActive ? 'font-wool bg-vibrant-coral text-white shadow-xs' : 'bg-chalk-gray'}`;
+                        const baseStyles = `text-xs font-bold px-5 py-3 rounded-full cursor-pointer ${isActive ? 'font-wool bg-vibrant-coral text-white shadow-xs' : 'bg-chalk-gray'}`;
 
-                    if (part.href && !controlledActivePartId) {
+                        if (part.href && !controlledActivePartId) {
+                            return (
+                                <Link
+                                    key={part.id}
+                                    href={part.href}
+                                    data-active={isActive}
+                                    className={baseStyles}
+                                    onClick={() => onSelectPart?.(part.id)}
+                                >
+                                    {part.label}
+                                </Link>
+                            );
+                        }
                         return (
-                            <Link
+                            <button
                                 key={part.id}
-                                href={part.href}
+                                type="button"
                                 data-active={isActive}
+                                onClick={() => onSelectPart?.(part.id)}
                                 className={baseStyles}
-                                onClick={() =>
-                                    onSelectPart && onSelectPart(part.id)
-                                }
                             >
                                 {part.label}
-                            </Link>
+                            </button>
                         );
-                    }
-                    return (
-                        <button
-                            key={part.id}
-                            type="button"
-                            data-active={isActive}
-                            onClick={() =>
-                                onSelectPart && onSelectPart(part.id)
-                            }
-                            className={baseStyles}
-                        >
-                            {part.label}
-                        </button>
-                    );
-                })}
+                    })}
+                </div>
             </div>
         </div>
     );
