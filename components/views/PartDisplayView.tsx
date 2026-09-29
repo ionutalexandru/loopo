@@ -26,7 +26,7 @@ import { SecondaryCounterSettingsModal } from '../widgets/SecondaryCounterSettin
 import { PartSettingsModal } from '../widgets/PartSettingsModal';
 import { NeedleIcon } from '../icons/NeedleIcon';
 import Link from 'next/link';
-import { ProjectSettingsModal } from '../widgets/PorjectSettingsModal';
+import { ProjectSettingsModal } from '../widgets/ProjectSettingsModal';
 import { UpdateProjectDTO } from '@/schemas/projectSchema';
 
 interface PageDisplayProps {
