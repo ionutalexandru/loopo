@@ -81,22 +81,18 @@ export default function CreatePartView({ slug }: CreatePartViewProps) {
 
     return (
         <main className="page">
-            <header className="relative flex w-full items-center justify-center py-3">
+            <header>
                 <Button
                     href={searchParams.get('from') || '/'}
                     icon={<ArrowLeft />}
                     variant="text"
                     size="small"
-                    className="absolute left-0"
+                    className="back"
                 />
                 <h1 className="text-2xl!">Create a part</h1>
             </header>
-            <Card variant="elevated">
-                <form
-                    onSubmit={handleSubmit}
-                    noValidate
-                    className="flex flex-col gap-5"
-                >
+            <form onSubmit={handleSubmit} noValidate className="space-y-5">
+                <Card variant="elevated" className="flex flex-col gap-6">
                     {errors.general && (
                         <FormAlert variant="error" message={errors.general} />
                     )}
@@ -106,33 +102,35 @@ export default function CreatePartView({ slug }: CreatePartViewProps) {
                         onChange={handleFieldChange}
                         error={errors.name}
                         name="name"
-                        placeholder="Front"
+                        placeholder="e.g. Front part, Left Sleeve"
                         onBlur={handleBlur}
                         success={isFieldValid('name')}
                     />
-                    <Input
-                        label="Current Row"
-                        value={formData.currentRow}
-                        onChange={handleFieldChange}
-                        error={errors.currentRow}
-                        name="currentRow"
-                        onBlur={handleBlur}
-                        success={isFieldValid('currentRow')}
-                        type="number"
-                        inputMode="numeric"
-                    />
-                    <Input
-                        label="Total Rows"
-                        value={formData.totalRows}
-                        onChange={handleFieldChange}
-                        error={errors.totalRows}
-                        name="totalRows"
-                        placeholder="e.g., 120"
-                        onBlur={handleBlur}
-                        success={isFieldValid('totalRows')}
-                        type="number"
-                        inputMode="numeric"
-                    />
+                    <div className="flex flex-row gap-6">
+                        <Input
+                            label="Current Row"
+                            value={formData.currentRow}
+                            onChange={handleFieldChange}
+                            error={errors.currentRow}
+                            name="currentRow"
+                            onBlur={handleBlur}
+                            success={isFieldValid('currentRow')}
+                            type="number"
+                            inputMode="numeric"
+                        />
+                        <Input
+                            label="Total Rows"
+                            value={formData.totalRows}
+                            onChange={handleFieldChange}
+                            error={errors.totalRows}
+                            name="totalRows"
+                            placeholder="e.g., 120"
+                            onBlur={handleBlur}
+                            success={isFieldValid('totalRows')}
+                            type="number"
+                            inputMode="numeric"
+                        />
+                    </div>
                     <Input
                         label="Needle/Hook Size"
                         value={formData.needleSize}
@@ -162,21 +160,28 @@ export default function CreatePartView({ slug }: CreatePartViewProps) {
                         onBlur={handleBlur}
                         success={isFieldValid('notes')}
                     />
+                </Card>
+                <div className="flex flex-col gap-5">
                     <Button
                         type="submit"
                         variant="squared"
                         color="primary"
                         disabled={isSubmitting}
-                        className="mt-5"
+                        className="mt-5 w-fit!"
                         icon={!isSubmitting ? <Check /> : null}
                     >
                         {isSubmitting ? 'Creating part...' : 'Start crafting'}
                     </Button>
-                    <Button variant="text" color="secondary" href="/">
+                    <Button
+                        variant="text"
+                        color="secondary"
+                        href="/"
+                        className="w-fit!"
+                    >
                         Cancel
                     </Button>
-                </form>
-            </Card>
+                </div>
+            </form>
             {isSubmitting && <Loading message="Creating part..." />}
         </main>
     );
