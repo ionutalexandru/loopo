@@ -4,11 +4,13 @@ import Link from 'next/link';
 export type ButtonVariant = 'text' | 'squared' | 'pill';
 export type ButtonColor = 'primary' | 'secondary' | 'danger';
 export type ButtonSize = 'default' | 'small';
+export type ButtonIconPosition = 'left' | 'right';
 
 export interface BaseButtonProps {
     color?: ButtonColor;
     variant?: ButtonVariant;
     icon?: React.ReactNode;
+    iconPosition?: ButtonIconPosition;
     children?: React.ReactNode;
     size?: ButtonSize;
     disabled?: boolean;
@@ -41,6 +43,7 @@ export const Button = React.forwardRef<
             color = 'primary',
             size = 'default',
             icon,
+            iconPosition = 'left',
             children,
             className = '',
             disabled,
@@ -114,10 +117,9 @@ export const Button = React.forwardRef<
                     href={href}
                     className={`${combinedClassName} ${
                         disabled
-                            ? `bg-chalk-gray! pointer-events-none
-                                text-misty-gray!`
+                            ? `bg-chalk-gray! text-misty-gray! pointer-events-none`
                             : ''
-                        }`}
+                    }`}
                     onClick={(e) => {
                         if (disabled) {
                             e.preventDefault();
@@ -128,8 +130,9 @@ export const Button = React.forwardRef<
                     aria-disabled={disabled}
                     {...anchorRest}
                 >
-                    {renderIcon()}
+                    {iconPosition === 'left' && renderIcon()}
                     {children}
+                    {iconPosition === 'right' && renderIcon()}
                 </Link>
             );
         }
@@ -145,8 +148,9 @@ export const Button = React.forwardRef<
                 className={combinedClassName}
                 {...buttonRest}
             >
-                {renderIcon()}
+                {iconPosition === 'left' && renderIcon()}
                 {children}
+                {iconPosition === 'right' && renderIcon()}
             </button>
         );
     }

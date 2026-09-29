@@ -161,7 +161,7 @@ export default function CreatePartView({ slug }: CreatePartViewProps) {
                         success={isFieldValid('notes')}
                     />
                 </Card>
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-5">
                     <Button
                         type="submit"
                         variant="squared"

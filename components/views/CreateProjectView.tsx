@@ -1,22 +1,22 @@
 'use client';
 
 import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import { createProjectSchema } from '@/schemas/projectSchema';
 import { useProjectStore } from '@/store/useProjectStore';
 import { generateUniqueSlug } from '@/utils/slugify';
+import { useZodForm } from '@/hooks/useZodForm';
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
 import { Input } from '../ui/Input';
 import { Select } from '../ui/Select';
 import { FormAlert } from '../ui/FormAlert';
-import { useZodForm } from '@/hooks/useZodForm';
 import { Loading } from '../ui/Loading';
 
 export default function CreateProjectView() {
     const router = useRouter();
-    const searchParams = useSearchParams();
+
     const addProject = useProjectStore((state) => state.addProject);
     const existingProjects = useProjectStore((state) => state.projects);
 
@@ -60,7 +60,7 @@ export default function CreateProjectView() {
         <main className="page">
             <header>
                 <Button
-                    href={searchParams.get('from') || '/'}
+                    href="/"
                     icon={<ArrowLeft />}
                     variant="text"
                     size="small"
@@ -117,7 +117,7 @@ export default function CreateProjectView() {
                         success={isFieldValid('notes')}
                     />
                 </Card>
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-5">
                     <Button
                         type="submit"
                         variant="squared"
@@ -125,6 +125,7 @@ export default function CreateProjectView() {
                         disabled={isSubmitting}
                         className="mt-5 w-fit!"
                         icon={<ArrowRight />}
+                        iconPosition="right"
                     >
                         {isSubmitting ? 'Creating...' : 'Continue'}
                     </Button>
