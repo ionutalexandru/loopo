@@ -27,7 +27,7 @@ interface ProjectState {
         }
     ) => string;
     // Update top-level project metadata
-    updateProject: (projectId: string, data: Partial<ProjectPart>) => string;
+    updateProject: (projectId: string, data: Partial<Project>) => string;
     // Deletes an entire project and its cascading entities
     deleteProject: (projectId: string) => void;
     setProjectStatus: (projectId: string, status: ProjectStatus) => void;

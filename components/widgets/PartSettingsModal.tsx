@@ -127,7 +127,7 @@ export const PartSettingsModal = ({
                         {errors.general && (
                             <FormAlert
                                 variant="error"
-                                message="errors.general"
+                                message={errors.general}
                             />
                         )}
                         <Card

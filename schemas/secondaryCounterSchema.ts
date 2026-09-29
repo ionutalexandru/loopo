@@ -45,15 +45,6 @@ export const getSecondaryCounterSchema = (
             const { currentGlobalRow, existingCounters } = context;
             const { startRow, endRow } = getCounterRowRange(data);
 
-            // Active counter cannot start in a future row
-            if (data.startsOnGlobalRow < currentGlobalRow) {
-                ctx.addIssue({
-                    code: 'custom',
-                    path: ['startsOnGlobalRow'],
-                    message: `Cannot start on row ${data.startsOnGlobalRow} because current progress is on row ${currentGlobalRow}.`,
-                });
-            }
-
             // Active counter cannot end before the rows already crafted
             if (endRow < currentGlobalRow) {
                 ['rowsPerRepeat', 'totalRepeats', 'startsOnGlobalRow'].map(
