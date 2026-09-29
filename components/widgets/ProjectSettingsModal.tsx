@@ -115,7 +115,7 @@ export const ProjectSettingsModal = ({
                         {errors.general && (
                             <FormAlert
                                 variant="error"
-                                message="errors.general"
+                                message={errors.general}
                             />
                         )}
                         <Card
@@ -198,7 +198,7 @@ export const ProjectSettingsModal = ({
                                 className="w-fit!"
                             >
                                 {!isConfirmingDelete
-                                    ? 'Delete part?'
+                                    ? 'Delete project?'
                                     : 'Confirm delete?'}
                             </Button>
                         </Card>

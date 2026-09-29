@@ -71,7 +71,7 @@ export default function CreateProjectView() {
             <form onSubmit={handleSubmit} noValidate className="space-y-5">
                 <Card variant="elevated" className="flex flex-col gap-6">
                     {errors.general && (
-                        <FormAlert variant="error" message="errors.general" />
+                        <FormAlert variant="error" message={errors.general} />
                     )}
                     <Input
                         label="Project Name"

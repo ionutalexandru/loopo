@@ -77,7 +77,7 @@ const SecondaryCounterForm = ({
     return (
         <form onSubmit={handleSubmit} className="space-y-5">
             {errors.general && (
-                <FormAlert variant="error" message="errors.general" />
+                <FormAlert variant="error" message={errors.general} />
             )}
             <Card variant="elevated" className="flex flex-col gap-6">
                 <Input
