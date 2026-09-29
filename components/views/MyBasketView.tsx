@@ -31,7 +31,7 @@ export default function MyBasketView() {
     return (
         <main className="page">
             {/* Header Bar */}
-            <header className="flex items-center justify-between">
+            <header className="justify-between!">
                 <Link href="/">
                     <Image
                         src="/logo.svg"
@@ -54,9 +54,9 @@ export default function MyBasketView() {
             <Card
                 variant="bordered"
                 aria-labelledby="Hero heading"
-                className="flex flex-col gap-3 items-center"
+                className="flex flex-col items-center gap-3"
             >
-                <h2 className="font-comfortaa text-lg! text-center">
+                <h2 className="font-comfortaa text-center text-lg!">
                     Hey, what are we crafting today?
                 </h2>
 
@@ -70,7 +70,7 @@ export default function MyBasketView() {
                     Start a new project
                 </Button>
             </Card>
-            <div className="flex justify-between items-center p-4">
+            <div className="flex items-center justify-between p-4">
                 <h1 className="mb-0!">My Basket</h1>
                 <Toggle
                     defaultChecked={activeOnly}

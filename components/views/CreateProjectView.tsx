@@ -1,7 +1,7 @@
 'use client';
 
-import { ArrowLeft } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { createProjectSchema } from '@/schemas/projectSchema';
 import { useProjectStore } from '@/store/useProjectStore';
@@ -16,6 +16,7 @@ import { Loading } from '../ui/Loading';
 
 export default function CreateProjectView() {
     const router = useRouter();
+    const searchParams = useSearchParams();
     const addProject = useProjectStore((state) => state.addProject);
     const existingProjects = useProjectStore((state) => state.projects);
 
@@ -57,23 +58,18 @@ export default function CreateProjectView() {
 
     return (
         <main className="page">
-            {/* Header Bar */}
-            <header className="relative flex w-full items-center justify-center py-3">
+            <header>
                 <Button
-                    href="/"
+                    href={searchParams.get('from') || '/'}
                     icon={<ArrowLeft />}
                     variant="text"
                     size="small"
-                    className="absolute left-0"
+                    className="back"
                 />
                 <h1 className="text-2xl!">Create a project</h1>
             </header>
-            <Card variant="elevated">
-                <form
-                    onSubmit={handleSubmit}
-                    noValidate
-                    className="flex flex-col gap-5"
-                >
+            <form onSubmit={handleSubmit} noValidate className="space-y-5">
+                <Card variant="elevated" className="flex flex-col gap-6">
                     {errors.general && (
                         <FormAlert variant="error" message="errors.general" />
                     )}
@@ -120,20 +116,28 @@ export default function CreateProjectView() {
                         onBlur={handleBlur}
                         success={isFieldValid('notes')}
                     />
+                </Card>
+                <div className="flex flex-col gap-6">
                     <Button
                         type="submit"
                         variant="squared"
                         color="primary"
                         disabled={isSubmitting}
-                        className="mt-5"
+                        className="mt-5 w-fit!"
+                        icon={<ArrowRight />}
                     >
                         {isSubmitting ? 'Creating...' : 'Continue'}
                     </Button>
-                    <Button variant="text" color="secondary" href="/">
+                    <Button
+                        variant="text"
+                        color="secondary"
+                        href="/"
+                        className="w-fit!"
+                    >
                         Cancel
                     </Button>
-                </form>
-            </Card>
+                </div>
+            </form>
             {isSubmitting && <Loading message="Creating project..." />}
         </main>
     );

@@ -149,7 +149,7 @@ export default function PartDisplayView({ slug, partSlug }: PageDisplayProps) {
 
     return (
         <main className="page">
-            <header className="relative flex w-full items-center justify-between py-3">
+            <header className="justify-between!">
                 <Button
                     href="/"
                     icon={<ArrowLeft />}
