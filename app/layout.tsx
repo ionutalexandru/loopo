@@ -24,7 +24,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
     title: 'Loopo',
-    description: 'Knitting, perfectly organized',
+    description: 'Knitting & crocheting perfectly organized',
 };
 
 export const viewport: Viewport = {
@@ -42,8 +42,7 @@ export default function RootLayout({
     return (
         <html
             lang="en"
-            className={`${outfit.variable} ${inter.variable}
-                ${comfortaa.variable} ${geistMono.variable} h-full antialiased`}
+            className={`${outfit.variable} ${inter.variable} ${comfortaa.variable} ${geistMono.variable} h-full antialiased`}
         >
             <body className="flex min-h-full flex-col">{children}</body>
         </html>
