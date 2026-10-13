@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import PartDisplayView from '@/components/views/PartDisplayView';
 
 export const metadata: Metadata = {
-    title: 'Counter | Loopo',
+    title: 'Loopo',
     description: 'Track stitches, rows, and pattern repeats effortlessly.',
 };
 

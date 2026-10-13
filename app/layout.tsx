@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Outfit, Inter, Comfortaa, Geist_Mono } from 'next/font/google';
 import './globals.css';
+import { OfflineIndicator } from '@/components/system/OfflineIndicator';
 
 const outfit = Outfit({
     variable: '--font-outfit',
@@ -44,7 +45,10 @@ export default function RootLayout({
             lang="en"
             className={`${outfit.variable} ${inter.variable} ${comfortaa.variable} ${geistMono.variable} h-full antialiased`}
         >
-            <body className="flex min-h-full flex-col">{children}</body>
+            <body className="flex min-h-full flex-col">
+                <OfflineIndicator />
+                {children}
+            </body>
         </html>
     );
 }

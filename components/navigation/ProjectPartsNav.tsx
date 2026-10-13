@@ -55,23 +55,13 @@ export const ProjectPartsNav = ({
 
     return (
         <div className={`relative ${className}`}>
-            <div
-                className="absolute left-0 top-0 bottom-0 w-16 bg-linear-to-r
-                    from-bone-white to-transparent pointer-events-none z-10"
-            />
-            <div
-                className="absolute right-0 top-0 bottom-0 w-16 bg-linear-to-l
-                    from-bone-white to-transparent pointer-events-none z-10"
-            />
+            <div className="from-bone-white pointer-events-none absolute top-0 bottom-0 left-0 z-10 w-16 bg-linear-to-r to-transparent" />
+            <div className="from-bone-white pointer-events-none absolute top-0 right-0 bottom-0 z-10 w-16 bg-linear-to-l to-transparent" />
             <div
                 ref={containerRef}
-                className="w-full overflow-x-auto [scrollbar-none]
-                    [&::-webkit-scrollbar]:hidden scroll-smooth"
+                className="[scrollbar-none] w-full overflow-x-auto scroll-smooth [&::-webkit-scrollbar]:hidden"
             >
-                <div
-                    className="flex w-max min-w-full items-center justify-center
-                        gap-2 px-16"
-                >
+                <div className="flex w-max min-w-full items-center justify-center gap-2 px-16">
                     {parts.map((part) => {
                         const isActive = part.id === activePartId;
 

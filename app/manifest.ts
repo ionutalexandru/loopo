@@ -11,9 +11,10 @@ export default function manifest(): MetadataRoute.Manifest {
         theme_color: '#FF5A5F',
         icons: [
             {
-                src: '/favicon.svg',
+                src: '/icon.svg',
                 sizes: '144x144',
                 type: 'image/svg+xml',
+                purpose: 'maskable',
             },
             {
                 src: '/web-app-manifest-192x192.png',
@@ -30,9 +31,10 @@ export default function manifest(): MetadataRoute.Manifest {
         ],
         screenshots: [
             {
-                src: 'screenshot_1.png',
-                sizes: '1312x1422',
+                src: 'screenshot_2.png',
+                sizes: '1320x2868',
                 type: 'image/png',
+                form_factor: 'narrow',
             },
             {
                 src: 'screenshot_1.png',

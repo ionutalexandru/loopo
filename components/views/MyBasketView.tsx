@@ -46,7 +46,7 @@ export default function MyBasketView() {
                     color="secondary"
                     aria-label="User profile and settings"
                     icon={<CircleUser />}
-                    href="/account"
+                    disabled
                 />
             </header>
 

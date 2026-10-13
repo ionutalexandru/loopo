@@ -29,8 +29,7 @@ export const ProjectCard = ({
     const cardContent = (
         <Card
             variant="elevated"
-            className={`group cursor-pointer transition-all duration-200
-                select-none ${className} `}
+            className={`group cursor-pointer transition-all duration-200 select-none ${className} `}
         >
             <div className="flex flex-col gap-3">
                 <div className="flex items-center justify-between gap-2">
@@ -47,18 +46,11 @@ export const ProjectCard = ({
                     max={totalRows}
                     hideStats={true}
                 />
-                <div
-                    className="text-misty-gray flex items-center justify-between
-                        text-xs select-none"
-                >
+                <div className="text-misty-gray flex items-center justify-between text-xs select-none">
                     <div className="flex items-center gap-1.5">
                         {activePart && (
                             <>
-                                <span
-                                    className="group-hover:text-vibrant-coral
-                                        font-semibold transition-colors
-                                        duration-150"
-                                >
+                                <span className="group-hover:text-vibrant-coral font-semibold transition-colors duration-150">
                                     {activePart}
                                 </span>
                                 <span className="font-semibold">•</span>
