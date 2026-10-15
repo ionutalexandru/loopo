@@ -1,0 +1,163 @@
+import React from 'react';
+import { Link, type LinkProps } from 'react-router-dom';
+
+export type ButtonVariant = 'text' | 'squared' | 'pill';
+export type ButtonColor = 'primary' | 'secondary' | 'danger';
+export type ButtonSize = 'default' | 'small';
+export type ButtonIconPosition = 'left' | 'right';
+
+export interface BaseButtonProps {
+    color?: ButtonColor;
+    variant?: ButtonVariant;
+    icon?: React.ReactNode;
+    iconPosition?: ButtonIconPosition;
+    children?: React.ReactNode;
+    size?: ButtonSize;
+    disabled?: boolean;
+}
+
+// Props when rendered as HTML <button>
+type ButtonAsButton = BaseButtonProps &
+    Omit<
+        React.ButtonHTMLAttributes<HTMLButtonElement>,
+        keyof BaseButtonProps
+    > & {
+        href?: undefined;
+        to?: undefined;
+    };
+
+// Props when rendered as Next.js <Link>
+type ButtonAsLink = BaseButtonProps &
+    Omit<React.ComponentProps<typeof Link>, keyof BaseButtonProps> & {
+        to?: LinkProps['to'];
+        href?: string;
+    };
+
+export type ButtonProps = ButtonAsButton | ButtonAsLink;
+
+export const Button = React.forwardRef<
+    HTMLButtonElement | HTMLAnchorElement,
+    ButtonProps
+>(
+    (
+        {
+            variant = 'pill',
+            color = 'primary',
+            size = 'default',
+            icon,
+            iconPosition = 'left',
+            children,
+            className = '',
+            disabled,
+            ...rest
+        },
+        ref
+    ) => {
+        const onlyIcon = icon !== undefined && children === undefined;
+
+        const baseStyles = `${size === 'small' ? 'text-xs' : 'text-base'} inline-flex items-center justify-center gap-2 font-bold ${onlyIcon ? (size === 'small' ? 'p-1.5' : 'p-3.5') : 'py-4 px-6'} select-none cursor-pointer active:scale-[0.98] focus:outline-hidden focus:ring-2 focus:ring-offset-2 ${size === 'small' ? 'focus:rounded-xl focus-visible:rounded-xl' : 'focus:rounded-2xl focus-visible:rounded-2xl'} focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:text-misty-gray disabled:scale-none`;
+
+        const shapeStyles: Record<ButtonVariant, string> = {
+            squared: size === 'small' ? 'rounded-xl' : 'rounded-2xl',
+            pill: 'rounded-full focus:rounded-full focus-visible:rounded-full',
+            text: 'active:scale-none',
+        };
+
+        const getColors = (v: ButtonVariant, c: ButtonColor): string => {
+            if (v === 'text') {
+                const colors: Record<ButtonColor, string> = {
+                    primary:
+                        'text-vibrant-coral stroke-vibrant-coral hover:text-deep-coral hover:stroke-deep-coral',
+                    secondary: 'text-charcoal',
+                    danger: 'text-crimson stroke-crimson hover:text-deep-crimson hover:stroke-deep-crimson',
+                };
+                return colors[c];
+            }
+
+            const colors: Record<ButtonColor, string> = {
+                primary:
+                    'bg-vibrant-coral text-pure-wool stroke-pure-wool hover:bg-deep-coral focus:ring-vibrant-coral focus-visible:ring-vibrant-coral focus:hover:ring-deep-coral focus-visible:hover:ring-deep-coral disabled:bg-chalk-gray',
+                secondary: 'bg-chalk-gray hover:bg-concrete-gray',
+                danger: 'bg-crimson text-pure-wool stroke-pure-wool hover:bg-deep-crimson hover:stroke-deep-crimson focus:ring-crimson focus-visible:ring-crimson focus:hover:ring-deep-crimson focus-visible:hover:ring-deep-crimson disabled:bg-chalk-gray',
+            };
+            return colors[c];
+        };
+
+        const combinedClassName = `${baseStyles} ${shapeStyles[variant]} ${getColors(
+            variant,
+            color
+        )} ${className}`;
+
+        const renderIcon = () => {
+            if (!icon) return null;
+
+            if (React.isValidElement(icon)) {
+                const iconProps = icon.props as Record<string, unknown>;
+                const hasCustomSize =
+                    iconProps.width !== undefined ||
+                    iconProps.height !== undefined ||
+                    iconProps.size !== undefined;
+
+                if (hasCustomSize) {
+                    return icon;
+                }
+
+                return React.cloneElement(icon, {
+                    width: 20,
+                    height: 20,
+                } as React.Attributes);
+            }
+        };
+
+        const isLink = 'to' in rest || 'href' in rest;
+        if (isLink) {
+            const { href, to, onClick, ...anchorRest } = rest as ButtonAsLink;
+            const targetPath = to ?? href ?? '/';
+
+            return (
+                <Link
+                    ref={ref as React.Ref<HTMLAnchorElement>}
+                    to={targetPath}
+                    tabIndex={disabled ? -1 : undefined}
+                    className={`${combinedClassName} ${
+                        disabled
+                            ? `bg-chalk-gray! text-misty-gray! pointer-events-none`
+                            : ''
+                    }`}
+                    onClick={(e) => {
+                        if (disabled) {
+                            e.preventDefault();
+                            return;
+                        }
+                        onClick?.(e);
+                    }}
+                    aria-disabled={disabled}
+                    {...anchorRest}
+                >
+                    {iconPosition === 'left' && renderIcon()}
+                    {children}
+                    {iconPosition === 'right' && renderIcon()}
+                </Link>
+            );
+        }
+
+        const { type = 'button', ...buttonRest } =
+            rest as React.ButtonHTMLAttributes<HTMLButtonElement>;
+
+        return (
+            <button
+                ref={ref as React.Ref<HTMLButtonElement>}
+                type={type}
+                disabled={disabled}
+                className={combinedClassName}
+                {...buttonRest}
+            >
+                {iconPosition === 'left' && renderIcon()}
+                {children}
+                {iconPosition === 'right' && renderIcon()}
+            </button>
+        );
+    }
+);
+
+Button.displayName = 'Button';
