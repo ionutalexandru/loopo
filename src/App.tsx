@@ -11,7 +11,7 @@ import { OfflineIndicator } from '@/components/system/OfflineIndicator';
 export default function App() {
     return (
         <BrowserRouter>
-            {/* <OfflineIndicator /> */}
+            <OfflineIndicator />
             <Routes>
                 <Route path="/" element={<MyBasketView />} />
                 <Route path="/projects/new" element={<CreateProjectView />} />
