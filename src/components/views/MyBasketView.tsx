@@ -13,16 +13,15 @@ import { useHydratedStore } from '@/hooks/useHydratedStore';
 
 export default function MyBasketView() {
     const [activeOnly, setActiveOnly] = useState<boolean>(true);
-    const { data: projects } = useHydratedStore(
-        useProjectStore,
-        (state) => state.projects
-    );
+    const { data: projects } = useHydratedStore((state) => state.projects);
 
     const filteredProjects = useMemo(() => {
         if (!projects) return [];
-        if (!activeOnly) return projects;
+        if (!activeOnly) return projects.filter(({ deletedAt }) => !deletedAt);
 
-        return projects.filter(({ status }) => status === 'active');
+        return projects.filter(
+            ({ status, deletedAt }) => status === 'active' && !deletedAt
+        );
     }, [projects, activeOnly]);
 
     return (
@@ -79,20 +78,26 @@ export default function MyBasketView() {
             </div>
             {filteredProjects && (
                 <div className="flex flex-col gap-6">
-                    {filteredProjects.map((p) => {
-                        const summary = getProjectProgressSummary(p);
-                        return (
-                            <ProjectCard
-                                key={p.id}
-                                title={p.name}
-                                currentRow={summary.currentRow}
-                                totalRows={summary.totalRows}
-                                url={summary.url}
-                                activePart={summary.activePartName}
-                                lastUpdated={summary.lastUpdated}
-                            />
-                        );
-                    })}
+                    {filteredProjects
+                        .sort(
+                            (a, b) =>
+                                new Date(b.updatedAt).getTime() -
+                                new Date(a.updatedAt).getTime()
+                        )
+                        .map((p) => {
+                            const summary = getProjectProgressSummary(p);
+                            return (
+                                <ProjectCard
+                                    key={p.id}
+                                    title={p.name}
+                                    currentRow={summary.currentRow}
+                                    totalRows={summary.totalRows}
+                                    url={summary.url}
+                                    activePart={summary.activePartName}
+                                    lastUpdated={summary.lastUpdated}
+                                />
+                            );
+                        })}
                 </div>
             )}
         </main>

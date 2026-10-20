@@ -31,20 +31,22 @@ export function getProjectProgressSummary(
         };
     }
 
-    const { name, currentRow, totalRows, slug, updatedAt }: ProjectPart =
-        project.parts.sort(
-            (a: ProjectPart, b: ProjectPart): number =>
-                new Date(b.updatedAt).getTime() -
-                new Date(a.updatedAt).getTime()
-        )[0];
+    const latestPart = project.parts.reduce((latest, current) =>
+        new Date(current.updatedAt).getTime() >
+        new Date(latest.updatedAt).getTime()
+            ? current
+            : latest
+    );
 
     return {
-        activePartName: name,
-        currentRow: currentRow,
-        totalRows: totalRows,
-        isCompleted: totalRows ? currentRow >= totalRows : false,
-        url: `/projects/${project.slug}/parts/${slug}`,
-        lastUpdated: formatRelativeTime(updatedAt),
+        activePartName: latestPart.name,
+        currentRow: latestPart.currentRow,
+        totalRows: latestPart.totalRows,
+        isCompleted: latestPart.totalRows
+            ? latestPart.currentRow >= latestPart.totalRows
+            : false,
+        url: `/projects/${project.slug}/parts/${latestPart.slug}`,
+        lastUpdated: formatRelativeTime(latestPart.updatedAt),
         hasParts: true,
     };
 }

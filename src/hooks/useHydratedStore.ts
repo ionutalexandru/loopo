@@ -1,18 +1,28 @@
-import { useSyncExternalStore } from 'react';
+import { useEffect, useState } from 'react';
+import { useProjectStore } from '@/store/useProjectStore';
 
-const emptySubscribe = () => () => {};
-
-export function useHydratedStore<T, F>(
-    store: (callback: (state: T) => unknown) => unknown,
-    selector: (state: T) => F
-): { data: F | undefined; isHydrated: boolean } {
-    const isHydrated = useSyncExternalStore(
-        emptySubscribe,
-        () => true,
-        () => false
+export function useHydratedStore<F>(
+    selector: (state: ReturnType<typeof useProjectStore.getState>) => F
+): { data: F; isHydrated: boolean } {
+    const data = useProjectStore(selector);
+    const [isHydrated, setIsHydrated] = useState(
+        useProjectStore.persist.hasHydrated()
     );
 
-    const data = store(selector) as F;
+    useEffect(() => {
+        if (useProjectStore.persist.hasHydrated()) {
+            setIsHydrated(true);
+            return;
+        }
+
+        const unsubscribe = useProjectStore.persist.onFinishHydration(() => {
+            setIsHydrated(true);
+        });
+
+        return () => {
+            unsubscribe();
+        };
+    }, []);
 
     return { data, isHydrated };
 }

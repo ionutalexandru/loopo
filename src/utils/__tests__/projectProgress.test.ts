@@ -13,6 +13,7 @@ describe('Project Progress Calculation Utility', () => {
             createdAt: '2026-08-01T10:00:00.000Z',
             updatedAt: '2026-08-02T10:00:00.000Z',
             status: 'active',
+            isDirty: false,
             parts: [
                 {
                     id: 'part-01',
@@ -61,6 +62,7 @@ describe('Project Progress Calculation Utility', () => {
             craftType: 'knit',
             createdAt: '2026-08-01T10:00:00.000Z',
             updatedAt: '2026-08-02T10:00:00.000Z',
+            isDirty: false,
             status: 'active',
             parts: [],
         };
@@ -85,6 +87,7 @@ describe('Project Progress Calculation Utility', () => {
             craftType: 'knit',
             createdAt: '2026-08-01T10:00:00.000Z',
             updatedAt: '2026-08-02T10:00:00.000Z',
+            isDirty: false,
             status: 'active',
             parts: [
                 {

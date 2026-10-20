@@ -9,6 +9,7 @@ import {
 import { hasCounterOverlap } from '@/utils/counter';
 import { MOCK_PROJECTS } from '@/data/mockProjects';
 import { generateUniqueSlug } from '@/utils/slugify';
+import { indexedDbStorage } from './indexedDbStorage';
 
 export interface CounterMutationResult {
     success: boolean;
@@ -22,7 +23,10 @@ interface ProjectState {
     // -- PROJECT CRUD ACTIONS --
     // Create a new project and returns its generated UUID
     addProject: (
-        project: Omit<Project, 'id' | 'status' | 'createdAt' | 'updatedAt'> & {
+        project: Omit<
+            Project,
+            'id' | 'status' | 'createdAt' | 'updatedAt' | 'isDirty'
+        > & {
             status?: ProjectStatus;
         }
     ) => string;
@@ -115,6 +119,7 @@ export const useProjectStore = create<ProjectState>()(
                     createdAt: now,
                     updatedAt: now,
                     status: data.status ?? 'active',
+                    isDirty: true,
                 };
 
                 set((state) => ({
@@ -132,6 +137,7 @@ export const useProjectStore = create<ProjectState>()(
                                   ...p,
                                   ...data,
                                   updatedAt: new Date().toISOString(),
+                                  isDirty: true,
                               }
                             : p
                     ),
@@ -141,8 +147,18 @@ export const useProjectStore = create<ProjectState>()(
             },
 
             deleteProject: (projectId) => {
+                const now = new Date().toISOString();
                 set((state) => ({
-                    projects: state.projects.filter((p) => p.id !== projectId),
+                    projects: state.projects.map((p) =>
+                        p.id === projectId
+                            ? {
+                                  ...p,
+                                  deletedAt: now,
+                                  updatedAt: now,
+                                  isDirty: true,
+                              }
+                            : p
+                    ),
                 }));
             },
 
@@ -154,6 +170,7 @@ export const useProjectStore = create<ProjectState>()(
                                   ...p,
                                   status,
                                   updatedAt: new Date().toISOString(),
+                                  isDirty: true,
                               }
                             : p
                     ),
@@ -179,6 +196,7 @@ export const useProjectStore = create<ProjectState>()(
                             if (project.id !== projectId) return project;
                             return {
                                 ...project,
+                                isDirty: true,
                                 updatedAt: now,
                                 parts: [...project.parts, newPart],
                             };
@@ -197,6 +215,7 @@ export const useProjectStore = create<ProjectState>()(
                             return {
                                 ...project,
                                 updatedAt: now,
+                                isDirty: true,
                                 parts: project.parts.map((part) =>
                                     part.id === partId
                                         ? { ...part, ...data, updatedAt: now }
@@ -211,11 +230,19 @@ export const useProjectStore = create<ProjectState>()(
                 set((state) => ({
                     projects: state.projects.map((project) => {
                         if (project.id !== projectId) return project;
+                        const now = new Date().toISOString();
                         return {
                             ...project,
-                            updatedAt: new Date().toISOString(),
-                            parts: project.parts.filter(
-                                ({ id }) => id !== partId
+                            updatedAt: now,
+                            isDirty: true,
+                            parts: project.parts.map((p) =>
+                                p.id === partId
+                                    ? {
+                                          ...p,
+                                          deletedAt: now,
+                                          updatedAt: now,
+                                      }
+                                    : p
                             ),
                         };
                     }),
@@ -266,6 +293,7 @@ export const useProjectStore = create<ProjectState>()(
                         return {
                             ...p,
                             updatedAt: now,
+                            isDirty: true,
                             parts: [...p.parts, newPart],
                         };
                     }),
@@ -283,6 +311,7 @@ export const useProjectStore = create<ProjectState>()(
                         return {
                             ...project,
                             updatedAt: now,
+                            isDirty: true,
                             parts: project.parts.map((part) => {
                                 const currentRow = part.currentRow + 1;
                                 return part.id === partId
@@ -305,6 +334,7 @@ export const useProjectStore = create<ProjectState>()(
                         return {
                             ...project,
                             updatedAt: now,
+                            isDirty: true,
                             parts: project.parts.map((part) => {
                                 return part.id === partId && part.currentRow > 0
                                     ? {
@@ -326,6 +356,7 @@ export const useProjectStore = create<ProjectState>()(
                         return {
                             ...project,
                             updatedAt: now,
+                            isDirty: true,
                             parts: project.parts.map((part) => {
                                 return part.id === partId
                                     ? {
@@ -374,6 +405,7 @@ export const useProjectStore = create<ProjectState>()(
                         return {
                             ...proj,
                             updatedAt: now,
+                            isDirty: true,
                             parts: proj.parts.map((p) => {
                                 if (p.id !== partId) return p;
                                 return {
@@ -432,6 +464,7 @@ export const useProjectStore = create<ProjectState>()(
                         return {
                             ...proj,
                             updatedAt: now,
+                            isDirty: true,
                             parts: proj.parts.map((p) => {
                                 if (p.id !== partId) return p;
                                 return {
@@ -468,14 +501,21 @@ export const useProjectStore = create<ProjectState>()(
                             return {
                                 ...project,
                                 updatedAt: now,
+                                isDirty: true,
                                 parts: project.parts.map((part) => {
                                     if (part.id !== partId) return part;
                                     return {
                                         ...part,
                                         updatedAt: now,
                                         secondaryCounters:
-                                            part.secondaryCounters.filter(
-                                                (c) => c.id !== counterId
+                                            part.secondaryCounters.map((c) =>
+                                                c.id === counterId
+                                                    ? {
+                                                          ...c,
+                                                          deletedAt: now,
+                                                          updatedAt: now,
+                                                      }
+                                                    : c
                                             ),
                                     };
                                 }),
@@ -490,7 +530,7 @@ export const useProjectStore = create<ProjectState>()(
         }),
         {
             name: 'loopo-projects-storage',
-            storage: createJSONStorage(() => localStorage),
+            storage: createJSONStorage(() => indexedDbStorage),
         }
     )
 );
