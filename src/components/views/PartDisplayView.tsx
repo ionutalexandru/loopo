@@ -27,19 +27,13 @@ import { Link } from 'react-router-dom';
 import { ProjectSettingsModal } from '../widgets/ProjectSettingsModal';
 import { UpdateProjectDTO } from '@/schemas/projectSchema';
 
-import NotFound from '@/not-found';
-
-interface PageDisplayProps {
-    slug?: string;
-    partSlug?: string;
-}
+import NotFoundView from '@/components/views/NotFoundView';
 
 export default function PartDisplayView() {
     const { slug, partSlug } = useParams<{ slug: string; partSlug: string }>();
     const navigate = useNavigate();
 
     const { data: projects, isHydrated } = useHydratedStore(
-        useProjectStore,
         (state) => state.projects
     );
     const setRow = useProjectStore((state) => state.setRow);
@@ -64,14 +58,16 @@ export default function PartDisplayView() {
         return <Loading message="Loading your part..." />;
     }
 
-    const project = projects.find((p) => p.slug === slug);
+    const project = projects
+        .filter(({ deletedAt }) => !deletedAt)
+        .find((p) => p.slug === slug);
     if (!project) {
-        return <NotFound />;
+        return <NotFoundView />;
     }
 
     const part = project.parts.find((p) => p.slug === partSlug);
     if (!part) {
-        return <NotFound />;
+        return <NotFoundView />;
     }
 
     const activeCounter = getActiveSecondaryCounter(
@@ -176,11 +172,13 @@ export default function PartDisplayView() {
             </header>
             <section aria-label="Parts navigator" className="w-full">
                 <ProjectPartsNav
-                    parts={project.parts.map((p) => ({
-                        id: p.id,
-                        href: `/projects/${project.slug}/parts/${p.slug}`,
-                        label: p.name,
-                    }))}
+                    parts={project.parts
+                        .filter(({ deletedAt }) => !deletedAt)
+                        .map((p) => ({
+                            id: p.id,
+                            href: `/projects/${project.slug}/parts/${p.slug}`,
+                            label: p.name,
+                        }))}
                 />
             </section>
             {(part.needleSize || part.yarnDetails) && (

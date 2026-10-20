@@ -1,29 +1,38 @@
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 
-vi.hoisted(() => {
-    let store: Record<string, string> = {};
-    const mockStorage = {
-        getItem: (key: string) => store[key] || null,
-        setItem: (key: string, value: string) => {
-            store[key] = value.toString();
-        },
-        removeItem: (key: string) => {
-            delete store[key];
-        },
+const memory = vi.hoisted(() => {
+    const store: Record<string, any> = {};
+    return {
+        store,
         clear: () => {
-            store = {};
+            for (const key of Object.keys(store)) {
+                delete store[key];
+            }
         },
     };
-
-    vi.stubGlobal('localStorage', mockStorage);
 });
+
+vi.mock('idb-keyval', () => ({
+    get: vi.fn((key: string) => Promise.resolve(memory.store[key])),
+    set: vi.fn((key: string, value: string) => {
+        memory.store[key] = value;
+        return Promise.resolve();
+    }),
+    del: vi.fn((key: string) => {
+        delete memory.store[key];
+        return Promise.resolve();
+    }),
+    clear: vi.fn(() => {
+        memory.store = {};
+        return Promise.resolve();
+    }),
+}));
 
 import { useProjectStore } from '../useProjectStore';
 import { MOCK_PROJECTS } from '@/data/mockProjects';
 
 describe('useProjectStore', () => {
     beforeEach(() => {
-        localStorage.clear();
         useProjectStore.setState({ projects: [] });
     });
 
@@ -80,7 +89,11 @@ describe('useProjectStore', () => {
 
             expect(useProjectStore.getState().projects).toHaveLength(1);
             useProjectStore.getState().deleteProject(projectId);
-            expect(useProjectStore.getState().projects).toHaveLength(0);
+            expect(
+                useProjectStore
+                    .getState()
+                    .projects.filter(({ deletedAt }) => !deletedAt)
+            ).toHaveLength(0);
         });
     });
 

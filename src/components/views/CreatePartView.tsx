@@ -12,11 +12,7 @@ import { FormAlert } from '../ui/FormAlert';
 import { Input } from '../ui/Input';
 import { Loading } from '../ui/Loading';
 
-import NotFound from '@/not-found';
-
-interface CreatePartViewProps {
-    slug?: string;
-}
+import NotFoundView from '@/components/views/NotFoundView';
 
 export default function CreatePartView() {
     const { slug } = useParams<{ slug: string }>();
@@ -24,7 +20,6 @@ export default function CreatePartView() {
     const [searchParams] = useSearchParams();
 
     const { data: projects, isHydrated } = useHydratedStore(
-        useProjectStore,
         (state) => state.projects
     );
     const addPart = useProjectStore((state) => state.addPart);
@@ -78,7 +73,7 @@ export default function CreatePartView() {
     const project = projects.find((p) => p.slug === slug);
 
     if (!project) {
-        return NotFound();
+        return <NotFoundView />;
     }
 
     return (

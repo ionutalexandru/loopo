@@ -13,16 +13,15 @@ import { useHydratedStore } from '@/hooks/useHydratedStore';
 
 export default function MyBasketView() {
     const [activeOnly, setActiveOnly] = useState<boolean>(true);
-    const { data: projects } = useHydratedStore(
-        useProjectStore,
-        (state) => state.projects
-    );
+    const { data: projects } = useHydratedStore((state) => state.projects);
 
     const filteredProjects = useMemo(() => {
         if (!projects) return [];
-        if (!activeOnly) return projects;
+        if (!activeOnly) return projects.filter(({ deletedAt }) => !deletedAt);
 
-        return projects.filter(({ status }) => status === 'active');
+        return projects.filter(
+            ({ status, deletedAt }) => status === 'active' && !deletedAt
+        );
     }, [projects, activeOnly]);
 
     return (

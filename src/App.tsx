@@ -3,8 +3,8 @@ import MyBasketView from '@/components/views/MyBasketView';
 import CreateProjectView from '@/components/views/CreateProjectView';
 import CreatePartView from '@/components/views/CreatePartView';
 import PartDisplayView from '@/components/views/PartDisplayView';
-import OfflinePage from '@/offline/page';
-import NotFound from '@/not-found';
+import OfflineView from '@/components/views/OfflineView';
+import NotFoundView from '@/components/views/NotFoundView';
 import StyleGuideView from '@/components/views/StyleguideView';
 import { OfflineIndicator } from '@/components/system/OfflineIndicator';
 
@@ -23,9 +23,9 @@ export default function App() {
                     path="/projects/:slug/parts/:partSlug"
                     element={<PartDisplayView />}
                 />
-                <Route path="/offline" element={<OfflinePage />} />
+                <Route path="/offline" element={<OfflineView />} />
                 <Route path="/styleguide" element={<StyleGuideView />} />
-                <Route path="*" element={<NotFound />} />
+                <Route path="*" element={<NotFoundView />} />
             </Routes>
         </BrowserRouter>
     );

@@ -7,6 +7,7 @@ export interface SecondaryCounter {
     name: string;
     createdAt: string;
     updatedAt: string;
+    deletedAt?: string | null;
     startsOnGlobalRow: number;
     rowsPerRepeat: number;
     totalRepeats: number;
@@ -21,6 +22,7 @@ export interface ProjectPart {
     name: string;
     createdAt: string;
     updatedAt: string;
+    deletedAt?: string | null;
     currentRow: number;
     totalRows?: number;
     needleSize?: string;
@@ -35,6 +37,8 @@ export interface Project {
     slug: string;
     createdAt: string;
     updatedAt: string;
+    deletedAt?: string | null;
+    isDirty: boolean;
     userId: string;
     craftType: CraftType;
     parts: ProjectPart[];

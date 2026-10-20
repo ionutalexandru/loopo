@@ -12,6 +12,7 @@ export const MOCK_PROJECTS: Project[] = [
         createdAt: '2026-02-01T10:00:00.000Z',
         updatedAt: '2026-02-15T18:30:00.000Z',
         status: 'active',
+        isDirty: false,
         parts: [
             {
                 id: 'part-main-body-01',
@@ -104,6 +105,7 @@ export const MOCK_PROJECTS: Project[] = [
         notes: 'Open-ended length. Crochet until all 3 skeins are fully exhausted.',
         createdAt: '2026-02-10T09:00:00.000Z',
         updatedAt: '2026-02-18T14:20:00.000Z',
+        isDirty: false,
         status: 'paused',
         parts: [
             {
