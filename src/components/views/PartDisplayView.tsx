@@ -174,6 +174,11 @@ export default function PartDisplayView() {
                 <ProjectPartsNav
                     parts={project.parts
                         .filter(({ deletedAt }) => !deletedAt)
+                        .sort(
+                            (a, b) =>
+                                new Date(a.createdAt).getTime() -
+                                new Date(b.createdAt).getTime()
+                        )
                         .map((p) => ({
                             id: p.id,
                             href: `/projects/${project.slug}/parts/${p.slug}`,

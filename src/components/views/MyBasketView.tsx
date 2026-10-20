@@ -78,20 +78,26 @@ export default function MyBasketView() {
             </div>
             {filteredProjects && (
                 <div className="flex flex-col gap-6">
-                    {filteredProjects.map((p) => {
-                        const summary = getProjectProgressSummary(p);
-                        return (
-                            <ProjectCard
-                                key={p.id}
-                                title={p.name}
-                                currentRow={summary.currentRow}
-                                totalRows={summary.totalRows}
-                                url={summary.url}
-                                activePart={summary.activePartName}
-                                lastUpdated={summary.lastUpdated}
-                            />
-                        );
-                    })}
+                    {filteredProjects
+                        .sort(
+                            (a, b) =>
+                                new Date(b.updatedAt).getTime() -
+                                new Date(a.updatedAt).getTime()
+                        )
+                        .map((p) => {
+                            const summary = getProjectProgressSummary(p);
+                            return (
+                                <ProjectCard
+                                    key={p.id}
+                                    title={p.name}
+                                    currentRow={summary.currentRow}
+                                    totalRows={summary.totalRows}
+                                    url={summary.url}
+                                    activePart={summary.activePartName}
+                                    lastUpdated={summary.lastUpdated}
+                                />
+                            );
+                        })}
                 </div>
             )}
         </main>
