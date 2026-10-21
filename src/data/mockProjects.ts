@@ -16,6 +16,7 @@ export const MOCK_PROJECTS: Project[] = [
         parts: [
             {
                 id: 'part-main-body-01',
+                userId: 'local-user',
                 projectId: 'proj-sweater-001',
                 name: 'Main Body',
                 slug: 'main-body',
@@ -29,6 +30,7 @@ export const MOCK_PROJECTS: Project[] = [
                 secondaryCounters: [
                     {
                         id: 'counter-lace-01',
+                        userId: 'local-user',
                         partId: 'part-main-body-01',
                         name: 'Lace Leaf Center Panel',
                         startsOnGlobalRow: 10,
@@ -40,6 +42,7 @@ export const MOCK_PROJECTS: Project[] = [
                     },
                     {
                         id: 'counter-cable-02',
+                        userId: 'local-user',
                         partId: 'part-main-body-01',
                         name: 'Upper Chest Cable',
                         startsOnGlobalRow: 50,
@@ -53,6 +56,7 @@ export const MOCK_PROJECTS: Project[] = [
             },
             {
                 id: 'part-left-sleeve',
+                userId: 'local-user',
                 projectId: 'proj-sweater-001',
                 name: 'Left Sleeve',
                 slug: 'left-sleeve',
@@ -67,6 +71,7 @@ export const MOCK_PROJECTS: Project[] = [
             },
             {
                 id: 'part-right-sleeve',
+                userId: 'local-user',
                 projectId: 'proj-sweater-001',
                 name: 'Right Sleeve',
                 slug: 'right-sleeve',
@@ -96,6 +101,7 @@ export const MOCK_PROJECTS: Project[] = [
         parts: [
             {
                 id: 'part-scarf-body',
+                userId: 'local-user',
                 projectId: 'proj-scarf-002',
                 name: 'Scarf Body',
                 slug: 'scarf-body',
@@ -108,6 +114,7 @@ export const MOCK_PROJECTS: Project[] = [
                 secondaryCounters: [
                     {
                         id: 'counter-ripple-01',
+                        userId: 'local-user',
                         partId: 'part-scarf-body',
                         name: 'Two-Tone Ripple Sequence',
                         startsOnGlobalRow: 1,

@@ -99,6 +99,8 @@ interface ProjectState {
         counterId: string
     ) => void;
     resetToMockData: () => void;
+    // Adopt local projects with new user (remote) id
+    adoptLocalProject: (newUserId: string) => void;
 }
 
 export const useProjectStore = create<ProjectState>()(
@@ -526,6 +528,34 @@ export const useProjectStore = create<ProjectState>()(
             },
             resetToMockData: () => {
                 set({ projects: MOCK_PROJECTS });
+            },
+            adoptLocalProject: (newUserId: string) => {
+                const now = new Date().toISOString();
+                set((state) => ({
+                    projects: state.projects.map((project) =>
+                        project.userId === 'local-user' || !project.userId
+                            ? {
+                                  ...project,
+                                  userId: newUserId,
+                                  updatedAt: now,
+                                  isDirty: true,
+                                  parts: project.parts.map((part) => ({
+                                      ...part,
+                                      userId: newUserId,
+                                      updatedAt: now,
+                                      secondaryCounters:
+                                          part.secondaryCounters.map(
+                                              (counter) => ({
+                                                  ...counter,
+                                                  userId: newUserId,
+                                                  updatedAt: now,
+                                              })
+                                          ),
+                                  })),
+                              }
+                            : project
+                    ),
+                }));
             },
         }),
         {
