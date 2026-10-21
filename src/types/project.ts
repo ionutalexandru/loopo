@@ -12,7 +12,6 @@ export interface SecondaryCounter {
     rowsPerRepeat: number;
     totalRepeats: number;
     notes?: string;
-    isActive?: boolean;
 }
 
 export interface ProjectPart {
