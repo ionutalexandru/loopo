@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
+
 import MyBasketView from '@/components/views/MyBasketView';
 import CreateProjectView from '@/components/views/CreateProjectView';
 import CreatePartView from '@/components/views/CreatePartView';
@@ -10,23 +12,29 @@ import { OfflineIndicator } from '@/components/system/OfflineIndicator';
 
 export default function App() {
     return (
-        <BrowserRouter>
-            <OfflineIndicator />
-            <Routes>
-                <Route path="/" element={<MyBasketView />} />
-                <Route path="/projects/new" element={<CreateProjectView />} />
-                <Route
-                    path="/projects/:slug/parts/new"
-                    element={<CreatePartView />}
-                />
-                <Route
-                    path="/projects/:slug/parts/:partSlug"
-                    element={<PartDisplayView />}
-                />
-                <Route path="/offline" element={<OfflineView />} />
-                <Route path="/styleguide" element={<StyleGuideView />} />
-                <Route path="*" element={<NotFoundView />} />
-            </Routes>
-        </BrowserRouter>
+        <>
+            <Analytics />
+            <BrowserRouter>
+                <OfflineIndicator />
+                <Routes>
+                    <Route path="/" element={<MyBasketView />} />
+                    <Route
+                        path="/projects/new"
+                        element={<CreateProjectView />}
+                    />
+                    <Route
+                        path="/projects/:slug/parts/new"
+                        element={<CreatePartView />}
+                    />
+                    <Route
+                        path="/projects/:slug/parts/:partSlug"
+                        element={<PartDisplayView />}
+                    />
+                    <Route path="/offline" element={<OfflineView />} />
+                    <Route path="/styleguide" element={<StyleGuideView />} />
+                    <Route path="*" element={<NotFoundView />} />
+                </Routes>
+            </BrowserRouter>
+        </>
     );
 }
