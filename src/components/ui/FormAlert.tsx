@@ -43,11 +43,11 @@ export const FormAlert = ({
     className = '',
     isVisible = false,
 }: FormAlertProps) => {
-    const [internalIsVisible, setInternalIsVisible] = useState(isVisible);
+    const [internalIsVisible, setInternalIsVisible] = useState<boolean>(
+        isVisible || message.trim().length > 0
+    );
 
-    if (!internalIsVisible) return null;
-
-    if (!message || !internalIsVisible) return null;
+    if (!message.trim() || !internalIsVisible) return null;
 
     const handleDismiss = () => {
         setInternalIsVisible(false);

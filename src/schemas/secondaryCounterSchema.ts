@@ -4,7 +4,12 @@ import { getCounterRowRange, hasCounterOverlap } from '@/utils/counter';
 
 export type BaseSecondaryCounterDTO = Pick<
     SecondaryCounter,
-    'name' | 'startsOnGlobalRow' | 'rowsPerRepeat' | 'totalRepeats' | 'notes'
+    | 'name'
+    | 'startsOnGlobalRow'
+    | 'rowsPerRepeat'
+    | 'totalRepeats'
+    | 'notes'
+    | 'userId'
 >;
 
 export type SecondaryCounterDTO = BaseSecondaryCounterDTO & {

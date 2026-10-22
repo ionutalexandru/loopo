@@ -561,6 +561,28 @@ export const useProjectStore = create<ProjectState>()(
         {
             name: 'loopo-projects-storage',
             storage: createJSONStorage(() => indexedDbStorage),
+            merge: (persistedState: any, currentState: ProjectState) => {
+                /**
+                 * Merge data retrieved from IndexedDB with the initial store data
+                
+                - persistedState represents the actual data saved by user in the IndexedDB. If it's
+                    the first time, it'll be undefined or null.
+                - currentState represents the default fallback state defined inside the Zustand store. It
+                    includes store's methods and the initial projects (MOCK_DATA).
+
+                Then, if IndexedDB containes a saved state, we prioritize it over the defaults.
+                */
+                if (
+                    persistedState &&
+                    typeof persistedState === 'object' &&
+                    Array.isArray(persistedState.projects)
+                ) {
+                    return { ...currentState, ...persistedState };
+                }
+
+                // Fallback to initial store state on first app launch.
+                return currentState;
+            },
         }
     )
 );

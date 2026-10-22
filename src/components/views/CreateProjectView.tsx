@@ -1,21 +1,25 @@
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+
 import { createProjectSchema } from '@/schemas/projectSchema';
 import { useProjectStore } from '@/store/useProjectStore';
+import { useAuthStore } from '@/store/useAuthStore';
 import { generateUniqueSlug } from '@/utils/slugify';
 import { useZodForm } from '@/hooks/useZodForm';
-import { Button } from '../ui/Button';
-import { Card } from '../ui/Card';
-import { Input } from '../ui/Input';
-import { Select } from '../ui/Select';
-import { FormAlert } from '../ui/FormAlert';
-import { Loading } from '../ui/Loading';
+import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
+import { Input } from '@/components/ui/Input';
+import { Select } from '@/components/ui/Select';
+import { FormAlert } from '@/components/ui/FormAlert';
+import { Loading } from '@/components/ui/Loading';
 
 export default function CreateProjectView() {
     const navigate = useNavigate();
 
     const addProject = useProjectStore((state) => state.addProject);
     const existingProjects = useProjectStore((state) => state.projects);
+
+    const user = useAuthStore((state) => state.user);
 
     const {
         formData,
@@ -40,8 +44,8 @@ export default function CreateProjectView() {
             );
 
             addProject({
-                userId: 'user-local',
                 name: validData.name,
+                userId: user?.id || 'user-local',
                 slug: projectSlug,
                 patternName: validData.patternName,
                 craftType: validData.craftType,

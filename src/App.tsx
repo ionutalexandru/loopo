@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
+import { useEffect } from 'react';
 
 import MyBasketView from '@/components/views/MyBasketView';
 import CreateProjectView from '@/components/views/CreateProjectView';
@@ -8,14 +9,23 @@ import PartDisplayView from '@/components/views/PartDisplayView';
 import OfflineView from '@/components/views/OfflineView';
 import NotFoundView from '@/components/views/NotFoundView';
 import StyleGuideView from '@/components/views/StyleguideView';
+import { AuthModal } from '@/components/widgets/AuthModal';
 import { OfflineIndicator } from '@/components/system/OfflineIndicator';
+import { useAuthStore } from '@/store/useAuthStore';
 
 export default function App() {
+    const initializeAuth = useAuthStore((state) => state.initialize);
+
+    useEffect(() => {
+        initializeAuth();
+    }, [initializeAuth]);
+
     return (
         <>
             <Analytics />
             <BrowserRouter>
                 <OfflineIndicator />
+                <AuthModal />
                 <Routes>
                     <Route path="/" element={<MyBasketView />} />
                     <Route

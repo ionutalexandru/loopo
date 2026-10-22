@@ -6,13 +6,13 @@ import { useHydratedStore } from '@/hooks/useHydratedStore';
 import { useZodForm } from '@/hooks/useZodForm';
 import { generateUniqueSlug } from '@/utils/slugify';
 import { createPartSchema } from '@/schemas/partSchema';
-import { Button } from '../ui/Button';
-import { Card } from '../ui/Card';
-import { FormAlert } from '../ui/FormAlert';
-import { Input } from '../ui/Input';
-import { Loading } from '../ui/Loading';
-
+import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
+import { FormAlert } from '@/components/ui/FormAlert';
+import { Input } from '@/components/ui/Input';
+import { Loading } from '@/components/ui/Loading';
 import NotFoundView from '@/components/views/NotFoundView';
+import { useAuthStore } from '@/store/useAuthStore';
 
 export default function CreatePartView() {
     const { slug } = useParams<{ slug: string }>();
@@ -23,6 +23,7 @@ export default function CreatePartView() {
         (state) => state.projects
     );
     const addPart = useProjectStore((state) => state.addPart);
+    const user = useAuthStore((state) => state.user);
 
     const {
         formData,
@@ -55,6 +56,7 @@ export default function CreatePartView() {
 
             addPart(currentProject.id, {
                 name: validatedData.name,
+                userId: user?.id || 'user-local',
                 slug: partSlug,
                 currentRow: validatedData.currentRow,
                 totalRows: validatedData.totalRows,

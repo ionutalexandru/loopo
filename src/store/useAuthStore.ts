@@ -1,6 +1,6 @@
 import { supabase } from '@/lib/supabase';
 import { Session, User } from '@supabase/supabase-js';
-import { createStore } from 'zustand';
+import { create } from 'zustand';
 import { useProjectStore } from './useProjectStore';
 
 interface AuthState {
@@ -30,7 +30,7 @@ interface AuthState {
     clearError: () => void;
 }
 
-export const useAuthStore = createStore<AuthState>((set) => ({
+export const useAuthStore = create<AuthState>((set) => ({
     user: null,
     session: null,
     isLoading: true,

@@ -3,17 +3,18 @@ import { Link } from 'react-router-dom';
 import { CircleUser } from 'lucide-react';
 import { Plus } from 'lucide-react';
 
-import { Button } from '../ui/Button';
-import { Card } from '../ui/Card';
-import { Toggle } from '../ui/Toggle';
-import { useProjectStore } from '@/store/useProjectStore';
-import { ProjectCard } from '../widgets/ProjectCard';
+import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
+import { Toggle } from '@/components/ui/Toggle';
+import { ProjectCard } from '@/components/widgets/ProjectCard';
 import { getProjectProgressSummary } from '@/utils/projectProgress';
 import { useHydratedStore } from '@/hooks/useHydratedStore';
+import { useAuthStore } from '@/store/useAuthStore';
 
 export default function MyBasketView() {
     const [activeOnly, setActiveOnly] = useState<boolean>(true);
     const { data: projects } = useHydratedStore((state) => state.projects);
+    const openAuthModal = useAuthStore((state) => state.openAuthModal);
 
     const filteredProjects = useMemo(() => {
         if (!projects) return [];
@@ -41,7 +42,7 @@ export default function MyBasketView() {
                     color="secondary"
                     aria-label="User profile and settings"
                     icon={<CircleUser />}
-                    disabled
+                    onClick={openAuthModal}
                 />
             </header>
 

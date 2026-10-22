@@ -1,8 +1,13 @@
 import { useMemo, useState } from 'react';
+import { Trash, X } from 'lucide-react';
+import { useSearchParams } from 'react-router-dom';
 
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Modal } from '@/components/ui/Modal';
+import { FormAlert } from '@/components/ui/FormAlert';
+import { Loading } from '@/components/ui/Loading';
+import { Card } from '@/components/ui/Card';
 import {
     BaseSecondaryCounterDTO,
     SecondaryCounterDTO,
@@ -10,11 +15,7 @@ import {
 } from '@/schemas/secondaryCounterSchema';
 import { SecondaryCounter } from '@/types/project';
 import { useZodForm } from '@/hooks/useZodForm';
-import { FormAlert } from '../ui/FormAlert';
-import { Loading } from '../ui/Loading';
-import { Trash, X } from 'lucide-react';
-import { Card } from '../ui/Card';
-import { useSearchParams } from 'react-router-dom';
+import { useAuthStore } from '@/store/useAuthStore';
 
 interface InnerFormProps {
     isCreate: boolean;
@@ -36,6 +37,7 @@ const SecondaryCounterForm = ({
     onClose,
 }: InnerFormProps) => {
     const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
+    const user = useAuthStore((state) => state.user);
 
     const validationSchema = useMemo(
         () =>
@@ -58,7 +60,11 @@ const SecondaryCounterForm = ({
         schema: validationSchema,
         initialValues: initialData,
         onSubmit: (validData) => {
-            onSave(validData);
+            if (isCreate) {
+                onSave({ ...validData, userId: user?.id || 'user-local' });
+            } else {
+                onSave(validData);
+            }
             onClose();
         },
     });
