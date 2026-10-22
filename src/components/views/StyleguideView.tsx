@@ -20,6 +20,7 @@ import { UrlModal } from '@/components/ui/UrlModal';
 import { useUrlModal } from '@/hooks/useUrlModal';
 import { FormAlert } from '@/components/ui/FormAlert';
 import { SecondaryCounter } from '@/types/project';
+import { Footer } from '@/components/navigation/Footer';
 
 const SECONDARY_COUNTER_MOCK_DATA: SecondaryCounter[] = [
     {
@@ -1374,6 +1375,7 @@ function StyleGuidePage() {
                     />
                 </Card>
             </div>
+            <Footer />
         </main>
     );
 }

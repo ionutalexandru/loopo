@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/Input';
 import { Loading } from '@/components/ui/Loading';
 import NotFoundView from '@/components/views/NotFoundView';
 import { useAuthStore } from '@/store/useAuthStore';
+import { Footer } from '@/components/navigation/Footer';
 
 export default function CreatePartView() {
     const { slug } = useParams<{ slug: string }>();
@@ -182,6 +183,7 @@ export default function CreatePartView() {
                 </div>
             </form>
             {isSubmitting && <Loading message="Creating part..." />}
+            <Footer />
         </main>
     );
 }

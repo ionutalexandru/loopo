@@ -10,7 +10,6 @@ import OfflineView from '@/components/views/OfflineView';
 import NotFoundView from '@/components/views/NotFoundView';
 import StyleGuideView from '@/components/views/StyleguideView';
 import { AuthModal } from '@/components/widgets/AuthModal';
-import { OfflineIndicator } from '@/components/system/OfflineIndicator';
 import { useAuthStore } from '@/store/useAuthStore';
 
 export default function App() {
@@ -24,7 +23,6 @@ export default function App() {
         <>
             <Analytics />
             <BrowserRouter>
-                <OfflineIndicator />
                 <AuthModal />
                 <Routes>
                     <Route path="/" element={<MyBasketView />} />

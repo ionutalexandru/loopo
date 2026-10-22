@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { FormAlert } from '@/components/ui/FormAlert';
 import { Loading } from '@/components/ui/Loading';
+import { Footer } from '@/components/navigation/Footer';
 
 export default function CreateProjectView() {
     const navigate = useNavigate();
@@ -141,6 +142,7 @@ export default function CreateProjectView() {
                 </div>
             </form>
             {isSubmitting && <Loading message="Creating project..." />}
+            <Footer />
         </main>
     );
 }

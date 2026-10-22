@@ -14,18 +14,19 @@ import {
     EditSecondaryCounterDTO,
 } from '@/schemas/secondaryCounterSchema';
 import { ProjectPart } from '@/types/project';
-import { Button } from '../ui/Button';
-import { Loading } from '../ui/Loading';
-import { Tag } from '../ui/Tag';
-import { ProjectPartsNav } from '../navigation/ProjectPartsNav';
-import { GlobalCounter } from '../widgets/GlobalCounter';
-import { SecondaryCounter } from '../widgets/SecondaryCounter';
-import { SecondaryCounterSettingsModal } from '../widgets/SecondaryCounterSettingsModal';
-import { PartSettingsModal } from '../widgets/PartSettingsModal';
-import { NeedleIcon } from '../icons/NeedleIcon';
+import { Button } from '@/components/ui/Button';
+import { Loading } from '@/components/ui/Loading';
+import { Tag } from '@/components/ui/Tag';
+import { ProjectPartsNav } from '@/components/navigation/ProjectPartsNav';
+import { GlobalCounter } from '@/components/widgets/GlobalCounter';
+import { SecondaryCounter } from '@/components/widgets/SecondaryCounter';
+import { SecondaryCounterSettingsModal } from '@/components/widgets/SecondaryCounterSettingsModal';
+import { PartSettingsModal } from '@/components/widgets/PartSettingsModal';
+import { NeedleIcon } from '@/components/icons/NeedleIcon';
 import { Link } from 'react-router-dom';
 import { ProjectSettingsModal } from '../widgets/ProjectSettingsModal';
 import { UpdateProjectDTO } from '@/schemas/projectSchema';
+import { Footer } from '@/components/navigation/Footer';
 
 import NotFoundView from '@/components/views/NotFoundView';
 
@@ -273,6 +274,7 @@ export default function PartDisplayView() {
                 onSave={handleUpdateProject}
                 onDelete={handleDeleteProject}
             />
+            <Footer />
         </main>
     );
 }

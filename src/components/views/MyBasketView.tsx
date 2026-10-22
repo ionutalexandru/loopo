@@ -10,6 +10,7 @@ import { ProjectCard } from '@/components/widgets/ProjectCard';
 import { getProjectProgressSummary } from '@/utils/projectProgress';
 import { useHydratedStore } from '@/hooks/useHydratedStore';
 import { useAuthStore } from '@/store/useAuthStore';
+import { Footer } from '@/components/navigation/Footer';
 
 export default function MyBasketView() {
     const [activeOnly, setActiveOnly] = useState<boolean>(true);
@@ -101,6 +102,7 @@ export default function MyBasketView() {
                         })}
                 </div>
             )}
+            <Footer />
         </main>
     );
 }
