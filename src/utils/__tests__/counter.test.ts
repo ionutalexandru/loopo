@@ -79,7 +79,7 @@ describe('Counter Utility Functions', () => {
 
     describe('getActiveSecondaryCounter', () => {
         it('returns undefined if the current row has not reach the motif', () => {
-            const active = getActiveSecondaryCounter([mockCounter], 9);
+            const active = getActiveSecondaryCounter([mockCounter], 8);
             expect(active).toBeUndefined();
         });
 
