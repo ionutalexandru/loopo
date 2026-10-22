@@ -8,7 +8,7 @@ import { generateUniqueSlug } from '@/utils/slugify';
 import { createPartSchema } from '@/schemas/partSchema';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { FormAlert } from '@/components/ui/FormAlert';
+import { Alert } from '@/components/ui/Alert';
 import { Input } from '@/components/ui/Input';
 import { Loading } from '@/components/ui/Loading';
 import NotFoundView from '@/components/views/NotFoundView';
@@ -94,7 +94,7 @@ export default function CreatePartView() {
             <form onSubmit={handleSubmit} noValidate className="space-y-5">
                 <Card variant="elevated" className="flex flex-col gap-6">
                     {errors.general && (
-                        <FormAlert variant="error" message={errors.general} />
+                        <Alert variant="error" message={errors.general} />
                     )}
                     <Input
                         label="Part Name"

@@ -7,7 +7,7 @@ import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
 import { UpdatePartDTO, updatePartSchema } from '@/schemas/partSchema';
 import { useZodForm } from '@/hooks/useZodForm';
-import { FormAlert } from '../ui/FormAlert';
+import { Alert } from '../ui/Alert';
 import { Input } from '../ui/Input';
 import { useState } from 'react';
 import { ActionList } from '../ui/ActionList';
@@ -123,10 +123,7 @@ export const PartSettingsModal = ({
                 <form onSubmit={handleSubmit} className="space-y-5">
                     <div className="mt-4 flex flex-col gap-4">
                         {errors.general && (
-                            <FormAlert
-                                variant="error"
-                                message={errors.general}
-                            />
+                            <Alert variant="error" message={errors.general} />
                         )}
                         <Card
                             variant="elevated"

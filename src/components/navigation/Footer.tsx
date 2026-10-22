@@ -11,6 +11,8 @@ import {
 import { Button } from '@/components/ui/Button';
 import { formatRelativeTime } from '@/utils/date';
 import { Link } from 'react-router-dom';
+import { Tag } from '@/components/ui/Tag';
+import { Ping } from '@/components/ui/Ping';
 
 export const Footer = () => {
     const isOnline = useOnlineStatus();
@@ -23,10 +25,7 @@ export const Footer = () => {
             {/* Offline mode */}
             {!isOnline || showAll ? (
                 <div className="bg-vibrant-coral/10 border-vibrant-coral/30 text-deep-coral flex items-center gap-3 rounded-xl border px-3 py-4 text-xs font-medium">
-                    <span className="relative flex size-3">
-                        <span className="bg-vibrant-coral absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"></span>
-                        <span className="bg-deep-coral relative inline-flex size-3 rounded-full"></span>
-                    </span>{' '}
+                    <Ping />
                     <CloudOff size={16} />
                     <span>
                         Ofline mode active. Changes are stored on this device
@@ -74,23 +73,15 @@ export const Footer = () => {
 
             {/* Navigation & Attribution */}
             <div className="border-chalk-gray/50 text-misty-gray flex flex-wrap items-center justify-between gap-3 border-t-2 py-4 text-xs">
-                <div className="flex items-center gap-3">
-                    <Link
-                        to="/styleguide"
-                        className="hover:text-charcoal flex items-center gap-1.5"
-                    >
+                <div className="flex items-center gap-6">
+                    <Link to="/styleguide" className="link">
                         <Sparkles size={10} />
                         Styleguide
                     </Link>
-                    <Link
-                        to="#"
-                        className="hover:text-charcoal flex items-center gap-1.5"
-                    >
+                    <Link to="#" className="link">
                         <BookOpen size={10} />
                         Userguide
-                        <span className="bg-chalk-gray ml-1 rounded px-1 py-2 text-[8px] font-semibold tracking-wider uppercase">
-                            Soon
-                        </span>
+                        <Tag label="soon" size="small" uppercase />
                     </Link>
                 </div>
                 <div className="flex items-center">

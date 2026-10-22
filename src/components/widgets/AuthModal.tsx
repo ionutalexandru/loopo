@@ -12,7 +12,7 @@ import {
 import { Modal } from '@/components/ui/Modal';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { FormAlert } from '@/components/ui/FormAlert';
+import { Alert } from '@/components/ui/Alert';
 import { Input } from '@/components/ui/Input';
 
 export const AuthModal = () => {
@@ -101,7 +101,7 @@ export const AuthModal = () => {
         if (!error) return null;
         return (
             <div className="mt-4 flex flex-col gap-4">
-                <FormAlert variant="error" message={error} />
+                <Alert variant="error" message={error} />
             </div>
         );
     };
@@ -191,13 +191,25 @@ export const AuthModal = () => {
                         Your projects and stitch counters are securely
                         synchronized with the cloud.
                     </p>
+                    <Alert
+                        icon={<ShieldAlert />}
+                        message="If you sign out, your local data will be cleared from this device for security, but all your projects remain safely stored in the cloud."
+                        variant="warning"
+                        dismissible={false}
+                    />
                     <Button
                         variant="squared"
                         size="small"
                         color="danger"
                         onClick={() => {
-                            signOut();
-                            handleClose();
+                            if (
+                                window.confirm(
+                                    'Are you sure you want to sign out? Local data on this device will be cleared, but your cloud backup is safe.'
+                                )
+                            ) {
+                                signOut();
+                                handleClose();
+                            }
                         }}
                     >
                         Sign Out
@@ -209,13 +221,13 @@ export const AuthModal = () => {
         // Sign in state
         return (
             <Card variant="elevated" className="flex flex-col gap-6">
-                <blockquote className="flex! items-center! text-sm!">
-                    <ShieldAlert className="text-vibrant-coral mr-3 size-8!" />
-                    <span>
-                        Registration is private. Access is reserved for accounts
-                        provisioned by the administrator.
-                    </span>
-                </blockquote>
+                <Alert
+                    icon={<ShieldAlert />}
+                    message="Registration is private. Access is reserved for accounts
+                        provisioned by the administrator."
+                    variant="warning"
+                    dismissible={false}
+                />
                 {renderError()}
                 <form onSubmit={handleLoginSubmit} className="space-y-5">
                     <Input
