@@ -61,7 +61,7 @@ const SecondaryCounterForm = ({
         initialValues: initialData,
         onSubmit: (validData) => {
             if (isCreate) {
-                onSave({ ...validData, userId: user?.id || 'user-local' });
+                onSave({ ...validData, userId: user?.id || 'local-user' });
             } else {
                 onSave(validData);
             }

@@ -41,6 +41,18 @@ export const useAuthStore = create<AuthState>((set) => ({
     initialize: async () => {
         try {
             set({ isLoading: true });
+
+            // CRITICAL: Wait for IndexedDB project storage to fully hydrate
+            // before checking session or adopting projects.
+            if (!useProjectStore.persist.hasHydrated()) {
+                await new Promise<void>((resolve) => {
+                    const unsubscribe =
+                        useProjectStore.persist.onFinishHydration(() => {
+                            unsubscribe();
+                            resolve();
+                        });
+                });
+            }
             const {
                 data: { session },
                 error,

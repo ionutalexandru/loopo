@@ -56,7 +56,7 @@ export default function CreatePartView() {
 
             addPart(currentProject.id, {
                 name: validatedData.name,
-                userId: user?.id || 'user-local',
+                userId: user?.id || 'local-user',
                 slug: partSlug,
                 currentRow: validatedData.currentRow,
                 totalRows: validatedData.totalRows,

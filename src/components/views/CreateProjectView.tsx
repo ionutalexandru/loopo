@@ -45,7 +45,7 @@ export default function CreateProjectView() {
 
             addProject({
                 name: validData.name,
-                userId: user?.id || 'user-local',
+                userId: user?.id || 'local-user',
                 slug: projectSlug,
                 patternName: validData.patternName,
                 craftType: validData.craftType,

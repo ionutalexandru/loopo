@@ -6,7 +6,7 @@ describe('Project Progress Calculation Utility', () => {
     it('resolves the active part by most recent updatedAt', () => {
         const project: Project = {
             id: 'proj-01',
-            userId: 'user-local',
+            userId: 'local-user',
             name: 'Icelandic Pullover',
             slug: 'icelandic-pullover',
             craftType: 'knit',
@@ -56,7 +56,7 @@ describe('Project Progress Calculation Utility', () => {
     it('handles project without parts', () => {
         const project: Project = {
             id: 'proj-01',
-            userId: 'user-local',
+            userId: 'local-user',
             name: 'Icelandic Pullover',
             slug: 'icelandic-pullover',
             craftType: 'knit',
@@ -81,7 +81,7 @@ describe('Project Progress Calculation Utility', () => {
     it('handles open-ended parts without fixed total rows target', () => {
         const project: Project = {
             id: 'proj-01',
-            userId: 'user-local',
+            userId: 'local-user',
             name: 'Icelandic Pullover',
             slug: 'icelandic-pullover',
             craftType: 'knit',
