@@ -76,6 +76,14 @@ blockquote {
     @apply border-vibrant-coral bg-vibrant-coral/20 text-charcoal/90 my-6 block rounded-r-xl border-l-4 p-4 text-base italic;
 }
 
+a.link {
+    @apply hover:text-charcoal flex items-center;
+}
+
+a.link:has(:not(:only-child)) {
+    @apply gap-1.5;
+}
+
 .loopo-dot {
     @apply text-vibrant-coral after:content-['.'];
 }

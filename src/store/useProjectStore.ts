@@ -99,6 +99,8 @@ interface ProjectState {
         counterId: string
     ) => void;
     resetToMockData: () => void;
+    // Adopt local projects with new user (remote) id
+    adoptLocalProject: (newUserId: string) => void;
 }
 
 export const useProjectStore = create<ProjectState>()(
@@ -527,10 +529,60 @@ export const useProjectStore = create<ProjectState>()(
             resetToMockData: () => {
                 set({ projects: MOCK_PROJECTS });
             },
+            adoptLocalProject: (newUserId: string) => {
+                const now = new Date().toISOString();
+                set((state) => ({
+                    projects: state.projects.map((project) =>
+                        project.userId === 'local-user' || !project.userId
+                            ? {
+                                  ...project,
+                                  userId: newUserId,
+                                  updatedAt: now,
+                                  isDirty: true,
+                                  parts: project.parts.map((part) => ({
+                                      ...part,
+                                      userId: newUserId,
+                                      updatedAt: now,
+                                      secondaryCounters:
+                                          part.secondaryCounters.map(
+                                              (counter) => ({
+                                                  ...counter,
+                                                  userId: newUserId,
+                                                  updatedAt: now,
+                                              })
+                                          ),
+                                  })),
+                              }
+                            : project
+                    ),
+                }));
+            },
         }),
         {
             name: 'loopo-projects-storage',
             storage: createJSONStorage(() => indexedDbStorage),
+            merge: (persistedState: any, currentState: ProjectState) => {
+                /**
+                 * Merge data retrieved from IndexedDB with the initial store data
+                
+                - persistedState represents the actual data saved by user in the IndexedDB. If it's
+                    the first time, it'll be undefined or null.
+                - currentState represents the default fallback state defined inside the Zustand store. It
+                    includes store's methods and the initial projects (MOCK_DATA).
+
+                Then, if IndexedDB containes a saved state, we prioritize it over the defaults.
+                */
+                if (
+                    persistedState &&
+                    typeof persistedState === 'object' &&
+                    Array.isArray(persistedState.projects)
+                ) {
+                    return { ...currentState, ...persistedState };
+                }
+
+                // Fallback to initial store state on first app launch.
+                return currentState;
+            },
         }
     )
 );

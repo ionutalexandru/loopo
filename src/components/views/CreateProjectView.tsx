@@ -1,21 +1,26 @@
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+
 import { createProjectSchema } from '@/schemas/projectSchema';
 import { useProjectStore } from '@/store/useProjectStore';
+import { useAuthStore } from '@/store/useAuthStore';
 import { generateUniqueSlug } from '@/utils/slugify';
 import { useZodForm } from '@/hooks/useZodForm';
-import { Button } from '../ui/Button';
-import { Card } from '../ui/Card';
-import { Input } from '../ui/Input';
-import { Select } from '../ui/Select';
-import { FormAlert } from '../ui/FormAlert';
-import { Loading } from '../ui/Loading';
+import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
+import { Input } from '@/components/ui/Input';
+import { Select } from '@/components/ui/Select';
+import { Alert } from '@/components/ui/Alert';
+import { Loading } from '@/components/ui/Loading';
+import { Footer } from '@/components/navigation/Footer';
 
 export default function CreateProjectView() {
     const navigate = useNavigate();
 
     const addProject = useProjectStore((state) => state.addProject);
     const existingProjects = useProjectStore((state) => state.projects);
+
+    const user = useAuthStore((state) => state.user);
 
     const {
         formData,
@@ -40,8 +45,8 @@ export default function CreateProjectView() {
             );
 
             addProject({
-                userId: 'user-local',
                 name: validData.name,
+                userId: user?.id || 'local-user',
                 slug: projectSlug,
                 patternName: validData.patternName,
                 craftType: validData.craftType,
@@ -68,7 +73,7 @@ export default function CreateProjectView() {
             <form onSubmit={handleSubmit} noValidate className="space-y-5">
                 <Card variant="elevated" className="flex flex-col gap-6">
                     {errors.general && (
-                        <FormAlert variant="error" message={errors.general} />
+                        <Alert variant="error" message={errors.general} />
                     )}
                     <Input
                         label="Project Name"
@@ -137,6 +142,7 @@ export default function CreateProjectView() {
                 </div>
             </form>
             {isSubmitting && <Loading message="Creating project..." />}
+            <Footer />
         </main>
     );
 }

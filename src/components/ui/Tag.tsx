@@ -1,12 +1,15 @@
 import React, { useId } from 'react';
 
 export type TagVariant = 'neutral' | 'highlight' | 'muted';
+export type TagSize = 'medium' | 'small';
 
 interface TagProps {
     label: string;
     className?: string;
     variant?: TagVariant;
     icon?: React.ReactNode;
+    size?: TagSize;
+    uppercase?: boolean;
 }
 
 export const Tag = ({
@@ -14,11 +17,12 @@ export const Tag = ({
     variant = 'neutral',
     icon,
     className = '',
+    size = 'medium',
+    uppercase = false,
 }: TagProps) => {
     const generatedId = useId();
 
-    const defaultStyles =
-        'inline-flex items-center justify-center gap-2 rounded-xl py-2 px-3 text-sm font-bold';
+    const defaultStyles = `inline-flex items-center justify-center tracking-wider ${size === 'small' ? 'gap-1 py-2 px-1 text-[8px] font-semibold rounded' : 'gap-2 py-3 px-2 text-sm font-bold rounded-xl'}${uppercase ? ' uppercase' : ''}`;
 
     const variantStyles: Record<TagVariant, string> = {
         neutral: 'bg-chalk-gray',

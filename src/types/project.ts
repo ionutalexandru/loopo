@@ -3,6 +3,7 @@ export type ProjectStatus = 'active' | 'paused' | 'completed' | 'archived';
 
 export interface SecondaryCounter {
     id: string;
+    userId?: string;
     partId: string;
     name: string;
     createdAt: string;
@@ -16,6 +17,7 @@ export interface SecondaryCounter {
 
 export interface ProjectPart {
     id: string;
+    userId?: string;
     projectId: string;
     slug: string;
     name: string;

@@ -85,7 +85,7 @@ export function getActiveSecondaryCounter(
 ): SecondaryCounter | undefined {
     return counters.find((counter) => {
         const { startRow, endRow } = getCounterRowRange(counter);
-        return currentRow >= startRow && currentRow <= endRow;
+        return currentRow + 1 >= startRow && currentRow <= endRow;
     });
 }
 

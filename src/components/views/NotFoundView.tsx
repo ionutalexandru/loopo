@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/Button';
 import { Tag } from '@/components/ui/Tag';
+import { Footer } from '@/components/navigation/Footer';
 
 export default function NotFound() {
     return (
@@ -23,6 +24,7 @@ export default function NotFound() {
             <Button to="/" variant="pill" color="primary" className="w-fit!">
                 Back to My Basket
             </Button>
+            <Footer />
         </main>
     );
 }

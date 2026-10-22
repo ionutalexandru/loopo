@@ -18,8 +18,9 @@ import { ProjectPartsNav } from '@/components/navigation/ProjectPartsNav';
 import { Modal } from '@/components/ui/Modal';
 import { UrlModal } from '@/components/ui/UrlModal';
 import { useUrlModal } from '@/hooks/useUrlModal';
-import { FormAlert } from '@/components/ui/FormAlert';
+import { Alert } from '@/components/ui/Alert';
 import { SecondaryCounter } from '@/types/project';
+import { Footer } from '@/components/navigation/Footer';
 
 const SECONDARY_COUNTER_MOCK_DATA: SecondaryCounter[] = [
     {
@@ -443,7 +444,7 @@ function StyleGuidePage() {
                                 saving.
                             </div>
                             <div className="sg-preview">
-                                <FormAlert
+                                <Alert
                                     isVisible={true}
                                     message="The row range overlaps with an existing motif on this part."
                                 />
@@ -459,7 +460,7 @@ function StyleGuidePage() {
                                 unsaved changes, or pattern gauge discrepancies.
                             </div>
                             <div className="sg-preview">
-                                <FormAlert
+                                <Alert
                                     variant="warning"
                                     isVisible={true}
                                     message="Current row count has exceeded the target rows for this part."
@@ -476,7 +477,7 @@ function StyleGuidePage() {
                                 explanations, or offline sync status.
                             </div>
                             <div className="sg-preview">
-                                <FormAlert
+                                <Alert
                                     variant="info"
                                     isVisible={true}
                                     message="Secondary motifs automatically advance as you log rows in the main counter."
@@ -1374,6 +1375,7 @@ function StyleGuidePage() {
                     />
                 </Card>
             </div>
+            <Footer />
         </main>
     );
 }

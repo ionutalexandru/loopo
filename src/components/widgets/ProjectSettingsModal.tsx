@@ -1,16 +1,17 @@
+import { useState } from 'react';
+import { Check, X } from 'lucide-react';
+
 import { useUrlModal } from '@/hooks/useUrlModal';
 import { useZodForm } from '@/hooks/useZodForm';
 import { UpdateProjectDTO, updateProjectSchema } from '@/schemas/projectSchema';
 import { Project } from '@/types/project';
-import { useState } from 'react';
-import { Loading } from '../ui/Loading';
-import { Button } from '../ui/Button';
-import { Card } from '../ui/Card';
-import { Modal } from '../ui/Modal';
-import { Check, X } from 'lucide-react';
-import { FormAlert } from '../ui/FormAlert';
-import { Input } from '../ui/Input';
-import { Select } from '../ui/Select';
+import { Loading } from '@/components/ui/Loading';
+import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
+import { Modal } from '@/components/ui/Modal';
+import { Alert } from '@/components/ui/Alert';
+import { Input } from '@/components/ui/Input';
+import { Select } from '@/components/ui/Select';
 
 export interface ProjectSettingsModalProps {
     isOpen?: boolean;
@@ -111,10 +112,7 @@ export const ProjectSettingsModal = ({
                 <form onSubmit={handleSubmit} className="space-y-5">
                     <div className="mt-4 flex flex-col gap-4">
                         {errors.general && (
-                            <FormAlert
-                                variant="error"
-                                message={errors.general}
-                            />
+                            <Alert variant="error" message={errors.general} />
                         )}
                         <Card
                             variant="elevated"
