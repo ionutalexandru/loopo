@@ -8,13 +8,16 @@ security definer -- Executes with creator privileges, ensuring safe execution un
 as $$
 begin
     -- 1. BULK UPSERT FOR PROJECTS
-    insert into projects (id, user_id, name, slug, status, notes, created_at, updated_at, deleted_at)
+    insert into projects (id, user_id, name, slug, status, notes, craft_type, pattern_name, created_at, updated_at, deleted_at)
     select
         (proj->>'id')::uuid,
         p_user_id,
         proj->>'name',
         proj->>'status',
         proj->>'slug',
+        proj->>'notes',
+        proj->>'craftType',
+        proj->>'patterName',
         (proj->>'createdAt')::timestamptz,
         (proj->>'updatedAt')::timestamptz,
         (proj->>'deletedAt')::timestamptz
@@ -24,17 +27,22 @@ begin
         slug = EXCLUDED.slug,
         status = EXCLUDED.status,
         notes = EXCLUDED.notes,
+        craft_type = EXCLUDED.craft_type,
+        pattern_name = EXCLUDED.pattern_name,
         updated_at = EXCLUDED.updated_at,
         deleted_at = EXCLUDED.deleted_at;
     
     -- 2. BULK UPSERT FOR PROJECT PARTS
-    insert into project_parts (id, project_id, user_id, name, slug, current_rows, total_rows, created_at, updated_at, deleted_at)
+    insert into project_parts (id, project_id, user_id, name, slug, current_rows, total_rows, needle_size, yarn_details, notes, created_at, updated_at, deleted_at)
     select
         (part->>'id')::uuid,
         (part->>'projectId')::uuid,
         p_user_id,
         part->>'name',
         proj->>'slug',
+        proj->>'needleSize',
+        proj->>'yarnDetails',
+        proj->>'notes',
         (part->>'currentRows')::integer,
         (part->>'totalRows')::integer,
         (part->>'createdAt')::timestamptz,
@@ -46,6 +54,9 @@ begin
         slug = EXCLUDED.slug,
         current_rows = EXCLUDED.current_rows,
         total_rows = EXCLUDED.total_rows,
+        needle_size = EXCLUDED.needle_size,
+        yarn_details = EXCLUDED.yarn_details,
+        notes = EXCLUDED.notes,
         updated_at = EXCLUDED.updated_at,
         deleted_at = EXCLUDED.deleted_at;
     

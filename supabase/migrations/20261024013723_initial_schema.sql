@@ -23,7 +23,7 @@ CREATE TABLE project_parts (
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   name VARCHAR(80) NOT NULL,
   slug VARCHAR(120) NOT NULL,
-  current_row INTEGER NOT NULL DEFAULT 0,
+  current_rows INTEGER NOT NULL DEFAULT 0,
   total_rows INTEGER DEFAULT NULL,
   needle_size VARCHAR(40),
   yarn_details VARCHAR(120),
