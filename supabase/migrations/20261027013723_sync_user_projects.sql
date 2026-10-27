@@ -8,11 +8,11 @@ security definer -- Executes with creator privileges, ensuring safe execution un
 as $$
 begin
     -- 1. BULK UPSERT FOR PROJECTS
-    insert into projects (id, user_id, title, slug, status, notes, created_at, updated_at, deleted_at)
+    insert into projects (id, user_id, name, slug, status, notes, created_at, updated_at, deleted_at)
     select
         (proj->>'id')::uuid,
         p_user_id,
-        proj->>'title',
+        proj->>'name',
         proj->>'status',
         proj->>'slug',
         (proj->>'createdAt')::timestamptz,
@@ -20,7 +20,7 @@ begin
         (proj->>'deletedAt')::timestamptz
     from jsonb_array_elements(p_payload->'projects') as proj
     on conflict (id) do update set
-        title = EXCLUDED.title,
+        name = EXCLUDED.name,
         slug = EXCLUDED.slug,
         status = EXCLUDED.status,
         notes = EXCLUDED.notes,
