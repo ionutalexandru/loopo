@@ -3,7 +3,12 @@ import { ProjectPart } from '@/types/project';
 
 export type PartDTO = Pick<
     ProjectPart,
-    'name' | 'currentRow' | 'totalRows' | 'needleSize' | 'yarnDetails' | 'notes'
+    | 'name'
+    | 'currentRows'
+    | 'totalRows'
+    | 'needleSize'
+    | 'yarnDetails'
+    | 'notes'
 >;
 
 export type CreatePartDTO = PartDTO;
@@ -15,7 +20,7 @@ export const partSchema: z.ZodType<PartDTO> = z.object({
         .trim()
         .min(5, 'Input must be at least 5 characters.')
         .max(80, 'Input must be 80 characters or less.'),
-    currentRow: z.coerce
+    currentRows: z.coerce
         .number()
         .int()
         .min(0, 'Input must be 0 or positive.')

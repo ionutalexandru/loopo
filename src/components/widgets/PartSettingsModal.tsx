@@ -62,7 +62,7 @@ export const PartSettingsModal = ({
 
     const initialData: UpdatePartDTO = {
         name: part.name,
-        currentRow: part.currentRow,
+        currentRows: part.currentRows,
         totalRows: part.totalRows,
         needleSize: part.needleSize,
         yarnDetails: part.yarnDetails,
@@ -179,12 +179,12 @@ export const PartSettingsModal = ({
                             <div className="flex flex-row gap-6">
                                 <Input
                                     label="Current Row"
-                                    value={formData.currentRow}
+                                    value={formData.currentRows}
                                     onChange={handleFieldChange}
-                                    error={errors.currentRow}
-                                    name="currentRow"
+                                    error={errors.currentRows}
+                                    name="currentRows"
                                     onBlur={handleBlur}
-                                    success={isFieldValid('currentRow')}
+                                    success={isFieldValid('currentRows')}
                                     type="number"
                                     inputMode="numeric"
                                 />

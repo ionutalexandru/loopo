@@ -1227,7 +1227,7 @@ function StyleGuidePage() {
                             <div className="sg-preview flex flex-col items-start gap-8">
                                 <ProjectCard
                                     title="Pullover Iceland"
-                                    currentRow={240}
+                                    currentRows={240}
                                     totalRows={320}
                                     activePart="Front"
                                     lastUpdated="2h ago"
@@ -1247,7 +1247,7 @@ function StyleGuidePage() {
                             <div className="sg-preview flex flex-col items-start gap-8">
                                 <ProjectCard
                                     title="Pullover Iceland"
-                                    currentRow={240}
+                                    currentRows={240}
                                     totalRows={320}
                                     lastUpdated="2h ago"
                                     url="/"

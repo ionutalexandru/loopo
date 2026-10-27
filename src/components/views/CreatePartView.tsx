@@ -38,7 +38,7 @@ export default function CreatePartView() {
         schema: createPartSchema,
         initialValues: {
             name: '',
-            currentRow: 0,
+            currentRows: 0,
             totalRows: 0,
             needleSize: '',
             yarnDetails: '',
@@ -59,7 +59,7 @@ export default function CreatePartView() {
                 name: validatedData.name,
                 userId: user?.id || 'local-user',
                 slug: partSlug,
-                currentRow: validatedData.currentRow,
+                currentRows: validatedData.currentRows,
                 totalRows: validatedData.totalRows,
                 needleSize: validatedData.needleSize,
                 yarnDetails: validatedData.yarnDetails,
@@ -109,12 +109,12 @@ export default function CreatePartView() {
                     <div className="flex flex-row gap-6">
                         <Input
                             label="Current Row"
-                            value={formData.currentRow}
+                            value={formData.currentRows}
                             onChange={handleFieldChange}
-                            error={errors.currentRow}
-                            name="currentRow"
+                            error={errors.currentRows}
+                            name="currentRows"
                             onBlur={handleBlur}
-                            success={isFieldValid('currentRow')}
+                            success={isFieldValid('currentRows')}
                             type="number"
                             inputMode="numeric"
                         />

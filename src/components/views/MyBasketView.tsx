@@ -92,7 +92,7 @@ export default function MyBasketView() {
                                 <ProjectCard
                                     key={p.id}
                                     title={p.name}
-                                    currentRow={summary.currentRow}
+                                    currentRows={summary.currentRows}
                                     totalRows={summary.totalRows}
                                     url={summary.url}
                                     activePart={summary.activePartName}

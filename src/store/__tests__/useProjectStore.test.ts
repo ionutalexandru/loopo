@@ -110,32 +110,32 @@ describe('useProjectStore', () => {
             const partId = useProjectStore.getState().addPart(projectId, {
                 name: 'Cuff & Leg',
                 slug: 'cuff-leg',
-                currentRow: 0,
+                currentRows: 0,
                 totalRows: 60,
             });
 
             useProjectStore.getState().decrementRow(projectId, partId);
             // cannot go below 0
             expect(
-                useProjectStore.getState().projects[0].parts[0].currentRow
+                useProjectStore.getState().projects[0].parts[0].currentRows
             ).toBe(0);
 
             // increment
             useProjectStore.getState().incrementRow(projectId, partId);
             useProjectStore.getState().incrementRow(projectId, partId);
             expect(
-                useProjectStore.getState().projects[0].parts[0].currentRow
+                useProjectStore.getState().projects[0].parts[0].currentRows
             ).toBe(2);
 
             // manual assignment
             useProjectStore.getState().setRow(projectId, partId, -10);
             expect(
-                useProjectStore.getState().projects[0].parts[0].currentRow
+                useProjectStore.getState().projects[0].parts[0].currentRows
             ).toBe(0);
 
             useProjectStore.getState().setRow(projectId, partId, 45);
             expect(
-                useProjectStore.getState().projects[0].parts[0].currentRow
+                useProjectStore.getState().projects[0].parts[0].currentRows
             ).toBe(45);
         });
 
@@ -151,13 +151,13 @@ describe('useProjectStore', () => {
             const partId = useProjectStore.getState().addPart(projectId, {
                 name: 'Cuff & Leg',
                 slug: 'cuff-leg',
-                currentRow: 60,
+                currentRows: 60,
                 totalRows: 60,
             });
 
             useProjectStore.getState().incrementRow(projectId, partId);
             expect(
-                useProjectStore.getState().projects[0].parts[0].currentRow
+                useProjectStore.getState().projects[0].parts[0].currentRows
             ).toBe(61);
         });
     });
@@ -178,7 +178,7 @@ describe('useProjectStore', () => {
             partId = useProjectStore.getState().addPart(projectId, {
                 name: 'Front Panel',
                 slug: 'front-panel',
-                currentRow: 0,
+                currentRows: 0,
             });
         });
 

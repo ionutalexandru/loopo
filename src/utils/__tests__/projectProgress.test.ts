@@ -20,7 +20,7 @@ describe('Project Progress Calculation Utility', () => {
                     projectId: 'proj-01',
                     name: 'Back Panel',
                     slug: 'back-panel',
-                    currentRow: 250,
+                    currentRows: 250,
                     totalRows: 300,
                     createdAt: '2026-08-01T10:00:00.000Z',
                     updatedAt: '2026-08-02T10:00:00.000Z',
@@ -31,7 +31,7 @@ describe('Project Progress Calculation Utility', () => {
                     projectId: 'proj-01',
                     name: 'Front Panel',
                     slug: 'front-panel',
-                    currentRow: 10,
+                    currentRows: 10,
                     totalRows: 300,
                     createdAt: '2026-08-10T10:00:00.000Z',
                     updatedAt: '2026-08-12T10:00:00.000Z',
@@ -44,7 +44,7 @@ describe('Project Progress Calculation Utility', () => {
 
         expect(summary.hasParts).toBe(true);
         expect(summary.activePartName).toBe('Front Panel');
-        expect(summary.currentRow).toBe(10);
+        expect(summary.currentRows).toBe(10);
         expect(summary.totalRows).toBe(300);
         expect(summary.lastUpdated).toBeDefined();
         expect(summary.isCompleted).toBe(false);
@@ -71,7 +71,7 @@ describe('Project Progress Calculation Utility', () => {
 
         expect(summary.hasParts).toBe(false);
         expect(summary.activePartName).toBeUndefined();
-        expect(summary.currentRow).toBe(0);
+        expect(summary.currentRows).toBe(0);
         expect(summary.totalRows).toBeUndefined();
         expect(summary.lastUpdated).toBeUndefined();
         expect(summary.isCompleted).toBe(false);
@@ -95,7 +95,7 @@ describe('Project Progress Calculation Utility', () => {
                     projectId: 'proj-01',
                     name: 'Back Panel',
                     slug: 'back-panel',
-                    currentRow: 250,
+                    currentRows: 250,
                     createdAt: '2026-08-01T10:00:00.000Z',
                     updatedAt: '2026-08-02T10:00:00.000Z',
                     secondaryCounters: [],
