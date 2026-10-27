@@ -29,7 +29,7 @@ export interface ProjectPart {
     needleSize?: string;
     yarnDetails?: string;
     notes?: string;
-    secondaryCounters?: SecondaryCounter[];
+    secondaryCounters: SecondaryCounter[];
 }
 
 export interface Project {
@@ -42,7 +42,7 @@ export interface Project {
     isDirty?: boolean;
     userId: string;
     craftType: CraftType;
-    parts?: ProjectPart[];
+    parts: ProjectPart[];
     status: ProjectStatus;
     patternName?: string;
     notes?: string;
