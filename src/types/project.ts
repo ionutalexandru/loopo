@@ -46,4 +46,5 @@ export interface Project {
     status: ProjectStatus;
     patternName?: string;
     notes?: string;
+    isTemplate?: boolean;
 }

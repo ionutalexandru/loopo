@@ -13,9 +13,9 @@ import { useAuthStore } from '@/store/useAuthStore';
 import { Footer } from '@/components/navigation/Footer';
 
 export default function MyBasketView() {
-    const [activeOnly, setActiveOnly] = useState<boolean>(true);
     const { data: projects } = useHydratedStore((state) => state.projects);
     const openAuthModal = useAuthStore((state) => state.openAuthModal);
+    const [activeOnly, setActiveOnly] = useState<boolean>(true);
 
     const filteredProjects = useMemo(() => {
         if (!projects) return [];
@@ -78,6 +78,14 @@ export default function MyBasketView() {
                     aria-label="Filter active projects only"
                 />
             </div>
+            {!filteredProjects.length && (
+                <Card>
+                    <p className="lead">
+                        There are no active projects. Check non-active ones or
+                        create a new one.
+                    </p>
+                </Card>
+            )}
             {filteredProjects && (
                 <div className="flex flex-col gap-6">
                     {filteredProjects

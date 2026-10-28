@@ -193,7 +193,13 @@ export const syncCloudToLocal = async (userId: string): Promise<void> => {
             })
         );
 
-        const localProjects = useProjectStore.getState().projects;
+        let localProjects = useProjectStore.getState().projects;
+        if (remoteProjects.length) {
+            // as there are remote projects, remove templates
+            localProjects = localProjects.filter(
+                ({ isTemplate }) => !isTemplate
+            );
+        }
         const mergedProjectsMap = new Map<string, Project>();
 
         // Seed map with local projects

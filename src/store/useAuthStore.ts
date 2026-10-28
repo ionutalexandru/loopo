@@ -98,9 +98,14 @@ export const useAuthStore = create<AuthState>((set) => ({
                 password,
             });
             if (error) throw error;
-            if (data.user) {
-                useProjectStore.getState().adoptLocalProject(data.user.id);
+            if (!data.user) {
+                return {
+                    success: false,
+                    message: 'Failed to sign in.',
+                };
             }
+            useProjectStore.getState().adoptLocalProject(data.user.id);
+            syncBidirectional(data.user.id);
             return { success: true };
         } catch (err: any) {
             const message = err.message ?? 'Failed to sign in.';

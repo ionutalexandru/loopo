@@ -1,23 +1,39 @@
 import { Project } from '@/types/project';
 
+const projetIds = [crypto.randomUUID(), crypto.randomUUID()];
+
+const partIds = [
+    crypto.randomUUID(),
+    crypto.randomUUID(),
+    crypto.randomUUID(),
+    crypto.randomUUID(),
+];
+
+const counterIds = [
+    crypto.randomUUID(),
+    crypto.randomUUID(),
+    crypto.randomUUID(),
+];
+
 export const MOCK_PROJECTS: Project[] = [
     {
-        id: 'proj-sweater-001',
+        id: projetIds[0],
         userId: 'local-user',
-        name: 'Nordic Raglan Sweater',
-        slug: 'nordic-raglan-sweater',
+        name: 'Nordic Raglan Sweater (Example)',
+        slug: 'nordic-raglan-sweater-example',
         craftType: 'knit',
         patternName: 'Nordic Winter Pullover by PetiteKnit',
         notes: 'Gauge: 21 sts x 28 rows on 4.0 mm needles in stockinette stitch.',
         createdAt: '2026-02-01T10:00:00.000Z',
         updatedAt: '2026-02-15T18:30:00.000Z',
         status: 'active',
-        isDirty: false,
+        isDirty: true,
+        isTemplate: true,
         parts: [
             {
-                id: 'part-main-body-01',
+                id: partIds[0],
                 userId: 'local-user',
-                projectId: 'proj-sweater-001',
+                projectId: projetIds[0],
                 name: 'Main Body',
                 slug: 'main-body',
                 currentRows: 14,
@@ -29,9 +45,9 @@ export const MOCK_PROJECTS: Project[] = [
                 updatedAt: '2026-02-15T18:30:00.000Z',
                 secondaryCounters: [
                     {
-                        id: 'counter-lace-01',
+                        id: counterIds[0],
                         userId: 'local-user',
-                        partId: 'part-main-body-01',
+                        partId: partIds[0],
                         name: 'Lace Leaf Center Panel',
                         startsOnGlobalRow: 10,
                         rowsPerRepeat: 8,
@@ -41,9 +57,9 @@ export const MOCK_PROJECTS: Project[] = [
                         updatedAt: '2026-02-01T10:05:00.000Z',
                     },
                     {
-                        id: 'counter-cable-02',
+                        id: counterIds[1],
                         userId: 'local-user',
-                        partId: 'part-main-body-01',
+                        partId: partIds[0],
                         name: 'Upper Chest Cable',
                         startsOnGlobalRow: 50,
                         rowsPerRepeat: 6,
@@ -55,9 +71,9 @@ export const MOCK_PROJECTS: Project[] = [
                 ],
             },
             {
-                id: 'part-left-sleeve',
+                id: partIds[1],
                 userId: 'local-user',
-                projectId: 'proj-sweater-001',
+                projectId: projetIds[0],
                 name: 'Left Sleeve',
                 slug: 'left-sleeve',
                 currentRows: 96,
@@ -70,9 +86,9 @@ export const MOCK_PROJECTS: Project[] = [
                 secondaryCounters: [],
             },
             {
-                id: 'part-right-sleeve',
+                id: partIds[2],
                 userId: 'local-user',
-                projectId: 'proj-sweater-001',
+                projectId: projetIds[0],
                 name: 'Right Sleeve',
                 slug: 'right-sleeve',
                 currentRows: 80,
@@ -87,22 +103,23 @@ export const MOCK_PROJECTS: Project[] = [
         ],
     },
     {
-        id: 'proj-scarf-002',
+        id: projetIds[1],
         userId: 'local-user',
-        name: 'Infinite Ripple Scarf',
-        slug: 'infinite-ripple-scarf',
+        name: 'Infinite Ripple Scarf (Example)',
+        slug: 'infinite-ripple-scarf-example',
         craftType: 'crochet',
         patternName: 'Custom Chevron Ripple Scarf',
         notes: 'Open-ended length. Crochet until all 3 skeins are fully exhausted.',
         createdAt: '2026-02-10T09:00:00.000Z',
         updatedAt: '2026-02-18T14:20:00.000Z',
-        isDirty: false,
+        isDirty: true,
         status: 'paused',
+        isTemplate: true,
         parts: [
             {
-                id: 'part-scarf-body',
+                id: partIds[3],
                 userId: 'local-user',
-                projectId: 'proj-scarf-002',
+                projectId: projetIds[1],
                 name: 'Scarf Body',
                 slug: 'scarf-body',
                 currentRows: 38,
@@ -113,9 +130,9 @@ export const MOCK_PROJECTS: Project[] = [
                 updatedAt: '2026-08-18T14:20:00.000Z',
                 secondaryCounters: [
                     {
-                        id: 'counter-ripple-01',
+                        id: counterIds[2],
                         userId: 'local-user',
-                        partId: 'part-scarf-body',
+                        partId: partIds[3],
                         name: 'Two-Tone Ripple Sequence',
                         startsOnGlobalRow: 1,
                         rowsPerRepeat: 4,
