@@ -12,7 +12,7 @@ import { Project, ProjectPart, SecondaryCounter } from '@/types/project';
  */
 export const syncLocalToCloud = async (userId: string): Promise<void> => {
     // Abort if the browser is currently offline
-    if (typeof window !== 'undefined' && navigator.onLine) {
+    if (typeof navigator !== 'undefined' && !navigator.onLine) {
         console.log('[Sync] Offline status detected. Skipping cloud push.');
         return;
     }
@@ -120,7 +120,7 @@ export const syncLocalToCloud = async (userId: string): Promise<void> => {
  */
 export const syncCloudToLocal = async (userId: string): Promise<void> => {
     // Abort if the browser is currently offline
-    if (typeof window !== 'undefined' && navigator.onLine) {
+    if (typeof navigator !== 'undefined' && !navigator.onLine) {
         console.log('[Sync] Offline status detected. Skipping cloud pull.');
         return;
     }

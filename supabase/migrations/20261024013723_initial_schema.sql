@@ -13,7 +13,7 @@ CREATE TABLE projects (
   notes TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()), 
-  deleted_at TIMESTAMPTZ NOT NULL
+  deleted_at TIMESTAMPTZ
 );
 
 -- TABLE: project_parts --
@@ -30,7 +30,7 @@ CREATE TABLE project_parts (
   notes TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()), 
-  deleted_at TIMESTAMPTZ NOT NULL
+  deleted_at TIMESTAMPTZ
 );
 
 -- TABLE: secondary_counters --
@@ -45,7 +45,7 @@ CREATE TABLE secondary_counters (
   notes VARCHAR(50),
   created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()), 
-  deleted_at TIMESTAMPTZ NOT NULL
+  deleted_at TIMESTAMPTZ
 );
 
 -- INDEXES --

@@ -202,7 +202,7 @@ export const useProjectStore = create<ProjectState>()(
                                 ...project,
                                 isDirty: true,
                                 updatedAt: now,
-                                parts: [...(project.parts || []), newPart],
+                                parts: [...project.parts, newPart],
                             };
                         }),
                     };
@@ -220,7 +220,7 @@ export const useProjectStore = create<ProjectState>()(
                                 ...project,
                                 updatedAt: now,
                                 isDirty: true,
-                                parts: (project.parts || []).map((part) =>
+                                parts: project.parts.map((part) =>
                                     part.id === partId
                                         ? { ...part, ...data, updatedAt: now }
                                         : part
@@ -239,7 +239,7 @@ export const useProjectStore = create<ProjectState>()(
                             ...project,
                             updatedAt: now,
                             isDirty: true,
-                            parts: (project.parts || []).map((p) =>
+                            parts: project.parts.map((p) =>
                                 p.id === partId
                                     ? {
                                           ...p,
@@ -267,18 +267,17 @@ export const useProjectStore = create<ProjectState>()(
                 const baseName = `${sourcePart.name} (Copy)`;
                 const newSlug = generateUniqueSlug(
                     baseName,
-                    (project.parts || []).map(({ slug }) => slug)
+                    project.parts.map(({ slug }) => slug)
                 );
 
-                const clonedCounters: SecondaryCounter[] = (
-                    sourcePart.secondaryCounters || []
-                ).map((counter) => ({
-                    ...counter,
-                    id: crypto.randomUUID(),
-                    partId: newPartId,
-                    createdAt: now,
-                    updatedAt: now,
-                }));
+                const clonedCounters: SecondaryCounter[] =
+                    sourcePart.secondaryCounters.map((counter) => ({
+                        ...counter,
+                        id: crypto.randomUUID(),
+                        partId: newPartId,
+                        createdAt: now,
+                        updatedAt: now,
+                    }));
 
                 const newPart: ProjectPart = {
                     ...sourcePart,
@@ -299,7 +298,7 @@ export const useProjectStore = create<ProjectState>()(
                             ...p,
                             updatedAt: now,
                             isDirty: true,
-                            parts: [...(p.parts || []), newPart],
+                            parts: [...p.parts, newPart],
                         };
                     }),
                 }));
@@ -317,7 +316,7 @@ export const useProjectStore = create<ProjectState>()(
                             ...project,
                             updatedAt: now,
                             isDirty: true,
-                            parts: (project.parts || []).map((part) => {
+                            parts: project.parts.map((part) => {
                                 const currentRows = part.currentRows + 1;
                                 return part.id === partId
                                     ? {
@@ -340,7 +339,7 @@ export const useProjectStore = create<ProjectState>()(
                             ...project,
                             updatedAt: now,
                             isDirty: true,
-                            parts: (project.parts || []).map((part) => {
+                            parts: project.parts.map((part) => {
                                 return part.id === partId &&
                                     part.currentRows > 0
                                     ? {
@@ -363,7 +362,7 @@ export const useProjectStore = create<ProjectState>()(
                             ...project,
                             updatedAt: now,
                             isDirty: true,
-                            parts: (project.parts || []).map((part) => {
+                            parts: project.parts.map((part) => {
                                 return part.id === partId
                                     ? {
                                           ...part,
@@ -387,7 +386,7 @@ export const useProjectStore = create<ProjectState>()(
                         success: false,
                         error: 'Target project part not found.',
                     };
-                if (hasCounterOverlap(part.secondaryCounters || [], data)) {
+                if (hasCounterOverlap(part.secondaryCounters, data)) {
                     return {
                         success: false,
                         error: 'The row range overlaps with an existing counter.',
@@ -412,13 +411,13 @@ export const useProjectStore = create<ProjectState>()(
                             ...proj,
                             updatedAt: now,
                             isDirty: true,
-                            parts: (proj.parts || []).map((p) => {
+                            parts: proj.parts.map((p) => {
                                 if (p.id !== partId) return p;
                                 return {
                                     ...p,
                                     updatedAt: now,
                                     secondaryCounters: [
-                                        ...(p.secondaryCounters || []),
+                                        ...p.secondaryCounters,
                                         newCounter,
                                     ].sort(
                                         (a, b) =>
@@ -450,7 +449,7 @@ export const useProjectStore = create<ProjectState>()(
 
                 if (
                     hasCounterOverlap(
-                        part.secondaryCounters || [],
+                        part.secondaryCounters,
                         updatedCounter,
                         counterId
                     )
@@ -471,14 +470,12 @@ export const useProjectStore = create<ProjectState>()(
                             ...proj,
                             updatedAt: now,
                             isDirty: true,
-                            parts: (proj.parts || []).map((p) => {
+                            parts: proj.parts.map((p) => {
                                 if (p.id !== partId) return p;
                                 return {
                                     ...p,
                                     updatedAt: now,
-                                    secondaryCounters: (
-                                        p.secondaryCounters || []
-                                    )
+                                    secondaryCounters: p.secondaryCounters
                                         .map((c) => {
                                             if (c.id !== counterId) return c;
                                             return {
@@ -510,22 +507,21 @@ export const useProjectStore = create<ProjectState>()(
                                 ...project,
                                 updatedAt: now,
                                 isDirty: true,
-                                parts: (project.parts || []).map((part) => {
+                                parts: project.parts.map((part) => {
                                     if (part.id !== partId) return part;
                                     return {
                                         ...part,
                                         updatedAt: now,
-                                        secondaryCounters: (
-                                            part.secondaryCounters || []
-                                        ).map((c) =>
-                                            c.id === counterId
-                                                ? {
-                                                      ...c,
-                                                      deletedAt: now,
-                                                      updatedAt: now,
-                                                  }
-                                                : c
-                                        ),
+                                        secondaryCounters:
+                                            part.secondaryCounters.map((c) =>
+                                                c.id === counterId
+                                                    ? {
+                                                          ...c,
+                                                          deletedAt: now,
+                                                          updatedAt: now,
+                                                      }
+                                                    : c
+                                            ),
                                     };
                                 }),
                             };
@@ -546,17 +542,18 @@ export const useProjectStore = create<ProjectState>()(
                                   userId: newUserId,
                                   updatedAt: now,
                                   isDirty: true,
-                                  parts: (project.parts || []).map((part) => ({
+                                  parts: project.parts.map((part) => ({
                                       ...part,
                                       userId: newUserId,
                                       updatedAt: now,
-                                      secondaryCounters: (
-                                          part.secondaryCounters || []
-                                      ).map((counter) => ({
-                                          ...counter,
-                                          userId: newUserId,
-                                          updatedAt: now,
-                                      })),
+                                      secondaryCounters:
+                                          part.secondaryCounters.map(
+                                              (counter) => ({
+                                                  ...counter,
+                                                  userId: newUserId,
+                                                  updatedAt: now,
+                                              })
+                                          ),
                                   })),
                               }
                             : project
