@@ -1,7 +1,8 @@
-import { supabase } from '@/lib/supabase';
-import { Session, User } from '@supabase/supabase-js';
 import { create } from 'zustand';
-import { useProjectStore } from './useProjectStore';
+import { Session, User } from '@supabase/supabase-js';
+import { supabase } from '@/lib/supabase';
+import { useProjectStore } from '@/store/useProjectStore';
+import { syncBidirectional } from '@/services/syncService';
 
 interface AuthState {
     // State
@@ -9,7 +10,6 @@ interface AuthState {
     session: Session | null;
     isLoading: boolean;
     error: string | null;
-    lastSyncedAt: string | null;
     isAuthModalOpen: boolean;
     isPasswordRecovery: boolean;
 
@@ -26,7 +26,6 @@ interface AuthState {
     signOut: () => void;
     openAuthModal: () => void;
     closeAuthModal: () => void;
-    setLastSyncedAt: (date: string) => void;
     clearError: () => void;
 }
 
@@ -35,7 +34,6 @@ export const useAuthStore = create<AuthState>((set) => ({
     session: null,
     isLoading: true,
     error: null,
-    lastSyncedAt: null,
     isAuthModalOpen: false,
     isPasswordRecovery: false,
     initialize: async () => {
@@ -60,6 +58,7 @@ export const useAuthStore = create<AuthState>((set) => ({
             if (error) throw error;
             if (session?.user) {
                 useProjectStore.getState().adoptLocalProject(session.user.id);
+                syncBidirectional(session.user.id);
             }
             set({
                 session,
@@ -134,13 +133,11 @@ export const useAuthStore = create<AuthState>((set) => ({
             session: null,
             isLoading: false,
             error: null,
-            lastSyncedAt: null,
             isPasswordRecovery: false,
         });
     },
     openAuthModal: () => set({ isAuthModalOpen: true, error: null }),
     closeAuthModal: () =>
         set({ isAuthModalOpen: false, error: null, isPasswordRecovery: false }),
-    setLastSyncedAt: (date: string) => set({ lastSyncedAt: date }),
     clearError: () => set({ error: null }),
 }));

@@ -73,7 +73,7 @@ export default function PartDisplayView() {
 
     const activeCounter = getActiveSecondaryCounter(
         part.secondaryCounters,
-        part.currentRow
+        part.currentRows
     );
 
     // add active counter at index 0
@@ -213,7 +213,7 @@ export default function PartDisplayView() {
                 className="flex w-full justify-center"
             >
                 <GlobalCounter
-                    row={part.currentRow}
+                    row={part.currentRows}
                     totalRows={part.totalRows}
                     setRow={handleSetRow}
                 />
@@ -228,7 +228,7 @@ export default function PartDisplayView() {
                             const isActive = i.id === activeCounter?.id;
                             const progress = getSecondaryCounterProgress(
                                 i,
-                                part.currentRow
+                                part.currentRows
                             );
                             return (
                                 <SecondaryCounter
@@ -254,7 +254,7 @@ export default function PartDisplayView() {
             )}
             <SecondaryCounterSettingsModal
                 paramName="counter"
-                currentGlobalRow={part.currentRow}
+                currentGlobalRow={part.currentRows}
                 existingCounters={part.secondaryCounters}
                 onCreate={handleCreateSecondaryCounter}
                 onUpdate={handleUpdateSecondaryCounter}

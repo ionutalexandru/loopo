@@ -13,7 +13,7 @@ CREATE TABLE projects (
   notes TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()), 
-  deleted_at TIMESTAMPTZ NOT NULL
+  deleted_at TIMESTAMPTZ
 );
 
 -- TABLE: project_parts --
@@ -23,14 +23,14 @@ CREATE TABLE project_parts (
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   name VARCHAR(80) NOT NULL,
   slug VARCHAR(120) NOT NULL,
-  current_row INTEGER NOT NULL DEFAULT 0,
+  current_rows INTEGER NOT NULL DEFAULT 0,
   total_rows INTEGER DEFAULT NULL,
   needle_size VARCHAR(40),
   yarn_details VARCHAR(120),
   notes TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()), 
-  deleted_at TIMESTAMPTZ NOT NULL
+  deleted_at TIMESTAMPTZ
 );
 
 -- TABLE: secondary_counters --
@@ -45,7 +45,7 @@ CREATE TABLE secondary_counters (
   notes VARCHAR(50),
   created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()), 
-  deleted_at TIMESTAMPTZ NOT NULL
+  deleted_at TIMESTAMPTZ
 );
 
 -- INDEXES --

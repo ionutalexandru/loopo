@@ -19,6 +19,8 @@ export interface CounterMutationResult {
 interface ProjectState {
     // global list of all stored projects
     projects: Project[];
+    isSyncing: boolean;
+    lastSyncedAt: string | null;
 
     // -- PROJECT CRUD ACTIONS --
     // Create a new project and returns its generated UUID
@@ -101,12 +103,18 @@ interface ProjectState {
     resetToMockData: () => void;
     // Adopt local projects with new user (remote) id
     adoptLocalProject: (newUserId: string) => void;
+    // Mark all projects as Cleam
+    markProjectsAsClean: (projectIds: string[]) => void;
+    setIsSyncing: (isSyncing: boolean) => void;
+    setLastSyncedAt: (date: string) => void;
 }
 
 export const useProjectStore = create<ProjectState>()(
     persist(
         (set, get) => ({
             projects: MOCK_PROJECTS,
+            isSyncing: false,
+            lastSyncedAt: null,
             // --  PROJECT ACTIONS --
             addProject: (projectData) => {
                 const id = crypto.randomUUID();
@@ -254,7 +262,7 @@ export const useProjectStore = create<ProjectState>()(
                 const project = get().projects.find(
                     ({ id }) => id === projectId
                 );
-                const sourcePart = project?.parts.find(
+                const sourcePart = project?.parts?.find(
                     ({ id }) => id === partId
                 );
 
@@ -283,7 +291,7 @@ export const useProjectStore = create<ProjectState>()(
                     projectId,
                     name: baseName,
                     slug: newSlug,
-                    currentRow: 0,
+                    currentRows: 0,
                     secondaryCounters: clonedCounters,
                     createdAt: now,
                     updatedAt: now,
@@ -315,11 +323,11 @@ export const useProjectStore = create<ProjectState>()(
                             updatedAt: now,
                             isDirty: true,
                             parts: project.parts.map((part) => {
-                                const currentRow = part.currentRow + 1;
+                                const currentRows = part.currentRows + 1;
                                 return part.id === partId
                                     ? {
                                           ...part,
-                                          currentRow,
+                                          currentRows,
                                           updatedAt: now,
                                       }
                                     : part;
@@ -338,10 +346,11 @@ export const useProjectStore = create<ProjectState>()(
                             updatedAt: now,
                             isDirty: true,
                             parts: project.parts.map((part) => {
-                                return part.id === partId && part.currentRow > 0
+                                return part.id === partId &&
+                                    part.currentRows > 0
                                     ? {
                                           ...part,
-                                          currentRow: part.currentRow - 1,
+                                          currentRows: part.currentRows - 1,
                                           updatedAt: now,
                                       }
                                     : part;
@@ -363,7 +372,7 @@ export const useProjectStore = create<ProjectState>()(
                                 return part.id === partId
                                     ? {
                                           ...part,
-                                          currentRow: Math.max(rowNumber, 0),
+                                          currentRows: Math.max(rowNumber, 0),
                                           updatedAt: now,
                                       }
                                     : part;
@@ -376,7 +385,7 @@ export const useProjectStore = create<ProjectState>()(
             // -- SECONDARY COUNTER ACTIONS --
             addSecondaryCounter: (projectId, partId, data) => {
                 const project = get().projects.find((p) => p.id === projectId);
-                const part = project?.parts.find((p) => p.id === partId);
+                const part = project?.parts?.find((p) => p.id === partId);
 
                 if (!part)
                     return {
@@ -431,8 +440,8 @@ export const useProjectStore = create<ProjectState>()(
             },
             updatedSecondaryCounter: (projectId, partId, counterId, data) => {
                 const project = get().projects.find((p) => p.id === projectId);
-                const part = project?.parts.find((p) => p.id === partId);
-                const counter = part?.secondaryCounters.find(
+                const part = project?.parts?.find((p) => p.id === partId);
+                const counter = part?.secondaryCounters?.find(
                     (c) => c.id === counterId
                 );
 
@@ -557,6 +566,15 @@ export const useProjectStore = create<ProjectState>()(
                     ),
                 }));
             },
+            markProjectsAsClean: (projectIds: string[]) => {
+                set((state) => ({
+                    projects: state.projects.map((p) =>
+                        projectIds.includes(p.id) ? { ...p, isDirty: false } : p
+                    ),
+                }));
+            },
+            setIsSyncing: (isSyncing: boolean) => set({ isSyncing }),
+            setLastSyncedAt: (lastSyncedAt: string) => set({ lastSyncedAt }),
         }),
         {
             name: 'loopo-projects-storage',

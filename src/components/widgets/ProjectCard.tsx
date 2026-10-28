@@ -4,7 +4,7 @@ import { ProgressBar } from '@/components/ui/ProgressBar';
 
 interface ProjectCardProps {
     title: string;
-    currentRow: number;
+    currentRows: number;
     totalRows?: number;
     activePart?: string;
     lastUpdated?: string;
@@ -14,7 +14,7 @@ interface ProjectCardProps {
 
 export const ProjectCard = ({
     title,
-    currentRow,
+    currentRows,
     totalRows = undefined,
     activePart = '',
     lastUpdated = '',
@@ -22,7 +22,9 @@ export const ProjectCard = ({
     className = '',
 }: ProjectCardProps) => {
     const percentage = totalRows
-        ? Math.round(Math.min(Math.max((currentRow / totalRows) * 100, 0), 100))
+        ? Math.round(
+              Math.min(Math.max((currentRows / totalRows) * 100, 0), 100)
+          )
         : 0;
 
     const cardContent = (
@@ -41,7 +43,7 @@ export const ProjectCard = ({
                 </div>
                 <ProgressBar
                     shape="linear"
-                    value={currentRow}
+                    value={currentRows}
                     max={totalRows}
                     hideStats={true}
                 />
@@ -56,7 +58,7 @@ export const ProjectCard = ({
                             </>
                         )}
                         <span>
-                            {currentRow}/{totalRows ? totalRows : 0}
+                            {currentRows}/{totalRows ? totalRows : 0}
                         </span>
                     </div>
                     {lastUpdated && <span>{lastUpdated}</span>}

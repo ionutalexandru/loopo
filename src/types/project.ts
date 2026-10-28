@@ -24,7 +24,7 @@ export interface ProjectPart {
     createdAt: string;
     updatedAt: string;
     deletedAt?: string | null;
-    currentRow: number;
+    currentRows: number;
     totalRows?: number;
     needleSize?: string;
     yarnDetails?: string;
@@ -39,7 +39,7 @@ export interface Project {
     createdAt: string;
     updatedAt: string;
     deletedAt?: string | null;
-    isDirty: boolean;
+    isDirty?: boolean;
     userId: string;
     craftType: CraftType;
     parts: ProjectPart[];

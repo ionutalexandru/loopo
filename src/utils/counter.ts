@@ -76,16 +76,16 @@ export function hasCounterOverlap(
  * Finds the currently active counter for a given global row.
  *
  * @param counters - The list of secondary counters.
- * @param currentRow - The current global row number.
+ * @param currentRows - The current global row number.
  * @returns - The active `SecondaryCounter` or `undefined` if no counter covers the row.
  */
 export function getActiveSecondaryCounter(
     counters: SecondaryCounter[],
-    currentRow: number
+    currentRows: number
 ): SecondaryCounter | undefined {
     return counters.find((counter) => {
         const { startRow, endRow } = getCounterRowRange(counter);
-        return currentRow + 1 >= startRow && currentRow <= endRow;
+        return currentRows + 1 >= startRow && currentRows <= endRow;
     });
 }
 
@@ -93,18 +93,18 @@ export function getActiveSecondaryCounter(
  * Computes the progress state of a secondary counter based on the part's current row.
  *
  * @param counter - The target secondary counter.
- * @param currentRow - The current global row number.
+ * @param currentRows - The current global row number.
  * @returns - Progress state object.
  */
 
 export function getSecondaryCounterProgress(
     counter: SecondaryCounter,
-    currentRow: number
+    currentRows: number
 ): SecondaryCounterProgress {
     const { startRow, endRow, totalRows } = getCounterRowRange(counter);
 
     // 1. State: the counter has not started yet
-    if (currentRow < startRow) {
+    if (currentRows < startRow) {
         return {
             hasStarted: false,
             isCompleted: false,
@@ -117,7 +117,7 @@ export function getSecondaryCounterProgress(
     }
 
     // 2. State: the counter sequence has been completed
-    if (currentRow > endRow) {
+    if (currentRows > endRow) {
         return {
             hasStarted: true,
             isCompleted: true,
@@ -130,7 +130,7 @@ export function getSecondaryCounterProgress(
     }
 
     // 3. State: the counter is in progress
-    const rowsCompleted = currentRow - startRow + 1;
+    const rowsCompleted = currentRows - startRow + 1;
     const currentRepeat =
         Math.floor((rowsCompleted - 1) / counter.rowsPerRepeat) + 1;
     const rowInCurrentRepeat =

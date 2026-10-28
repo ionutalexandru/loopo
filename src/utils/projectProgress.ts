@@ -3,7 +3,7 @@ import { formatRelativeTime } from './date';
 
 export interface ProjectProgressSummary {
     activePartName?: string;
-    currentRow: number;
+    currentRows: number;
     totalRows?: number;
     isCompleted: boolean;
     url: string;
@@ -23,7 +23,7 @@ export function getProjectProgressSummary(
 ): ProjectProgressSummary {
     if (!project.parts || project.parts.length === 0) {
         return {
-            currentRow: 0,
+            currentRows: 0,
             totalRows: undefined,
             isCompleted: false,
             url: `/projects/${project.slug}/parts/new`,
@@ -40,10 +40,10 @@ export function getProjectProgressSummary(
 
     return {
         activePartName: latestPart.name,
-        currentRow: latestPart.currentRow,
+        currentRows: latestPart.currentRows,
         totalRows: latestPart.totalRows,
         isCompleted: latestPart.totalRows
-            ? latestPart.currentRow >= latestPart.totalRows
+            ? latestPart.currentRows >= latestPart.totalRows
             : false,
         url: `/projects/${project.slug}/parts/${latestPart.slug}`,
         lastUpdated: formatRelativeTime(latestPart.updatedAt),

@@ -1,5 +1,3 @@
-import { useOnlineStatus } from '@/hooks/useOnlineStatus';
-import { useAuthStore } from '@/store/useAuthStore';
 import {
     BookOpen,
     Cloud,
@@ -8,15 +6,20 @@ import {
     Heart,
     Sparkles,
 } from 'lucide-react';
+import { useOnlineStatus } from '@/hooks/useOnlineStatus';
+import { useAuthStore } from '@/store/useAuthStore';
+import { useProjectStore } from '@/store/useProjectStore';
 import { Button } from '@/components/ui/Button';
 import { formatRelativeTime } from '@/utils/date';
 import { Link } from 'react-router-dom';
 import { Tag } from '@/components/ui/Tag';
 import { Ping } from '@/components/ui/Ping';
+import { Spin } from '@/components/ui/Spin';
 
 export const Footer = () => {
     const isOnline = useOnlineStatus();
-    const { user, lastSyncedAt, openAuthModal } = useAuthStore();
+    const { user, openAuthModal } = useAuthStore();
+    const { isSyncing, lastSyncedAt } = useProjectStore();
     // fast debug
     const showAll = false;
 
@@ -29,7 +32,7 @@ export const Footer = () => {
                     <CloudOff size={16} />
                     <span>
                         Ofline mode active. Changes are stored on this device
-                        {user && 'and will sync once reconnected'}.
+                        {user && ' and will sync once reconnected'}.
                     </span>
                 </div>
             ) : null}
@@ -63,11 +66,12 @@ export const Footer = () => {
                         <Cloud size={20} className="text-vibrant-coral" />
                         <span> Cloud backup enabled</span>
                     </div>
-                    <span>
+                    <div className="flex items-center gap-3">
+                        {isSyncing && <Spin />}
                         {lastSyncedAt
-                            ? `Last cloud update: ${formatRelativeTime(lastSyncedAt)}}`
+                            ? `Last cloud update: ${formatRelativeTime(lastSyncedAt)}`
                             : 'All changes synced'}
-                    </span>
+                    </div>
                 </div>
             ) : null}
 

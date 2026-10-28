@@ -45,3 +45,6 @@ dist/*
 
 skills-lock.json
 .agents/*
+
+# supabase
+supabase/.temp/*
