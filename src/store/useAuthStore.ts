@@ -1,7 +1,8 @@
-import { supabase } from '@/lib/supabase';
-import { Session, User } from '@supabase/supabase-js';
 import { create } from 'zustand';
-import { useProjectStore } from './useProjectStore';
+import { Session, User } from '@supabase/supabase-js';
+import { supabase } from '@/lib/supabase';
+import { useProjectStore } from '@/store/useProjectStore';
+import { syncBidirectional } from '@/services/syncService';
 
 interface AuthState {
     // State
@@ -60,6 +61,7 @@ export const useAuthStore = create<AuthState>((set) => ({
             if (error) throw error;
             if (session?.user) {
                 useProjectStore.getState().adoptLocalProject(session.user.id);
+                syncBidirectional(session.user.id);
             }
             set({
                 session,

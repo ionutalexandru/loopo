@@ -19,6 +19,7 @@ export interface CounterMutationResult {
 interface ProjectState {
     // global list of all stored projects
     projects: Project[];
+    isSyncing: boolean;
 
     // -- PROJECT CRUD ACTIONS --
     // Create a new project and returns its generated UUID
@@ -103,12 +104,14 @@ interface ProjectState {
     adoptLocalProject: (newUserId: string) => void;
     // Mark all projects as Cleam
     markProjectsAsClean: (projectIds: string[]) => void;
+    setIsSyncing: (isSyncing: boolean) => void;
 }
 
 export const useProjectStore = create<ProjectState>()(
     persist(
         (set, get) => ({
             projects: MOCK_PROJECTS,
+            isSyncing: false,
             // --  PROJECT ACTIONS --
             addProject: (projectData) => {
                 const id = crypto.randomUUID();
@@ -567,6 +570,7 @@ export const useProjectStore = create<ProjectState>()(
                     ),
                 }));
             },
+            setIsSyncing: (isSyncing) => set({ isSyncing }),
         }),
         {
             name: 'loopo-projects-storage',

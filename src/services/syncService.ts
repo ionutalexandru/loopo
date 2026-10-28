@@ -59,7 +59,7 @@ export const syncLocalToCloud = async (userId: string): Promise<void> => {
                         projectId: project.id,
                         name: part.name,
                         slug: part.slug,
-                        currentRows: part.currentRows,
+                        currentRows: part.currentRows ?? 0,
                         totalRows: part.totalRows,
                         needleSize: part.needleSize,
                         yarnDetails: part.yarnDetails,
@@ -143,7 +143,7 @@ export const syncCloudToLocal = async (userId: string): Promise<void> => {
 
         if (error) throw error;
 
-        if (!remoteProjectsData) {
+        if (!remoteProjectsData.length) {
             console.log('[Sync] No remote projects to pull.');
             return;
         }
@@ -196,18 +196,18 @@ export const syncCloudToLocal = async (userId: string): Promise<void> => {
         );
 
         const localProjects = useProjectStore.getState().projects;
-        const mergedProjectMap = new Map<string, Project>();
+        const mergedProjectsMap = new Map<string, Project>();
 
         // Seed map with local projects
-        localProjects.forEach((p) => mergedProjectMap.set(p.id, p));
+        localProjects.forEach((p) => mergedProjectsMap.set(p.id, p));
 
         // Reconcile remote projects with local state
         remoteProjects.forEach((remote) => {
-            const local = mergedProjectMap.get(remote.id);
+            const local = mergedProjectsMap.get(remote.id);
 
             if (!local) {
                 // New record
-                mergedProjectMap.set(remote.id, remote);
+                mergedProjectsMap.set(remote.id, remote);
             } else {
                 // We check `updateAt` times
                 const remoteTime = new Date(remote.updatedAt).getTime();
@@ -218,7 +218,7 @@ export const syncCloudToLocal = async (userId: string): Promise<void> => {
                     console.log(
                         `[Sync] Remote is newer for ${remote.name}. Adopting cloud version.`
                     );
-                    mergedProjectMap.set(remote.id, remote);
+                    mergedProjectsMap.set(remote.id, remote);
                 } else if (local.isDirty && localTime >= remoteTime) {
                     // Local has changes not synced in the cloud.
                     console.log(
@@ -226,12 +226,19 @@ export const syncCloudToLocal = async (userId: string): Promise<void> => {
                     );
                 } else {
                     // Synchronized or we keep the local
-                    mergedProjectMap.set(remote.id, local);
+                    mergedProjectsMap.set(remote.id, local);
                 }
             }
         });
+
+        useProjectStore.setState({
+            projects: Array.from(mergedProjectsMap.values()),
+        });
+        console.log(
+            '[Sync] Cloud pull and state merge completed successfully.'
+        );
     } catch (err) {
-        console.error(`[Sync] Atomic pull failed: ${err}`);
+        console.error('[Sync] Atomic pull failed: ', err);
         throw err;
     }
 };
@@ -251,13 +258,29 @@ export const syncBidirectional = async (userId: string): Promise<void> => {
         return;
     }
 
-    console.log('[Sync] Starting bidirectional synchronization cycle...');
+    const projectStore = useProjectStore.getState();
 
-    // 1. Pull cloud
-    await syncCloudToLocal(userId);
+    if (projectStore.isSyncing) {
+        // avoid making another call is the sync process is undergoing
+        return;
+    }
 
-    // 2. Push local
-    await syncLocalToCloud(userId);
+    try {
+        projectStore.setIsSyncing(true);
 
-    console.log('[Sync] Bidirectional synchronization completed.');
+        console.log(
+            `[Sync] Starting bidirectional synchronization cycle at ${new Date().toISOString()}...`
+        );
+        // 1. Pull cloud
+        await syncCloudToLocal(userId);
+
+        // 2. Push local
+        await syncLocalToCloud(userId);
+
+        console.log('[Sync] Bidirectional synchronization completed.');
+    } catch (err) {
+        console.log('[Sync] Bidirectional synchronization failed: ', err);
+    } finally {
+        projectStore.setIsSyncing(false);
+    }
 };

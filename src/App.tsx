@@ -11,9 +11,11 @@ import NotFoundView from '@/components/views/NotFoundView';
 import StyleGuideView from '@/components/views/StyleguideView';
 import { AuthModal } from '@/components/widgets/AuthModal';
 import { useAuthStore } from '@/store/useAuthStore';
+import { useAutoSync } from '@/hooks/useAutoSync';
 
 export default function App() {
     const initializeAuth = useAuthStore((state) => state.initialize);
+    useAutoSync();
 
     useEffect(() => {
         initializeAuth();
