@@ -20,6 +20,7 @@ interface ProjectState {
     // global list of all stored projects
     projects: Project[];
     isSyncing: boolean;
+    lastSyncedAt: string | null;
 
     // -- PROJECT CRUD ACTIONS --
     // Create a new project and returns its generated UUID
@@ -105,6 +106,7 @@ interface ProjectState {
     // Mark all projects as Cleam
     markProjectsAsClean: (projectIds: string[]) => void;
     setIsSyncing: (isSyncing: boolean) => void;
+    setLastSyncedAt: (date: string) => void;
 }
 
 export const useProjectStore = create<ProjectState>()(
@@ -112,6 +114,7 @@ export const useProjectStore = create<ProjectState>()(
         (set, get) => ({
             projects: MOCK_PROJECTS,
             isSyncing: false,
+            lastSyncedAt: null,
             // --  PROJECT ACTIONS --
             addProject: (projectData) => {
                 const id = crypto.randomUUID();
@@ -570,7 +573,8 @@ export const useProjectStore = create<ProjectState>()(
                     ),
                 }));
             },
-            setIsSyncing: (isSyncing) => set({ isSyncing }),
+            setIsSyncing: (isSyncing: boolean) => set({ isSyncing }),
+            setLastSyncedAt: (lastSyncedAt: string) => set({ lastSyncedAt }),
         }),
         {
             name: 'loopo-projects-storage',

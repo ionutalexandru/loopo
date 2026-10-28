@@ -18,8 +18,8 @@ import { Spin } from '@/components/ui/Spin';
 
 export const Footer = () => {
     const isOnline = useOnlineStatus();
-    const { user, lastSyncedAt, openAuthModal } = useAuthStore();
-    const isSyncing = useProjectStore(({ isSyncing }) => isSyncing);
+    const { user, openAuthModal } = useAuthStore();
+    const { isSyncing, lastSyncedAt } = useProjectStore();
     // fast debug
     const showAll = false;
 
@@ -32,7 +32,7 @@ export const Footer = () => {
                     <CloudOff size={16} />
                     <span>
                         Ofline mode active. Changes are stored on this device
-                        {user && 'and will sync once reconnected'}.
+                        {user && ' and will sync once reconnected'}.
                     </span>
                 </div>
             ) : null}

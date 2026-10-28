@@ -10,7 +10,6 @@ interface AuthState {
     session: Session | null;
     isLoading: boolean;
     error: string | null;
-    lastSyncedAt: string | null;
     isAuthModalOpen: boolean;
     isPasswordRecovery: boolean;
 
@@ -27,7 +26,6 @@ interface AuthState {
     signOut: () => void;
     openAuthModal: () => void;
     closeAuthModal: () => void;
-    setLastSyncedAt: (date: string) => void;
     clearError: () => void;
 }
 
@@ -36,7 +34,6 @@ export const useAuthStore = create<AuthState>((set) => ({
     session: null,
     isLoading: true,
     error: null,
-    lastSyncedAt: null,
     isAuthModalOpen: false,
     isPasswordRecovery: false,
     initialize: async () => {
@@ -136,13 +133,11 @@ export const useAuthStore = create<AuthState>((set) => ({
             session: null,
             isLoading: false,
             error: null,
-            lastSyncedAt: null,
             isPasswordRecovery: false,
         });
     },
     openAuthModal: () => set({ isAuthModalOpen: true, error: null }),
     closeAuthModal: () =>
         set({ isAuthModalOpen: false, error: null, isPasswordRecovery: false }),
-    setLastSyncedAt: (date: string) => set({ lastSyncedAt: date }),
     clearError: () => set({ error: null }),
 }));

@@ -1,5 +1,4 @@
 import { supabase } from '@/lib/supabase';
-import { useAuthStore } from '@/store/useAuthStore';
 import { useProjectStore } from '@/store/useProjectStore';
 import { Project, ProjectPart, SecondaryCounter } from '@/types/project';
 
@@ -104,7 +103,6 @@ export const syncLocalToCloud = async (userId: string): Promise<void> => {
         useProjectStore
             .getState()
             .markProjectsAsClean(dirtyProjects.map(({ id }) => id));
-        useAuthStore.getState().setLastSyncedAt(new Date().toISOString());
         console.log('[Sync] Atomic cloud push completed suzzessfully.');
     } catch (err) {
         console.error(`[Sync] Atomic push failed: ${err}`);
@@ -276,6 +274,9 @@ export const syncBidirectional = async (userId: string): Promise<void> => {
 
         // 2. Push local
         await syncLocalToCloud(userId);
+
+        // 3. Mark lastSyncedAt
+        projectStore.setLastSyncedAt(new Date().toISOString());
 
         console.log('[Sync] Bidirectional synchronization completed.');
     } catch (err) {

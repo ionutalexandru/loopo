@@ -5,10 +5,10 @@ import { useAuthStore } from '@/store/useAuthStore';
 const SYNC_INTERVAL_MIN = 3;
 
 export const useAutoSync = () => {
-    const { user } = useAuthStore();
+    const { user, isLoading } = useAuthStore();
 
     useEffect(() => {
-        if (!user) return;
+        if (isLoading || !user) return;
 
         const syncInterval = SYNC_INTERVAL_MIN * 60 * 1000;
 
@@ -22,12 +22,23 @@ export const useAutoSync = () => {
         const handleOnline = () => {
             syncBidirectional(user.id);
         };
-
         window.addEventListener('online', handleOnline);
+
+        // handler when visibility state change (moving from one tab to another, for example)
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === 'visible' && navigator.onLine) {
+                syncBidirectional(user.id);
+            }
+        };
+        document.addEventListener('visibilitychange', handleVisibilityChange);
 
         return () => {
             clearInterval(interval);
             window.removeEventListener('online', handleOnline);
+            document.removeEventListener(
+                'visibilitychange',
+                handleVisibilityChange
+            );
         };
-    }, [user]);
+    }, [user, isLoading]);
 };
