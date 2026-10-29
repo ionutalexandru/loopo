@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 import { syncBidirectional } from '@/services/syncService';
 import { useAuthStore } from '@/store/useAuthStore';
 
-const SYNC_INTERVAL_MIN = 3;
+// As there is an auto-push and auto-pull on changing data, we can increment this interval
+const SYNC_INTERVAL_MIN = 5;
 
 export const useAutoSync = () => {
     const { user, isLoading } = useAuthStore();

@@ -16,7 +16,15 @@ export const syncLocalToCloud = async (userId: string): Promise<void> => {
         return;
     }
 
+    const projectStore = useProjectStore.getState();
+
+    if (projectStore.isSyncing) {
+        // avoid making another call if the sync process is undergoing
+        return;
+    }
+
     try {
+        projectStore.setIsSyncing(true);
         // Filter projects by userId and marked as modified
         const dirtyProjects = useProjectStore
             .getState()
@@ -104,9 +112,12 @@ export const syncLocalToCloud = async (userId: string): Promise<void> => {
             .getState()
             .markProjectsAsClean(dirtyProjects.map(({ id }) => id));
         console.log('[Sync] Atomic cloud push completed suzzessfully.');
+        projectStore.setLastSyncedAt(new Date().toISOString());
     } catch (err) {
         console.error(`[Sync] Atomic push failed: ${err}`);
         throw err;
+    } finally {
+        projectStore.setIsSyncing(false);
     }
 };
 
@@ -123,7 +134,15 @@ export const syncCloudToLocal = async (userId: string): Promise<void> => {
         return;
     }
 
+    const projectStore = useProjectStore.getState();
+
+    if (projectStore.isSyncing) {
+        // avoid making another call if the sync process is undergoing
+        return;
+    }
+
     try {
+        projectStore.setIsSyncing(true);
         console.log('[Sync] Fetching remote state from Supabase...');
 
         const { data: remoteProjectsData, error } = await supabase
@@ -241,9 +260,12 @@ export const syncCloudToLocal = async (userId: string): Promise<void> => {
         console.log(
             '[Sync] Cloud pull and state merge completed successfully.'
         );
+        projectStore.setLastSyncedAt(new Date().toISOString());
     } catch (err) {
         console.error('[Sync] Atomic pull failed: ', err);
         throw err;
+    } finally {
+        projectStore.setIsSyncing(false);
     }
 };
 
@@ -262,16 +284,7 @@ export const syncBidirectional = async (userId: string): Promise<void> => {
         return;
     }
 
-    const projectStore = useProjectStore.getState();
-
-    if (projectStore.isSyncing) {
-        // avoid making another call is the sync process is undergoing
-        return;
-    }
-
     try {
-        projectStore.setIsSyncing(true);
-
         console.log(
             `[Sync] Starting bidirectional synchronization cycle at ${new Date().toISOString()}...`
         );
@@ -281,13 +294,8 @@ export const syncBidirectional = async (userId: string): Promise<void> => {
         // 2. Push local
         await syncLocalToCloud(userId);
 
-        // 3. Mark lastSyncedAt
-        projectStore.setLastSyncedAt(new Date().toISOString());
-
         console.log('[Sync] Bidirectional synchronization completed.');
     } catch (err) {
         console.log('[Sync] Bidirectional synchronization failed: ', err);
-    } finally {
-        projectStore.setIsSyncing(false);
     }
 };

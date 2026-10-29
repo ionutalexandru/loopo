@@ -12,10 +12,20 @@ import StyleGuideView from '@/components/views/StyleguideView';
 import { AuthModal } from '@/components/widgets/AuthModal';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useAutoSync } from '@/hooks/useAutoSync';
+import { useRealtimeSync } from '@/hooks/useRealtimeSync';
+import { useAutoPush } from '@/hooks/useAutoPush';
 
 export default function App() {
     const initializeAuth = useAuthStore((state) => state.initialize);
+
+    // 1. Background auto-sync interval & network/visibility listeners
     useAutoSync();
+
+    // 2. Instant cross-devices synchronization via Websockets
+    useRealtimeSync();
+
+    // 3. Instant push of local data when modifications found
+    useAutoPush();
 
     useEffect(() => {
         initializeAuth();
