@@ -68,9 +68,11 @@ export const Footer = () => {
                     </div>
                     <div className="flex items-center gap-3">
                         {isSyncing && <Spin />}
-                        {lastSyncedAt
-                            ? `Last cloud update: ${formatRelativeTime(lastSyncedAt)}`
-                            : 'All changes synced'}
+                        {isSyncing
+                            ? 'Syncing...'
+                            : lastSyncedAt
+                              ? `Last cloud update: ${formatRelativeTime(lastSyncedAt)}`
+                              : 'All changes synced'}
                     </div>
                 </div>
             ) : null}

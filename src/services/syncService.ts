@@ -1,6 +1,7 @@
 import { supabase } from '@/lib/supabase';
 import { useProjectStore } from '@/store/useProjectStore';
 import { Project, ProjectPart, SecondaryCounter } from '@/types/project';
+import { fetchWithTimeout } from '@/utils/fetch';
 
 /**
  * Push sync: Atomically pushes all locally modified ("dirty") projects,
@@ -96,14 +97,16 @@ export const syncLocalToCloud = async (userId: string): Promise<void> => {
             }
         }
 
-        const { error } = await supabase.rpc('sync_user_projects', {
-            p_user_id: userId,
-            p_payload: {
-                projects: projectsPayload,
-                parts: partsPayload,
-                counters: countersPayload,
-            },
-        });
+        const { error } = await fetchWithTimeout(
+            supabase.rpc('sync_user_projects', {
+                p_user_id: userId,
+                p_payload: {
+                    projects: projectsPayload,
+                    parts: partsPayload,
+                    secondary_counters: countersPayload,
+                },
+            })
+        );
 
         if (error) throw error;
 
@@ -145,18 +148,20 @@ export const syncCloudToLocal = async (userId: string): Promise<void> => {
         projectStore.setIsSyncing(true);
         console.log('[Sync] Fetching remote state from Supabase...');
 
-        const { data: remoteProjectsData, error } = await supabase
-            .from('projects')
-            .select(
-                `
+        const { data: remoteProjectsData, error } = await fetchWithTimeout(
+            supabase
+                .from('projects')
+                .select(
+                    `
                 *,
                 project_parts (
                     *,
                     secondary_counters (*)
                 )
             `
-            )
-            .eq('user_id', userId);
+                )
+                .eq('user_id', userId)
+        );
 
         if (error) throw error;
 

@@ -3,6 +3,7 @@ import { Session, User } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
 import { useProjectStore } from '@/store/useProjectStore';
 import { syncBidirectional } from '@/services/syncService';
+import { MOCK_PROJECTS } from '@/data/mockProjects';
 
 interface AuthState {
     // State
@@ -132,7 +133,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         set({ error: null, isLoading: true });
         await supabase.auth.signOut();
         // clean local projects as user has changed
-        useProjectStore.setState({ projects: [] });
+        useProjectStore.setState({ projects: MOCK_PROJECTS });
         set({
             user: null,
             session: null,
