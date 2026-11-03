@@ -17,7 +17,7 @@ begin
         proj->>'status',
         proj->>'notes',
         proj->>'craftType',
-        proj->>'patterName',
+        proj->>'patternName',
         (proj->>'createdAt')::timestamptz,
         (proj->>'updatedAt')::timestamptz,
         (proj->>'deletedAt')::timestamptz
