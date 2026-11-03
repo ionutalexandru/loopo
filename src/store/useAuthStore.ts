@@ -30,6 +30,26 @@ interface AuthState {
     clearError: () => void;
 }
 
+const clearStore = () => {
+    console.log(
+        '[Auth] Session expired or user signed out. Clearing local IndexedDB state...'
+    );
+    try {
+        useProjectStore.persist.clearStorage();
+        useProjectStore.setState({
+            projects: MOCK_PROJECTS,
+            lastSyncedAt: null,
+            isSyncing: false,
+        });
+        console.log('[Auth] Local project state successfully wiped.');
+    } catch (err) {
+        console.error(
+            '[Auth] Failed to clear local storage on sign out or session expiration:',
+            err
+        );
+    }
+};
+
 export const useAuthStore = create<AuthState>((set) => ({
     user: null,
     session: null,
@@ -57,9 +77,13 @@ export const useAuthStore = create<AuthState>((set) => ({
                 error,
             } = await supabase.auth.getSession();
             if (error) throw error;
+
             if (session?.user) {
                 useProjectStore.getState().adoptLocalProject(session.user.id);
                 syncBidirectional(session.user.id);
+            }
+            if (!session) {
+                clearStore();
             }
             set({
                 session,
@@ -76,25 +100,8 @@ export const useAuthStore = create<AuthState>((set) => ({
                 }
 
                 if (event === 'SIGNED_OUT' && !currentSession) {
-                    console.log(
-                        '[Auth] Session expired or user signed out. Clearing local IndexedDB state...'
-                    );
-                    try {
-                        useProjectStore.persist.clearStorage();
-                        useProjectStore.setState({
-                            projects: MOCK_PROJECTS,
-                            lastSyncedAt: null,
-                            isSyncing: false,
-                        });
-                        console.log(
-                            '[Auth] Local project state successfully wiped.'
-                        );
-                    } catch (err) {
-                        console.error(
-                            '[Auth] Failed to clear local storage on sign out:',
-                            err
-                        );
-                    }
+                    // User has signed out or session has expired
+                    clearStore();
                 }
 
                 if (currentSession?.user) {
@@ -109,7 +116,16 @@ export const useAuthStore = create<AuthState>((set) => ({
                     isLoading: false,
                 });
             });
-        } catch {
+        } catch (err) {
+            debugger;
+            console.error('[Auth] Authentication failed: ', err);
+            // clear Zustand store
+            useProjectStore.persist.clearStorage();
+            useProjectStore.setState({
+                projects: MOCK_PROJECTS,
+                lastSyncedAt: null,
+                isSyncing: false,
+            });
             set({ isLoading: false });
         }
     },
@@ -158,14 +174,7 @@ export const useAuthStore = create<AuthState>((set) => ({
             await supabase.auth.signOut();
 
             // clear Zustand store
-            useProjectStore.persist.clearStorage();
-
-            // Restore the state with MOCK_PROJECTS
-            useProjectStore.setState({
-                projects: MOCK_PROJECTS,
-                lastSyncedAt: null,
-                isSyncing: false,
-            });
+            clearStore();
 
             console.log(
                 '[Auth] Successfully signed out and cleared local storage.'
