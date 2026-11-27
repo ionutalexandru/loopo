@@ -72,11 +72,6 @@ function StyleGuidePage() {
                         loopo<span className="loopo-dot"></span>{' '}
                         <span className="text-misty-gray">StyleGuide</span>
                     </h1>
-                    <Tag
-                        label="v1.0"
-                        variant="highlight"
-                        icon={<Sparkles size={12} />}
-                    />
                 </div>
             </header>
             <div className="grid grid-cols-1 gap-8">

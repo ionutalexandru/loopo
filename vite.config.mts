@@ -5,6 +5,11 @@ import { VitePWA } from 'vite-plugin-pwa';
 import { fileURLToPath, URL } from 'node:url';
 
 export default defineConfig({
+    define: {
+        __APP_VERSION__: JSON.stringify(
+            process.env.npm_package_version ?? '0.1.0'
+        ),
+    },
     preview: {
         allowedHosts: ['red-trains-invite.loca.lt'],
     },
@@ -12,7 +17,7 @@ export default defineConfig({
         tailwindcss(),
         react(),
         VitePWA({
-            registerType: 'autoUpdate',
+            registerType: 'prompt',
             includeAssets: [
                 'icon.svg',
                 'logo.svg',
@@ -52,8 +57,6 @@ export default defineConfig({
             workbox: {
                 globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],
                 navigateFallback: '/index.html',
-                clientsClaim: true,
-                skipWaiting: true,
             },
         }),
     ],

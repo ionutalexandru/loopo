@@ -1,7 +1,6 @@
 import { Footer } from '@/components/navigation/Footer';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { Tag } from '@/components/ui/Tag';
 import {
     ArrowLeft,
     ArrowRight,
@@ -93,11 +92,6 @@ export default function GuideLayout() {
                         loopo<span className="loopo-dot"></span>{' '}
                         <span className="text-misty-gray">Userguide</span>
                     </h1>
-                    <Tag
-                        label="v1.0"
-                        variant="highlight"
-                        icon={<Sparkles size={12} />}
-                    />
                 </div>
             </header>
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
