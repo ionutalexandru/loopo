@@ -1,5 +1,5 @@
 import { Suspense, useState } from 'react';
-import { Sparkles, Plus, Search, Trash2 } from 'lucide-react';
+import { Sparkles, Plus, Search, Trash2, ArrowLeft } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
 
 import { Card } from '@/components/ui/Card';
@@ -64,11 +64,20 @@ function StyleGuidePage() {
     const { open: openDemoUrlModal } = useUrlModal('modal', 'demo');
 
     return (
-        <main className="mx-auto min-h-screen max-w-6xl p-8">
+        <main className="mx-auto min-h-screen max-w-6xl p-4 sm:p-8">
             <header className="border-chalk-gray mb-12 border-b pb-6">
-                <h1>
-                    loopo<span className="loopo-dot"></span> StyleGuide
-                </h1>
+                <div className="flex items-center justify-between gap-5">
+                    <Button to="/" icon={<ArrowLeft />} variant="text" />
+                    <h1 className="mb-0!">
+                        loopo<span className="loopo-dot"></span>{' '}
+                        <span className="text-misty-gray">StyleGuide</span>
+                    </h1>
+                    <Tag
+                        label="v1.0"
+                        variant="highlight"
+                        icon={<Sparkles size={12} />}
+                    />
+                </div>
             </header>
             <div className="grid grid-cols-1 gap-8">
                 <Card variant="bordered">

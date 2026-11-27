@@ -12,7 +12,6 @@ import { useProjectStore } from '@/store/useProjectStore';
 import { Button } from '@/components/ui/Button';
 import { formatRelativeTime } from '@/utils/date';
 import { Link } from 'react-router-dom';
-import { Tag } from '@/components/ui/Tag';
 import { Ping } from '@/components/ui/Ping';
 import { Spin } from '@/components/ui/Spin';
 
@@ -84,10 +83,9 @@ export const Footer = () => {
                         <Sparkles size={10} />
                         Styleguide
                     </Link>
-                    <Link to="#" className="link">
+                    <Link to="/guide" className="link">
                         <BookOpen size={10} />
                         Userguide
-                        <Tag label="soon" size="small" uppercase />
                     </Link>
                 </div>
                 <div className="flex items-center">
@@ -106,9 +104,11 @@ export const Footer = () => {
 
             {/* Brand */}
             <div className="text-misty-gray/80 flex items-center justify-between text-xs">
-                <span className="font-comfortaa font-bold">
-                    loopo<span className="loopo-dot"></span>
-                </span>
+                <Link to="/">
+                    <span className="font-comfortaa font-bold">
+                        loopo<span className="loopo-dot"></span>
+                    </span>
+                </Link>
                 <span> Crafted for knitters & crocheters</span>
             </div>
         </footer>
