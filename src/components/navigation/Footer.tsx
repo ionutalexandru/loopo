@@ -14,6 +14,7 @@ import { formatRelativeTime } from '@/utils/date';
 import { Link } from 'react-router-dom';
 import { Ping } from '@/components/ui/Ping';
 import { Spin } from '@/components/ui/Spin';
+import { Tag } from '../ui/Tag';
 
 export const Footer = () => {
     const isOnline = useOnlineStatus();
@@ -108,6 +109,12 @@ export const Footer = () => {
                     <span className="font-comfortaa font-bold">
                         loopo<span className="loopo-dot"></span>
                     </span>
+                    <Tag
+                        label={`v${__APP_VERSION__}`}
+                        className="ml-1 font-mono"
+                        size="small"
+                        variant="highlight"
+                    />
                 </Link>
                 <span> Crafted for knitters & crocheters</span>
             </div>

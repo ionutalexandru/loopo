@@ -14,7 +14,12 @@
         "paths": {
             "@/*": ["./src/*"]
         },
-        "types": ["vite/client", "vitest/globals"]
+        "types": [
+            "vite/client",
+            "vitest/globals",
+            "vite-plugin-pwa/react",
+            "vite-plugin-pwa/client"
+        ]
     },
     "include": ["src", "**/*.ts", "**/*.tsx", "vite.config.mts"],
     "exclude": ["node_modules", "dist"]

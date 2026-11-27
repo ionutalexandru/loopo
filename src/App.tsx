@@ -18,11 +18,12 @@ import GuideLayout from '@/components/views/guide/GuideLayout';
 import WelcomeSection from '@/components/views/guide/WeclomeSection';
 import GettingStartedSection from '@/components/views/guide/GettingStartedSection';
 import DashboardSection from '@/components/views/guide/DashboardSection';
-import PartsSection from './components/views/guide/PartsSection';
-import GlobalCounterSection from './components/views/guide/GlobalCounterSection';
-import SecondaryCountersSection from './components/views/guide/SecondaryCountersSection';
-import SyncSection from './components/views/guide/SyncSection';
-import FaqSection from './components/views/guide/FaqSection';
+import PartsSection from '@/components/views/guide/PartsSection';
+import GlobalCounterSection from '@/components/views/guide/GlobalCounterSection';
+import SecondaryCountersSection from '@/components/views/guide/SecondaryCountersSection';
+import SyncSection from '@/components/views/guide/SyncSection';
+import FaqSection from '@/components/views/guide/FaqSection';
+import { UpdatePrompt } from '@/components/system/UpdatePrompt';
 
 export default function App() {
     const initializeAuth = useAuthStore((state) => state.initialize);
@@ -45,6 +46,7 @@ export default function App() {
             <Analytics />
             <BrowserRouter>
                 <AuthModal />
+                <UpdatePrompt />
                 <Routes>
                     <Route path="/" element={<MyBasketView />} />
                     <Route
