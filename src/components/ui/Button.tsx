@@ -59,7 +59,7 @@ export const Button = React.forwardRef<
 
         const shapeStyles: Record<ButtonVariant, string> = {
             squared: size === 'small' ? 'rounded-xl' : 'rounded-2xl',
-            pill: 'rounded-full focus:rounded-full focus-visible:rounded-full',
+            pill: 'rounded-full focus:rounded-full! focus-visible:rounded-full!',
             text: 'active:scale-none',
         };
 
